@@ -18,7 +18,7 @@ public class UserAnswer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -28,8 +28,9 @@ public class UserAnswer {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @Column(name = "selected_option")
-    private Integer selectedOption;
+    @ManyToOne
+    @JoinColumn(name = "selected_option")
+    private Option option;
 
     @Column(name = "answered_at")
     private LocalDateTime answeredAt;

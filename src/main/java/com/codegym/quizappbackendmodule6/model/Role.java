@@ -1,12 +1,12 @@
 package com.codegym.quizappbackendmodule6.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -18,8 +18,9 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false , unique = true)
+    @NotEmpty(message = "Tên không được để trống")
     private String name;
 }
