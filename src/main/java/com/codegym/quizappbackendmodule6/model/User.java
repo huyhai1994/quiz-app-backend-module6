@@ -19,12 +19,16 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
+    @NotEmpty(message = "Tên người dùng không được để trống")
     private String name;
 
+    @NotEmpty(message = "Email không được để trống")
+    @Column(unique = true)
     private String email;
 
+    @NotEmpty(message = "Mật khẩu không được để trống")
     private String password;
 
     private String avatar;

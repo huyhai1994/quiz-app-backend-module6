@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class Question {
     private Quiz quiz;
 
     @Column(name = "question_text")
+    @NotEmpty(message = "Nội dung câu hỏi không được để trống")
     private String questionText;
 
     @ManyToOne
