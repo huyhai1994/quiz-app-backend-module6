@@ -30,7 +30,7 @@ public class TeacherApproval {
     private LocalDateTime approvedAt;
 
     @PrePersist
-    public void approvedAt(){
+    public void approvedAt() {
         this.approvedAt = LocalDateTime.now();
     }
 }
