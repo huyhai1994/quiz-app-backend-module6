@@ -1,4 +1,7 @@
 package com.codegym.quizappbackendmodule6.repository;
 
-public interface UserAnswerRepository {
+import com.codegym.quizappbackendmodule6.model.UserAnswer;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserAnswerRepository extends JpaRepository<UserAnswer,Long> {
 }

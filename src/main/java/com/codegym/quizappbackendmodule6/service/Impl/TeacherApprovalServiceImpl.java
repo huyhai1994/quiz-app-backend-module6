@@ -1,4 +1,6 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
-public class TeacherApprovalServiceImpl {
+import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
+
+public class TeacherApprovalServiceImpl implements TeacherApprovalService {
 }

@@ -1,4 +1,7 @@
 package com.codegym.quizappbackendmodule6.repository;
 
-public interface QuestionTypeRepository {
+import com.codegym.quizappbackendmodule6.model.QuestionType;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface QuestionTypeRepository extends JpaRepository<QuestionType,Long> {
 }

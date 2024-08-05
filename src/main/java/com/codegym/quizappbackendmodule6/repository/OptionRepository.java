@@ -1,4 +1,7 @@
 package com.codegym.quizappbackendmodule6.repository;
 
-public interface OptionRepository {
+import com.codegym.quizappbackendmodule6.model.Option;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OptionRepository extends JpaRepository<Option,Long> {
 }

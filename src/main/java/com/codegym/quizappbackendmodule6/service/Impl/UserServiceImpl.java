@@ -1,4 +1,6 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
-public class UserServiceImpl {
+import com.codegym.quizappbackendmodule6.service.UserService;
+
+public class UserServiceImpl implements UserService {
 }
