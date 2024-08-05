@@ -6,6 +6,8 @@ import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TeacherApprovalServiceImpl implements TeacherApprovalService {
@@ -14,4 +16,16 @@ public class TeacherApprovalServiceImpl implements TeacherApprovalService {
     public TeacherApproval save(TeacherApproval teacherApproval) {
         return teacherApprovalRepository.save(teacherApproval);
     }
+
+    @Override
+    public List<TeacherApproval> getAll() {
+        return teacherApprovalRepository.findAll();
+    }
+
+    @Override
+    public List<TeacherApproval> getAllByUserName(String userName) {
+        return null;
+    }
+
+
 }

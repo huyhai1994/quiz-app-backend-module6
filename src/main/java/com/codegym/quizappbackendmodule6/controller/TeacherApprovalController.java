@@ -15,25 +15,7 @@ import java.util.List;
 public class TeacherApprovalController {
     private final TeacherApprovalService teacherApprovalService;
 
-    @GetMapping("/list")
-    public ResponseEntity<List<TeacherApproval>> getAllApprovals() {
-        return ResponseEntity.ok(teacherApprovalService.findAllApprovals());
-    }
 
-    @PutMapping("/approve/{id}")
-    public ResponseEntity<TeacherApproval> approveRequest(@PathVariable Long id) {
-        TeacherApproval approval = teacherApprovalService.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy yêu cầu với ID: " + id));
-        approval.setStatus("Approved");
-        return ResponseEntity.ok(teacherApprovalService.saveApproval(approval));
-    }
 
-    @PutMapping("/reject/{id}")
-    public ResponseEntity<TeacherApproval> rejectRequest(@PathVariable Long id) {
-        TeacherApproval approval = teacherApprovalService.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy yêu cầu với ID: " + id));
-        approval.setStatus("Rejected");
-        return ResponseEntity.ok(teacherApprovalService.saveApproval(approval));
-    }
 }
 
