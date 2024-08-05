@@ -2,6 +2,7 @@ package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.UserResponseDTO;
+import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
 import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,12 @@ public class UserController {
         List<User> users = userService.findAllUsers();
         List<UserResponseDTO> userResponseDTOs = users.stream().map(user -> new UserResponseDTO(user.getName(), user.getEmail(), user.getAvatar(), user.getRegisteredAt(), user.getLastLogin())).collect(Collectors.toList());
         return ResponseEntity.ok(userResponseDTOs);
+    }
+
+    @GetMapping("/approval-pending")
+    public ResponseEntity<List<UserWithApprovalsProjection>> getUsersWithApprovals() {
+        List<UserWithApprovalsProjection> users = userService.findUsersWithApprovals();
+        return ResponseEntity.ok(users);
     }
 }
 
