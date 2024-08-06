@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface UserService {
     void deleteUser(Long userId);
     Optional<User> findById(Long id);
+    void requestTeacherRole(Long userId);
 }
