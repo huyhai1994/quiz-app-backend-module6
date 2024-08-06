@@ -1,5 +1,6 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
+import com.codegym.quizappbackendmodule6.model.DTO.QuizDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.repository.QuizRepository;
 import com.codegym.quizappbackendmodule6.service.QuizService;
@@ -15,8 +16,8 @@ public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
 
     @Override
-    public List<Quiz> getAllQuiz() {
-        return quizRepository.findAll();
+    public List<QuizDTO> findQuizDetails() {
+        return quizRepository.findQuizDetails();
     }
 
     @Override
