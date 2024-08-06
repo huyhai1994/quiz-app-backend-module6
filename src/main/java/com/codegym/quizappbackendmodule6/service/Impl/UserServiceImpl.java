@@ -84,4 +84,9 @@ public class UserServiceImpl implements UserService {
         user.setPassword(newPassword); // Assuming you have a method to hash the password
         userRepository.save(user);
     }
+
+    @Override
+    public List<User> findUsersByRolesAndNameOrEmail(Long roleId, String name, String email) {
+        return userRepository.findUsersByRolesAndNameOrEmail(roleId, name, email);
+    }
 }

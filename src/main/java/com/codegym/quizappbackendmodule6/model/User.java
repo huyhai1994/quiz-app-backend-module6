@@ -50,10 +50,7 @@ public class User {
     public void setRegisteredAt() {
         this.registeredAt = LocalDateTime.now();
     }
-
     public void setApprovalStatus(String approved) {
-
-
     }
 
     public void setRoleId(int roleId) {
