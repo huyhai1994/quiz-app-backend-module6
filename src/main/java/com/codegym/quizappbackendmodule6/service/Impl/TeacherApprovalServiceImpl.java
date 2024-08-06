@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TeacherApprovalServiceImpl implements TeacherApprovalService {
     private final TeacherApprovalRepository teacherApprovalRepository;
+
     @Override
     public TeacherApproval save(TeacherApproval teacherApproval) {
         return teacherApprovalRepository.save(teacherApproval);
