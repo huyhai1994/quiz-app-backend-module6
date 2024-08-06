@@ -42,6 +42,14 @@ public class TeacherApproval {
         }
     }
 
+    public void setApprovalStatus(String approved) {
+        if (approved.equalsIgnoreCase("APPROVED")) {
+            this.status = Status.APPROVED;
+        } else {
+            throw new IllegalArgumentException("Invalid approval status: " + approved);
+        }
+    }
+
     public enum Status {
         PENDING, APPROVED
     }

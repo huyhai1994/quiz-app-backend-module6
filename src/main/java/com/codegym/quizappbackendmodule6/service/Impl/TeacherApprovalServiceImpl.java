@@ -37,6 +37,6 @@ public class TeacherApprovalServiceImpl implements TeacherApprovalService {
 
     @Override
     public List<TeacherApprovalDTO> findAllApproval() {
-        return teacherApprovalRepository.findAllApproval("APPROVAL");
+        return teacherApprovalRepository.findAllApproval("APPROVED");
     }
 }

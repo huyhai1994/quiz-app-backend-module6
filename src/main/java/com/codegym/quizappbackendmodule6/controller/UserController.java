@@ -1,15 +1,17 @@
 package com.codegym.quizappbackendmodule6.controller;
 
+import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
+import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,20 +19,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/users")
 @CrossOrigin("*")
 @RequiredArgsConstructor
-// Implement user-related operations here, such as creating, updating, deleting, and retrieving users.
-import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
-import com.codegym.quizappbackendmodule6.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-@CrossOrigin("*")
-@RestController
-@RequestMapping("/user")
-@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final TeacherApprovalService teacherApprovalService;
 
     @GetMapping("/get-all")
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
@@ -44,9 +35,6 @@ public class UserController {
         List<UserWithApprovalsProjection> users = userService.findUsersWithApprovals();
         return ResponseEntity.ok(users);
     }
-    private final UserService userService;
-
-    private final TeacherApprovalService teacherApprovalService;
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
@@ -59,7 +47,6 @@ public class UserController {
         userService.requestTeacherRole(id);
         return ResponseEntity.ok().build();
     }
-}
 
     @GetMapping("/teachers")
     public ResponseEntity<List<TeacherResponseDTO>> getTeachers() {
@@ -72,8 +59,11 @@ public class UserController {
 
     @PutMapping("/approval/{id}")
     public ResponseEntity<User> approveUser(@PathVariable Long id) {
-        User user = (User) userService.findById(id).orElseThrow(() -> new RuntimeException("User không tồn tại với ID: " + id));
-        user.setApproved(true);
+        User user = userService.findById(id).orElseThrow(() -> new RuntimeException("User không tồn tại với ID: " + id));
+        TeacherApproval teacherApproval = teacherApprovalService.findByUserId(id); // Assuming a
+        user.setRoleId(3);
+        teacherApproval.setApprovalStatus("APPROVED");
+        teacherApproval.setApprovedAt(LocalDateTime.now());
         userService.save(user);
         return ResponseEntity.ok(user);
     }

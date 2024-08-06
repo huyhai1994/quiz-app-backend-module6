@@ -53,6 +53,7 @@ public class User {
 
     public void setApprovalStatus(String approved) {
 
+
     }
 
     public void setRoleId(int roleId) {
@@ -63,5 +64,7 @@ public class User {
 
     public void setApproved(boolean b) {
 
+
     }
+
 }

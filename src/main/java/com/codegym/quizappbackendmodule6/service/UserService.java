@@ -16,10 +16,12 @@ public interface UserService {
 
     User approveUser(Long id);
 
-    Optional<Object> findById(Long id);
 
     void save(User user);
+
     void deleteUser(Long userId);
+
     Optional<User> findById(Long id);
+
     void requestTeacherRole(Long userId);
 }
