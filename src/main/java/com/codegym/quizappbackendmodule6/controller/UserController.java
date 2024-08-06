@@ -18,6 +18,16 @@ import java.util.stream.Collectors;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 // Implement user-related operations here, such as creating, updating, deleting, and retrieving users.
+import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
+import com.codegym.quizappbackendmodule6.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@CrossOrigin("*")
+@RestController
+@RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
     @Autowired
     private UserService userService;
@@ -34,6 +44,22 @@ public class UserController {
         List<UserWithApprovalsProjection> users = userService.findUsersWithApprovals();
         return ResponseEntity.ok(users);
     }
+    private final UserService userService;
+
+    private final TeacherApprovalService teacherApprovalService;
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/request-teacher/{id}")
+    public ResponseEntity<Void> requestTeacherRole(@PathVariable Long id) {
+        userService.requestTeacherRole(id);
+        return ResponseEntity.ok().build();
+    }
+}
 
     @GetMapping("/teachers")
     public ResponseEntity<List<TeacherResponseDTO>> getTeachers() {

@@ -1,6 +1,39 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
+import com.codegym.quizappbackendmodule6.model.Category;
+import com.codegym.quizappbackendmodule6.model.DTO.QuestionDTO;
+import com.codegym.quizappbackendmodule6.model.Question;
+import com.codegym.quizappbackendmodule6.model.QuestionType;
+import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
+import com.codegym.quizappbackendmodule6.service.CategoryService;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
+import com.codegym.quizappbackendmodule6.service.QuestionTypeService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
+    private final QuestionRepository questionRepository;
+    private final CategoryService categoryService;
+    private final QuestionTypeService questionTypeService;
+
+    @Override
+    public List<QuestionDTO> findAllQuestionDetails() {
+        return questionRepository.findAllQuestionDetails();
+    }
+
+    @Override
+    public Question save(Question question) {
+        Category category = categoryService.findById(question.getCategory().getId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        question.setCategory(category);
+
+        QuestionType questionType = questionTypeService.findById(question.getQuestionType().getId())
+                .orElseThrow(() -> new RuntimeException("QuestionType not found"));
+        question.setQuestionType(questionType);
+        return questionRepository.save(question);
+    }
 }

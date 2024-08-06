@@ -1,4 +1,4 @@
-package com.codegym.quizappbackendmodule6.service.impl;
+package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.Category;
 import com.codegym.quizappbackendmodule6.repository.CategoryRepository;

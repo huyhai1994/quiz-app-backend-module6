@@ -19,4 +19,7 @@ public interface UserService {
     Optional<Object> findById(Long id);
 
     void save(User user);
+    void deleteUser(Long userId);
+    Optional<User> findById(Long id);
+    void requestTeacherRole(Long userId);
 }
