@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +36,10 @@ public class QuestionServiceImpl implements QuestionService {
                 .orElseThrow(() -> new RuntimeException("QuestionType not found"));
         question.setQuestionType(questionType);
         return questionRepository.save(question);
+    }
+
+    @Override
+    public Optional<Question> findById(Long questionId) {
+        return questionRepository.findById(questionId);
     }
 }
