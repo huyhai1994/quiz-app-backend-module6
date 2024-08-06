@@ -14,4 +14,6 @@ public interface QuizService {
     Quiz createQuiz(Quiz quiz);
     void deleteQuiz(Long id);
     Quiz updateQuiz(Quiz quiz , Long id);
+
+    Optional<Quiz> findById(Long quizId);
 }

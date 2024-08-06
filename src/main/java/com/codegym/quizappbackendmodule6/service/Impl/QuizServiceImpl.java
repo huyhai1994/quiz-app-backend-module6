@@ -52,4 +52,9 @@ public class QuizServiceImpl implements QuizService {
         quiz.setId(id);
         return quizRepository.save(quiz);
     }
+
+    @Override
+    public Optional<Quiz> findById(Long quizId) {
+        return quizRepository.findById(quizId);
+    }
 }
