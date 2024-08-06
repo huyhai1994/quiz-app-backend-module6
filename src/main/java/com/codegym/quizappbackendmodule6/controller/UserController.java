@@ -46,7 +46,10 @@ public class UserController {
 
     @PutMapping("/approval/{id}")
     public ResponseEntity<User> approveUser(@PathVariable Long id) {
-        throw new RuntimeException("Method not support yet");
+        User user = (User) userService.findById(id).orElseThrow(() -> new RuntimeException("User không tồn tại với ID: " + id));
+        user.setApproved(true);
+        userService.save(user);
+        return ResponseEntity.ok(user);
     }
 }
 

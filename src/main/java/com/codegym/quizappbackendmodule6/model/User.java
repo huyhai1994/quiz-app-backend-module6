@@ -50,4 +50,18 @@ public class User {
     public void setRegisteredAt() {
         this.registeredAt = LocalDateTime.now();
     }
+
+    public void setApprovalStatus(String approved) {
+
+    }
+
+    public void setRoleId(int roleId) {
+        Role role = new Role();
+        role.setId((long) roleId);
+        this.role = role;
+    }
+
+    public void setApproved(boolean b) {
+
+    }
 }
