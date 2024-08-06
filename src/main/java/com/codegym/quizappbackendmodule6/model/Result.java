@@ -30,7 +30,7 @@ public class Result {
 
     private Long score;
 
-    private LocalDateTime startTime; // bảng mới thêm
+    private LocalDateTime startTime;
 
     private LocalDateTime finishTime;
 }
