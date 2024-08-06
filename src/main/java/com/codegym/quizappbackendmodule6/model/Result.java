@@ -30,7 +30,9 @@ public class Result {
 
     private Long score;
 
+    @Column(name = "start_time")
     private LocalDateTime startTime;
 
+    @Column(name = "finish_time")
     private LocalDateTime finishTime;
 }
