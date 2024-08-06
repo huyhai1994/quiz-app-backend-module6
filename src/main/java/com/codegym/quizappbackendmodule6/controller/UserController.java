@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.User;
+import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
 import com.codegym.quizappbackendmodule6.service.UserService;
@@ -35,6 +36,15 @@ public class UserController {
     public ResponseEntity<List<UserWithApprovalsProjection>> getUsersWithApprovals() {
         List<UserWithApprovalsProjection> users = userService.findUsersWithApprovals();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/teachers")
+    public ResponseEntity<List<TeacherResponseDTO>> getTeachers() {
+        List<TeacherResponseDTO> teacherResponseDTOs = userService.findTeachers();
+        if (teacherResponseDTOs.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(teacherResponseDTOs);
     }
 }
 

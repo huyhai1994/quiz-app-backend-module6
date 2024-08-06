@@ -1,5 +1,7 @@
 package com.codegym.quizappbackendmodule6.model.dto;
 
+import com.codegym.quizappbackendmodule6.model.TeacherApproval;
+
 import java.time.LocalDateTime;
 
 public interface UserWithApprovalsProjection {
@@ -21,7 +23,7 @@ public interface UserWithApprovalsProjection {
 
     Long getRoleId();
 
-    String getApprovalStatus();
+    TeacherApproval.Status getApprovalStatus();
 
     LocalDateTime getApprovedAt();
 }
