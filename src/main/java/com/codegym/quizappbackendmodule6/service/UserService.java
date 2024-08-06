@@ -24,4 +24,5 @@ public interface UserService {
     Optional<User> findById(Long id);
 
     void requestTeacherRole(Long userId);
+    void updateUserPassword(Long userId, String newPassword);
 }

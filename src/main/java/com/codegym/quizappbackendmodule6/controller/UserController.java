@@ -1,10 +1,12 @@
 package com.codegym.quizappbackendmodule6.controller;
 
+import com.codegym.quizappbackendmodule6.configs.PasswordGenerator;
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
+import com.codegym.quizappbackendmodule6.service.Impl.EmailService;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 public class UserController {
     private final UserService userService;
     private final TeacherApprovalService teacherApprovalService;
+    private final EmailService emailService;
+
 
     @GetMapping("/get-all")
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
@@ -60,8 +64,11 @@ public class UserController {
     @PutMapping("/approval/{id}")
     public ResponseEntity<User> approveUser(@PathVariable Long id) {
         User user = userService.findById(id).orElseThrow(() -> new RuntimeException("User không tồn tại với ID: " + id));
-        TeacherApproval teacherApproval = teacherApprovalService.findByUserId(id); // Assuming a
+        String randomPassword = PasswordGenerator.generateRandomPassword(10);
+        userService.updateUserPassword(id, randomPassword);
+        emailService.sendConfirmationEmail(user.getEmail(), "Confirmation Email", "Your account has been approved.", randomPassword);
         user.setRoleId(3);
+        TeacherApproval teacherApproval = teacherApprovalService.findByUserId(id); // Assuming a
         teacherApproval.setApprovalStatus("APPROVED");
         teacherApproval.setApprovedAt(LocalDateTime.now());
         userService.save(user);

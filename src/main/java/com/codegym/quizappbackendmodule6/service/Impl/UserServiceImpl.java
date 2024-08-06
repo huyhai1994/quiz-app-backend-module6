@@ -77,4 +77,11 @@ public class UserServiceImpl implements UserService {
         approvalRequest.setStatus(TeacherApproval.Status.valueOf("PENDING"));
         teacherApprovalService.save(approvalRequest);
     }
+
+    @Override
+    public void updateUserPassword(Long userId, String newPassword) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setPassword(newPassword); // Assuming you have a method to hash the password
+        userRepository.save(user);
+    }
 }
