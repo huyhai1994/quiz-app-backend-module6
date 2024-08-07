@@ -30,10 +30,7 @@ public class Result {
 
     private Long score;
 
-    private LocalDateTime finishTime;
+    private LocalDateTime startTime; // bảng mới thêm
 
-    @PrePersist
-    public void updateFinishTime() {
-        this.finishTime = LocalDateTime.now();
-    }
+    private LocalDateTime finishTime;
 }

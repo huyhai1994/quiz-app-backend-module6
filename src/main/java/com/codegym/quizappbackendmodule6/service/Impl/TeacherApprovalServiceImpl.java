@@ -1,5 +1,6 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
+import com.codegym.quizappbackendmodule6.model.DTO.TeacherApprovalDTO;
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.repository.TeacherApprovalRepository;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
@@ -12,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeacherApprovalServiceImpl implements TeacherApprovalService {
     private final TeacherApprovalRepository teacherApprovalRepository;
+
     @Override
     public TeacherApproval save(TeacherApproval teacherApproval) {
         return teacherApprovalRepository.save(teacherApproval);
@@ -22,10 +24,19 @@ public class TeacherApprovalServiceImpl implements TeacherApprovalService {
         return teacherApprovalRepository.findAll();
     }
 
+
     @Override
-    public List<TeacherApproval> getAllByUserName(String userName) {
-        return null;
+    public TeacherApproval findByUserId(Long id) {
+        return teacherApprovalRepository.findByUserId(id);
     }
 
+    @Override
+    public List<TeacherApprovalDTO> findAllPending() {
+        return teacherApprovalRepository.findAllPending("PENDING");
+    }
 
+    @Override
+    public List<TeacherApprovalDTO> findAllApproval() {
+        return teacherApprovalRepository.findAllApproval("APPROVED");
+    }
 }

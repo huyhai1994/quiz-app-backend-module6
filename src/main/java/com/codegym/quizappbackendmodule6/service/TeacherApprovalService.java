@@ -1,5 +1,6 @@
 package com.codegym.quizappbackendmodule6.service;
 
+import com.codegym.quizappbackendmodule6.model.DTO.TeacherApprovalDTO;
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 
 import java.util.List;
@@ -9,5 +10,9 @@ public interface TeacherApprovalService {
 
     List<TeacherApproval> getAll();
 
-    List<TeacherApproval> getAllByUserName(String userName);
+    TeacherApproval findByUserId(Long id);
+
+    List<TeacherApprovalDTO> findAllPending();
+
+    List<TeacherApprovalDTO> findAllApproval();
 }

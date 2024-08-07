@@ -1,5 +1,6 @@
 package com.codegym.quizappbackendmodule6.controller;
 
+import com.codegym.quizappbackendmodule6.model.DTO.QuizDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.service.QuizService;
 import jakarta.validation.Valid;
@@ -18,8 +19,8 @@ public class QuizController {
     private final QuizService quizService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<Quiz>> getQuizList() {
-        List<Quiz> quizList = quizService.getAllQuiz();
+    public ResponseEntity<List<QuizDTO>> getQuizList() {
+        List<QuizDTO> quizList = quizService.findQuizDetails();
         return ResponseEntity.ok(quizList);
     }
 
@@ -33,11 +34,11 @@ public class QuizController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateQuiz(@Valid @PathVariable Long id,@RequestBody Quiz quiz, BindingResult bindingResult) {
+    public ResponseEntity<?> updateQuiz(@Valid @PathVariable Long id, @RequestBody Quiz quiz, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Bạn đã nhập sai trường");
         }
-        Quiz updatedQuiz = quizService.updateQuiz(quiz,id);
+        Quiz updatedQuiz = quizService.updateQuiz(quiz, id);
         return ResponseEntity.ok(updatedQuiz);
     }
 
