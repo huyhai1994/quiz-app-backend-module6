@@ -1,6 +1,8 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
+import com.codegym.quizappbackendmodule6.model.DTO.QuestionDTO;
 import com.codegym.quizappbackendmodule6.model.DTO.QuizDTO;
+import com.codegym.quizappbackendmodule6.model.DTO.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.repository.QuizRepository;
 import com.codegym.quizappbackendmodule6.service.QuizService;
@@ -57,4 +59,11 @@ public class QuizServiceImpl implements QuizService {
     public Optional<Quiz> findById(Long quizId) {
         return quizRepository.findById(quizId);
     }
+
+    @Override
+    public List<QuizTeacherDTO> findTeacherQuizDetails(Long userId) {
+        return quizRepository.findTeacherQuizDetails(userId);
+    }
+
+
 }

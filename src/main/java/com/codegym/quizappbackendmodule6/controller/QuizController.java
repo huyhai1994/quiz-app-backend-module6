@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.DTO.QuizDTO;
+import com.codegym.quizappbackendmodule6.model.DTO.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.service.QuizService;
 import jakarta.validation.Valid;
@@ -21,6 +22,12 @@ public class QuizController {
     @GetMapping("/list")
     public ResponseEntity<List<QuizDTO>> getQuizList() {
         List<QuizDTO> quizList = quizService.findQuizDetails();
+        return ResponseEntity.ok(quizList);
+    }
+
+    @GetMapping("/list-teacher/{userId}")
+    public ResponseEntity<List<QuizTeacherDTO>> findTeacherQuizDetails(@PathVariable Long userId) {
+        List<QuizTeacherDTO> quizList = quizService.findTeacherQuizDetails(userId);
         return ResponseEntity.ok(quizList);
     }
 

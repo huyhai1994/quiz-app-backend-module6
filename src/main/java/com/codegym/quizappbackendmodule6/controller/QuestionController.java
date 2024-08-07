@@ -35,4 +35,10 @@ public class QuestionController {
         return ResponseEntity.ok(questions);
     }
 
+
+    @GetMapping("/list-teacher/{userId}")
+    public ResponseEntity<List<QuestionDTO>> findAllTeacherQuestionDetails(@PathVariable Long userId) {
+        List<QuestionDTO> answer = questionService.findAllTeacherQuestionDetails(userId);
+        return ResponseEntity.ok(answer);
+    }
 }

@@ -48,4 +48,9 @@ public class QuestionServiceImpl implements QuestionService {
         return questionRepository.findQuestionsByCategoryAndName(categoryName, questionName);
     }
 
+    @Override
+    public List<QuestionDTO> findAllTeacherQuestionDetails(Long userId) {
+        return questionRepository.findAllTeacherQuestionDetails(userId);
+    }
+
 }
