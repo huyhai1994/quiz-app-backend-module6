@@ -28,6 +28,14 @@ public interface QuestionRepository extends JpaRepository<Question,Long> {
     List<QuestionDTO> findQuestionsByCategoryAndName(@Param("categoryName") String categoryName,
                                                      @Param("questionName") String questionName);
 
-
+    @Query(value = "SELECT q.id AS questionId, q.question_text AS questionText, c.name AS categoryName, qt.type_name AS typeName, q.time_create AS timeCreate " +
+            "FROM questions q " +
+            "JOIN categories c ON q.category_id = c.id " +
+            "JOIN question_types qt ON q.question_type_id = qt.id " +
+            "JOIN quizzes qui ON qui.id = q.quiz_id " +
+            "WHERE qui.created_by = :userId " +
+            "ORDER BY q.time_create DESC",
+            nativeQuery = true)
+    List<QuestionDTO> findAllTeacherQuestionDetails(@Param("userId") Long userId);
 
 }
