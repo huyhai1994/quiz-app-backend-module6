@@ -38,4 +38,9 @@ public class TeacherApprovalServiceImpl implements TeacherApprovalService {
     public List<TeacherApprovalDTO> findAllApproval() {
         return teacherApprovalRepository.findAllApproval("APPROVED");
     }
+
+    @Override
+    public List<TeacherApprovalDTO> findAllApprovalByNameAndEmail(String status, String userName, String userEmail) {
+        return teacherApprovalRepository.findAllApprovalByNameAndEmail(status, userName , userEmail);
+    }
 }

@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
         TeacherApproval approvalRequest = new TeacherApproval();
         approvalRequest.setUser(user);
         approvalRequest.setStatus("PENDING");
+        approvalRequest.setApprovedAt(null);
         teacherApprovalService.save(approvalRequest);
     }
 }

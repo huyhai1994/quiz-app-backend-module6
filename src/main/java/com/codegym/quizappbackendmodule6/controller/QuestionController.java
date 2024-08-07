@@ -26,4 +26,13 @@ public class QuestionController {
         Question createdQuestion = questionService.save(question);
         return ResponseEntity.ok(createdQuestion);
     }
+
+    @GetMapping("/search/questions")
+    public ResponseEntity<List<QuestionDTO>> findQuestionsByCategoryAndName(
+            @RequestParam(required = false) String categoryName,
+            @RequestParam(required = false) String questionName) {
+        List<QuestionDTO> questions = questionService.findQuestionsByCategoryAndName(categoryName, questionName);
+        return ResponseEntity.ok(questions);
+    }
+
 }
