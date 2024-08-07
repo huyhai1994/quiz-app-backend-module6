@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.service;
 
 import com.codegym.quizappbackendmodule6.model.User;
+import com.codegym.quizappbackendmodule6.model.dto.StudentResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserSearchResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
@@ -14,6 +15,8 @@ public interface UserService {
     List<UserWithApprovalsProjection> findUsersWithApprovals();
 
     List<TeacherResponseDTO> findTeachers();
+
+    List<StudentResponseDTO> findStudents();
 
     User approveUser(Long id);
 

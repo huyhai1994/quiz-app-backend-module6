@@ -2,7 +2,8 @@ package com.codegym.quizappbackendmodule6.model.dto;
 
 import java.time.LocalDateTime;
 
-public interface TeacherResponseDTO {
+public interface StudentResponseDTO {
+
     Long getId();
 
     String getEmail();
@@ -13,5 +14,4 @@ public interface TeacherResponseDTO {
 
     LocalDateTime getRegisteredAt();
 
-    String getRoleName();
 }

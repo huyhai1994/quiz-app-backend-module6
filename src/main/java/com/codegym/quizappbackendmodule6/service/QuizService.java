@@ -2,7 +2,6 @@ package com.codegym.quizappbackendmodule6.service;
 
 import com.codegym.quizappbackendmodule6.model.DTO.QuizDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
-import org.springframework.validation.BindingResult;
 
 import java.util.List;
 import java.util.Optional;

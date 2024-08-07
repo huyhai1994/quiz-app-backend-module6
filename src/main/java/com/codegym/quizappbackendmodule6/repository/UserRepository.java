@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.repository;
 
 import com.codegym.quizappbackendmodule6.model.User;
+import com.codegym.quizappbackendmodule6.model.dto.StudentResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserSearchResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
@@ -17,6 +18,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "CALL get_teachers()", nativeQuery = true)
     List<TeacherResponseDTO> getTeachers();
+
+    @Query(value = "SELECT u FROM User u JOIN u.role r WHERE r.id = 2")
+    List<StudentResponseDTO> getStudents();
+
 
     @Query(value = "SELECT u FROM User u JOIN u.role r WHERE r.id = :roleId AND (u.name LIKE " +
             "%:name% AND u.email LIKE %:email%)")
