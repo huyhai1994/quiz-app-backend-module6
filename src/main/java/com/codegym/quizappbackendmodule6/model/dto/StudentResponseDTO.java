@@ -13,4 +13,5 @@ public interface StudentResponseDTO {
     LocalDateTime getLastLogin();
 
     LocalDateTime getRegisteredAt();
+
 }

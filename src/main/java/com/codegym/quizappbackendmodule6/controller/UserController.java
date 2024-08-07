@@ -87,6 +87,16 @@ public class UserController {
         return ResponseEntity.ok(userSearchResponseDTOs);
     }
 
+    @GetMapping("/search-student")
+    public ResponseEntity<List<UserSearchResponseDTO>> getStudentsByNameAndEmail(@RequestParam String name, @RequestParam String email) {
+        List<UserSearchResponseDTO> userSearchResponseDTOs = userService.findUsersByRolesAndNameOrEmail(2L, name, email);
+        if (userSearchResponseDTOs.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(userSearchResponseDTOs);
+    }
+
+
 }
 
 
