@@ -3,6 +3,7 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
+import com.codegym.quizappbackendmodule6.model.dto.UserSearchResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
 import com.codegym.quizappbackendmodule6.repository.UserRepository;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
@@ -83,5 +84,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.setPassword(newPassword); // Assuming you have a method to hash the password
         userRepository.save(user);
+    }
+
+    @Override
+    public List<UserSearchResponseDTO> findUsersByRolesAndNameOrEmail(Long roleId, String name, String email) {
+        return userRepository.findUsersByRolesAndNameOrEmail(roleId, name, email);
     }
 }

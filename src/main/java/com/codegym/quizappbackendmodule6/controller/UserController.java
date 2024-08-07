@@ -5,6 +5,7 @@ import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserResponseDTO;
+import com.codegym.quizappbackendmodule6.model.dto.UserSearchResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
 import com.codegym.quizappbackendmodule6.service.Impl.EmailService;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
@@ -73,6 +74,15 @@ public class UserController {
         teacherApproval.setApprovedAt(LocalDateTime.now());
         userService.save(user);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/search-teacher")
+    public ResponseEntity<List<UserSearchResponseDTO>> getTeachersByNameAndEmail(@RequestParam String name, @RequestParam String email) {
+        List<UserSearchResponseDTO> userSearchResponseDTOs = userService.findUsersByRolesAndNameOrEmail(3L, name, email);
+        if (userSearchResponseDTOs.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(userSearchResponseDTOs);
     }
 }
 
