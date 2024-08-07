@@ -3,10 +3,7 @@ package com.codegym.quizappbackendmodule6.controller;
 import com.codegym.quizappbackendmodule6.configs.PasswordGenerator;
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.model.User;
-import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserSearchResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.service.Impl.EmailService;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;
@@ -62,6 +59,11 @@ public class UserController {
         return ResponseEntity.ok(teacherResponseDTOs);
     }
 
+    @GetMapping("/students")
+    public ResponseEntity<List<StudentResponseDTO>> getStudents() {
+        return ResponseEntity.ok(userService.findStudents());
+    }
+
     @PutMapping("/approval/{id}")
     public ResponseEntity<User> approveUser(@PathVariable Long id) {
         User user = userService.findById(id).orElseThrow(() -> new RuntimeException("User không tồn tại với ID: " + id));
@@ -84,6 +86,7 @@ public class UserController {
         }
         return ResponseEntity.ok(userSearchResponseDTOs);
     }
+
 }
 
 

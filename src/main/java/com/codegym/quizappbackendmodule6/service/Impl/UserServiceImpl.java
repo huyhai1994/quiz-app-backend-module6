@@ -2,6 +2,7 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.model.User;
+import com.codegym.quizappbackendmodule6.model.dto.StudentResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserSearchResponseDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
@@ -34,6 +35,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<TeacherResponseDTO> findTeachers() {
         return userRepository.getTeachers();
+    }
+
+    @Override
+    public List<StudentResponseDTO> findStudents() {
+        return userRepository.getStudents();
     }
 
     @Override
