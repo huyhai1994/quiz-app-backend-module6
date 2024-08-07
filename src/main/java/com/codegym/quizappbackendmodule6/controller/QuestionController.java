@@ -1,10 +1,8 @@
 package com.codegym.quizappbackendmodule6.controller;
 
-import com.codegym.quizappbackendmodule6.model.Category;
 import com.codegym.quizappbackendmodule6.model.DTO.QuestionDTO;
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
-import com.codegym.quizappbackendmodule6.service.QuestionTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
