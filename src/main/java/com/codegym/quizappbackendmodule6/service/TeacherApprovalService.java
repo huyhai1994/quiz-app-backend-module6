@@ -1,6 +1,6 @@
 package com.codegym.quizappbackendmodule6.service;
 
-import com.codegym.quizappbackendmodule6.model.DTO.TeacherApprovalDTO;
+import com.codegym.quizappbackendmodule6.model.dto.TeacherApprovalDTO;
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 
 import java.util.List;
