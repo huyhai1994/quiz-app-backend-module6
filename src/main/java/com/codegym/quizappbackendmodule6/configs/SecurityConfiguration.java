@@ -3,7 +3,6 @@ package com.codegym.quizappbackendmodule6.configs;
 import com.codegym.quizappbackendmodule6.security.JwtAuthEntryPoint;
 import com.codegym.quizappbackendmodule6.security.JwtAuthFilter;
 import com.codegym.quizappbackendmodule6.security.JwtUserDetailService;
-import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;

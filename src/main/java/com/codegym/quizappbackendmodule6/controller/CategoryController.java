@@ -25,16 +25,16 @@ public class CategoryController {
     }
 
     @GetMapping("/search/{name}")
-    public ResponseEntity<List<Category>> findByName( @PathVariable String name) {
+    public ResponseEntity<List<Category>> findByName(@PathVariable String name) {
         List<Category> categories = categoryService.findCategoryByName(name);
         return ResponseEntity.ok(categories);
     }
 
-   @PostMapping("/create")
-public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
-    Category createdCategory = categoryService.saveCategory(category);
-    return ResponseEntity.ok(createdCategory);
-}
+    @PostMapping("/create")
+    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
+        Category createdCategory = categoryService.saveCategory(category);
+        return ResponseEntity.ok(createdCategory);
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
@@ -51,6 +51,7 @@ public ResponseEntity<Category> createCategory(@Valid @RequestBody Category cate
         Category updatedCategory = categoryService.updateCategory(category, id);
         return ResponseEntity.ok(updatedCategory);
     }
+
     @GetMapping("/list/{id}")
     public ResponseEntity<Optional<Category>> getCategoryById(@PathVariable Long id) {
         Optional<Category> category = categoryService.findById(id);
