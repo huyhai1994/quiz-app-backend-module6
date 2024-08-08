@@ -44,8 +44,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionDTO> findQuestionsByCategoryAndName(String categoryName, String questionName) {
-        return questionRepository.findQuestionsByCategoryAndName(categoryName, questionName);
+    public List<QuestionDTO> findQuestionsByCategoryAndName(String searchTerm) {
+        return questionRepository.findQuestionsBySearchTerm(searchTerm);
     }
 
     @Override

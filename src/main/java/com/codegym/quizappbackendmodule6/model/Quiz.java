@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -31,6 +32,11 @@ public class Quiz {
     @JoinColumn(name = "created_by")
     private User createdBy;
 
+    @Column(name = "quiz_time")
+    private Long quizTime;
+
+    private int quantity;
+
     @Column(name = "time_create")
     private LocalDateTime timeCreate;
 
@@ -39,4 +45,11 @@ public class Quiz {
         this.timeCreate = LocalDateTime.now();
     }
 
+    @ManyToMany
+    @JoinTable(
+            name = "quiz_questions",
+            joinColumns = @JoinColumn(name = "quiz_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id")
+    )
+    private Set<Question> questions;
 }

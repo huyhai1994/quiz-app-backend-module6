@@ -13,7 +13,7 @@ public interface QuestionService {
 
     Optional<Question> findById(Long questionId);
 
-    List<QuestionDTO> findQuestionsByCategoryAndName(String categoryName, String questionName);
+    List<QuestionDTO> findQuestionsByCategoryAndName(String searchTerm);
 
     List<QuestionDTO> findAllTeacherQuestionDetails(Long userId);
 }

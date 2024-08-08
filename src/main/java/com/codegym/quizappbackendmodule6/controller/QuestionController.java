@@ -28,10 +28,9 @@ public class QuestionController {
     }
 
     @GetMapping("/search/questions")
-    public ResponseEntity<List<QuestionDTO>> findQuestionsByCategoryAndName(
-            @RequestParam(required = false) String categoryName,
-            @RequestParam(required = false) String questionName) {
-        List<QuestionDTO> questions = questionService.findQuestionsByCategoryAndName(categoryName, questionName);
+    public ResponseEntity<List<QuestionDTO>> findQuestionsBySearchTerm(
+            @RequestParam(required = false) String searchTerm) {
+        List<QuestionDTO> questions = questionService.findQuestionsByCategoryAndName(searchTerm);
         return ResponseEntity.ok(questions);
     }
 
