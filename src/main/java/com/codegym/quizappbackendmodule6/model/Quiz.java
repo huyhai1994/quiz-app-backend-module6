@@ -35,7 +35,7 @@ public class Quiz {
     private LocalDateTime timeCreate;
 
     @PrePersist
-    public void timeCreate() {
+    public void setTimeCreate() {
         this.timeCreate = LocalDateTime.now();
     }
 
