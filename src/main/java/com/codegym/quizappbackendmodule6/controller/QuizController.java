@@ -1,6 +1,6 @@
 package com.codegym.quizappbackendmodule6.controller;
 
-import com.codegym.quizappbackendmodule6.model.DTO.QuizDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.service.QuizService;
 import jakarta.validation.Valid;
