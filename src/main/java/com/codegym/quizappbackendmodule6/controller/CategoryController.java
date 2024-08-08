@@ -49,7 +49,7 @@ public class CategoryController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Bạn đã nhập sai trường");
         }
-        Category updatedCategory = categoryService.updateCategory(category,id);
+        Category updatedCategory = categoryService.updateCategory(category, id);
         return ResponseEntity.ok(updatedCategory);
     }
 }
