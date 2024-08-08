@@ -5,6 +5,7 @@ import com.codegym.quizappbackendmodule6.model.dto.LoginRequest;
 import com.codegym.quizappbackendmodule6.repository.UserRepository;
 import com.codegym.quizappbackendmodule6.security.JwtTokenProvider;
 import com.codegym.quizappbackendmodule6.service.AuthService;
+import com.codegym.quizappbackendmodule6.service.EmailServiceRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +29,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private EmailServiceRegister emailServiceRegister;
+
     @Override
     public User register(User user) {
         if (userRepository.findByEmail(user.getEmail()) != null) {
@@ -38,7 +42,10 @@ public class AuthServiceImpl implements AuthService {
         user.setRoleId(2);
         user.setName(user.getName());
 
-        return userRepository.save(user);
+//        return userRepository.save(user);
+        User registeredUser = userRepository.save(user);
+        emailServiceRegister.sendRegistrationConfirmationEmail(registeredUser);
+        return registeredUser;
     }
 
     @Override
