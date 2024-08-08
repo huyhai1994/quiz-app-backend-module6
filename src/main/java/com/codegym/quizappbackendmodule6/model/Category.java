@@ -23,10 +23,6 @@ public class Category {
     @Column(unique = true)
     private String name;
 
-    @NotEmpty(message = "Cần dặt tên người tạo")
-    @Column(name = "created_by")
-    private String createdBy;
-
     @Lob
     private String description;
 
