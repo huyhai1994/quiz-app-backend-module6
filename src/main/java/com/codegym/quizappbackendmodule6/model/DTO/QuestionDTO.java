@@ -6,6 +6,7 @@ public interface QuestionDTO {
     Long getQuestionId();
     String getQuestionText();
     String getQuestionLevel();
+
     String getCategoryName();
     String getTypeName();
     LocalDateTime getTimeCreate();
