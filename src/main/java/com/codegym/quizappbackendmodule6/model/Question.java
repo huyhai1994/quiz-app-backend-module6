@@ -26,6 +26,10 @@ public class Question {
     @NotEmpty(message = "Nội dung câu hỏi không được để trống")
     private String content;
 
+    @Column(name = "level")
+    @NotEmpty(message = "Hãy Hãy chọn độ khó")
+    private String level;
+
     @ManyToOne
     @JoinColumn(name = "question_type_id")
     private QuestionType questionType;
