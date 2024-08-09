@@ -1,7 +1,7 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.User;
-import com.codegym.quizappbackendmodule6.model.dto.LoginRequest;
+import com.codegym.quizappbackendmodule6.model.DTO.LoginRequest;
 import com.codegym.quizappbackendmodule6.repository.UserRepository;
 import com.codegym.quizappbackendmodule6.security.JwtTokenProvider;
 import com.codegym.quizappbackendmodule6.service.AuthService;
