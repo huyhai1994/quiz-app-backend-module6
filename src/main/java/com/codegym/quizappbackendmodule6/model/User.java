@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -22,16 +24,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NotEmpty(message = "Tên người dùng không được để trống")
+    @NotEmpty(message = "Tên người dùng không được để trống")
     @Column(nullable = false)
     private String name;
 
-//    @NotEmpty(message = "Email không được để trống")
+    @NotEmpty(message = "Email không được để trống")
     @Email(message = "Email không hợp lệ")
     @Column(unique = true, nullable = false)
     private String email;
 
-//    @NotEmpty(message = "Mật khẩu không được để trống")
+    @NotEmpty(message = "Mật khẩu không được để trống")
     @Column(nullable = false)
     private String password;
 
@@ -61,22 +63,12 @@ public class User {
         }
     }
 
-//    @PrePersist
-//    public void setRegisteredAt() {
-//        this.registeredAt = LocalDateTime.now();
-//    }
-
-    public void setApprovalStatus(String approved) {
-    }
-
     public void setRoleId(int roleId) {
         Role role = new Role();
         role.setId((long) roleId);
         this.role = role;
     }
 
-//    public void setApproved(boolean b) {
-
-//    }
-
+    public void setApprovalStatus(String approved) {
+    }
 }

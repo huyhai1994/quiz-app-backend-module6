@@ -19,14 +19,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-//    private final UserService userService;
+    private final UserService userService;
     private final TeacherApprovalService teacherApprovalService;
     private final EmailService emailService;
 
@@ -35,10 +33,10 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userService.getUserByEmail(email);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        } else {
+        if (user != null) {
             return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -79,7 +77,7 @@ public class UserController {
 
     @PostMapping("/request-teacher/{id}")
     public ResponseEntity<Void> requestTeacherRole(@PathVariable Long id) {
-//        userService.requestTeacherRole(id);
+        userService.requestTeacherRole(id);
         return ResponseEntity.ok().build();
     }
 
