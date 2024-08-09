@@ -1,7 +1,7 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.Category;
-import com.codegym.quizappbackendmodule6.model.dto.QuestionDTO;
+import com.codegym.quizappbackendmodule6.model.DTO.QuestionDTO;
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.QuestionType;
 import com.codegym.quizappbackendmodule6.repository.QuestionRepository;

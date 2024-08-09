@@ -1,9 +1,10 @@
 package com.codegym.quizappbackendmodule6.repository;
 
-import com.codegym.quizappbackendmodule6.model.dto.TeacherApprovalDTO;
+import com.codegym.quizappbackendmodule6.model.DTO.TeacherApprovalDTO;
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 

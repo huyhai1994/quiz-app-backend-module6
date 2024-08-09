@@ -1,8 +1,9 @@
-package com.codegym.quizappbackendmodule6.model.dto;
+package com.codegym.quizappbackendmodule6.model.DTO;
 
 import java.time.LocalDateTime;
 
-public interface UserSearchResponseDTO {
+public interface StudentResponseDTO {
+
     Long getId();
 
     String getEmail();

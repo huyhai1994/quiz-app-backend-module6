@@ -2,10 +2,10 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.model.User;
-import com.codegym.quizappbackendmodule6.model.dto.StudentResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserSearchResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
+import com.codegym.quizappbackendmodule6.model.DTO.StudentResponseDTO;
+import com.codegym.quizappbackendmodule6.model.DTO.TeacherResponseDTO;
+import com.codegym.quizappbackendmodule6.model.DTO.UserSearchResponseDTO;
+import com.codegym.quizappbackendmodule6.model.DTO.UserWithApprovalsProjection;
 import com.codegym.quizappbackendmodule6.repository.UserRepository;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;
@@ -82,7 +82,8 @@ public class UserServiceImpl implements UserService {
         }
         TeacherApproval approvalRequest = new TeacherApproval();
         approvalRequest.setUser(user);
-        approvalRequest.setStatus("PENDING");
+        approvalRequest.setStatus(TeacherApproval.Status.valueOf("PENDING"));
+        //approvalRequest.setStatus("PENDING");
         approvalRequest.setApprovedAt(null);
         teacherApprovalService.save(approvalRequest);
     }

@@ -1,6 +1,6 @@
 package com.codegym.quizappbackendmodule6.controller;
 
-import com.codegym.quizappbackendmodule6.model.dto.QuestionDTO;
+import com.codegym.quizappbackendmodule6.model.DTO.QuestionDTO;
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
 import lombok.RequiredArgsConstructor;

@@ -3,7 +3,7 @@ package com.codegym.quizappbackendmodule6.controller;
 import com.codegym.quizappbackendmodule6.configs.PasswordGenerator;
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.model.User;
-import com.codegym.quizappbackendmodule6.model.dto.*;
+import com.codegym.quizappbackendmodule6.model.DTO.*;
 import com.codegym.quizappbackendmodule6.service.Impl.EmailService;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;

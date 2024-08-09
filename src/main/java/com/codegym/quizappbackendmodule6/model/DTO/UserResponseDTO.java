@@ -1,4 +1,4 @@
-package com.codegym.quizappbackendmodule6.model.dto;
+package com.codegym.quizappbackendmodule6.model.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

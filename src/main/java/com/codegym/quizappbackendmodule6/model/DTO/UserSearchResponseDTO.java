@@ -1,14 +1,13 @@
-package com.codegym.quizappbackendmodule6.model.dto;
+package com.codegym.quizappbackendmodule6.model.DTO;
 
 import java.time.LocalDateTime;
 
-public interface UserWithApprovalsProjection {
+public interface UserSearchResponseDTO {
     Long getId();
 
+    String getEmail();
 
     String getName();
-
-    String getEmail();
 
     LocalDateTime getLastLogin();
 
