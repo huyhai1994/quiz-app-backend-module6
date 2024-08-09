@@ -3,7 +3,7 @@ package com.codegym.quizappbackendmodule6.repository;
 import com.codegym.quizappbackendmodule6.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+
 
 import java.util.List;
 

@@ -12,8 +12,22 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-
     private final TeacherApprovalService teacherApprovalService;
+//    private final EmailService emailService;
+//
+//
+//    @GetMapping("/get-all")
+//    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+//        List<User> users = userService.findAllUsers();
+//        List<UserResponseDTO> userResponseDTOs = users.stream().map(user -> new UserResponseDTO(user.getName(), user.getEmail(), user.getAvatar(), user.getRegisteredAt(), user.getLastLogin())).collect(Collectors.toList());
+//        return ResponseEntity.ok(userResponseDTOs);
+//    }
+//
+//    @GetMapping("/approval-pending")
+//    public ResponseEntity<List<UserWithApprovalsProjection>> getUsersWithApprovals() {
+//        List<UserWithApprovalsProjection> users = userService.findUsersWithApprovals();
+//        return ResponseEntity.ok(users);
+//    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
@@ -26,4 +40,50 @@ public class UserController {
         userService.requestTeacherRole(id);
         return ResponseEntity.ok().build();
     }
+
+//    @GetMapping("/teachers")
+//    public ResponseEntity<List<TeacherResponseDTO>> getTeachers() {
+//        List<TeacherResponseDTO> teacherResponseDTOs = userService.findTeachers();
+//        if (teacherResponseDTOs.isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(teacherResponseDTOs);
+//    }
+
+//    @GetMapping("/students")
+//    public ResponseEntity<List<StudentResponseDTO>> getStudents() {
+//        return ResponseEntity.ok(userService.findStudents());
+//    }
+
+//    @PutMapping("/approval/{id}")
+//    public ResponseEntity<User> approveUser(@PathVariable Long id) {
+//        User user = userService.findById(id).orElseThrow(() -> new RuntimeException("User không tồn tại với ID: " + id));
+//        String randomPassword = PasswordGenerator.generateRandomPassword(10);
+//        userService.updateUserPassword(id, randomPassword);
+//        emailService.sendConfirmationEmail(user.getEmail(), "Confirmation Email", "Your account has been approved.", randomPassword);
+//        user.setRoleId(3);
+//        TeacherApproval teacherApproval = teacherApprovalService.findByUserId(id); // Assuming a
+//        teacherApproval.setApprovalStatus("APPROVED");
+//        teacherApproval.setApprovedAt(LocalDateTime.now());
+//        userService.save(user);
+//        return ResponseEntity.ok(user);
+//    }
+
+//    @GetMapping("/search-teacher")
+//    public ResponseEntity<List<UserSearchResponseDTO>> getTeachersByNameAndEmail(@RequestParam String name, @RequestParam String email) {
+//        List<UserSearchResponseDTO> userSearchResponseDTOs = userService.findUsersByRolesAndNameOrEmail(3L, name, email);
+//        if (userSearchResponseDTOs.isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(userSearchResponseDTOs);
+//    }
+
+//    @GetMapping("/search-student")
+//    public ResponseEntity<List<UserSearchResponseDTO>> getStudentsByNameAndEmail(@RequestParam String name, @RequestParam String email) {
+//        List<UserSearchResponseDTO> userSearchResponseDTOs = userService.findUsersByRolesAndNameOrEmail(2L, name, email);
+//        if (userSearchResponseDTOs.isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(userSearchResponseDTOs);
+//    }
 }

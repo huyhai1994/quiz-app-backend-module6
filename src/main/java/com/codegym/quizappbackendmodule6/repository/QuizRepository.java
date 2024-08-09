@@ -1,7 +1,7 @@
 package com.codegym.quizappbackendmodule6.repository;
 
-import com.codegym.quizappbackendmodule6.model.DTO.QuizDTO;
-import com.codegym.quizappbackendmodule6.model.DTO.QuizTeacherDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

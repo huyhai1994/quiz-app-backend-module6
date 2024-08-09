@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,10 +26,12 @@ public class User {
     private String name;
 
     @NotEmpty(message = "Email không được để trống")
-    @Column(unique = true)
+    @Email(message = "Email không hợp lệ")
+    @Column(unique = true, nullable = false)
     private String email;
 
     @NotEmpty(message = "Mật khẩu không được để trống")
+    @Column(nullable = false)
     private String password;
 
     private String avatar;
@@ -47,7 +50,32 @@ public class User {
     private Boolean isDeleted;
 
     @PrePersist
-    public void setRegisteredAt() {
+    public void prePersist() {
         this.registeredAt = LocalDateTime.now();
+        if (this.role == null) {
+            Role studentRole = new Role();
+            studentRole.setId(2L);
+            studentRole.setName("ROLE_STUDENT");
+            this.role = studentRole;
+        }
     }
+
+//    @PrePersist
+//    public void setRegisteredAt() {
+//        this.registeredAt = LocalDateTime.now();
+//    }
+
+    public void setApprovalStatus(String approved) {
+    }
+
+    public void setRoleId(int roleId) {
+        Role role = new Role();
+        role.setId((long) roleId);
+        this.role = role;
+    }
+
+//    public void setApproved(boolean b) {
+
+//    }
+
 }

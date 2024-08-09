@@ -2,6 +2,7 @@ package com.codegym.quizappbackendmodule6.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,7 @@ public class Option {
     private String optionText;
 
     @Column(name = "is_correct")
-    @NotEmpty(message = "Cần điền thông tin để xem đây là đáp án đúng hay sai")
+    @NotNull(message = "Cần điền thông tin để xem đây là đáp án đúng hay sai")
     private Boolean isCorrect;
 
 }
