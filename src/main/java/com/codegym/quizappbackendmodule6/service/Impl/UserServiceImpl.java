@@ -72,6 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
     @Override
     public void requestTeacherRole(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Người dùng không tồn tại với ID: " + userId));
@@ -81,7 +82,8 @@ public class UserServiceImpl implements UserService {
         }
         TeacherApproval approvalRequest = new TeacherApproval();
         approvalRequest.setUser(user);
-        approvalRequest.setStatus(TeacherApproval.Status.valueOf("PENDING"));
+        approvalRequest.setStatus("PENDING");
+        approvalRequest.setApprovedAt(null);
         teacherApprovalService.save(approvalRequest);
     }
 
