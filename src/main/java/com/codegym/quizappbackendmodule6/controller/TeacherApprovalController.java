@@ -36,5 +36,14 @@ public class TeacherApprovalController {
         List<TeacherApprovalDTO> approvedApprovals = teacherApprovalService.findAllApproval();
         return ResponseEntity.ok(approvedApprovals);
     }
+
+    @GetMapping("/search/approved")
+    public ResponseEntity<List<TeacherApprovalDTO>> findAllApprovalByNameAndEmail(
+            @RequestParam(required = false) String userName,
+            @RequestParam(required = false) String userEmail) {
+        List<TeacherApprovalDTO> approvedApprovals = teacherApprovalService.findAllApprovalByNameAndEmail("APPROVED", userName, userEmail);
+        return ResponseEntity.ok(approvedApprovals);
+    }
+
 }
 

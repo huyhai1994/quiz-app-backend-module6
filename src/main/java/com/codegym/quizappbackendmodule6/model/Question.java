@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -21,13 +22,10 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "quiz_id")
-    private Quiz quiz;
 
     @Column(name = "question_text")
     @NotEmpty(message = "Nội dung câu hỏi không được để trống")
-    private String content;
+    private String questionText;
 
     @ManyToOne
     @JoinColumn(name = "question_type_id")
@@ -37,6 +35,10 @@ public class Question {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private User createdBy;
+
     @Column(name = "time_create")
     private LocalDateTime timeCreate;
 
@@ -45,4 +47,11 @@ public class Question {
         this.timeCreate = LocalDateTime.now();
     }
 
+    @ManyToMany
+    @JoinTable(
+            name = "quiz_questions",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "quiz_id")
+    )
+    private Set<Quiz> quizzes;
 }

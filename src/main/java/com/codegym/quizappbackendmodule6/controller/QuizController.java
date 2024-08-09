@@ -1,8 +1,11 @@
 package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
+import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.service.QuizService;
+import com.codegym.quizappbackendmodule6.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuizController {
     private final QuizService quizService;
+    private final UserService userService;
 
     @GetMapping("/list")
     public ResponseEntity<List<QuizDTO>> getQuizList() {
@@ -24,13 +28,20 @@ public class QuizController {
         return ResponseEntity.ok(quizList);
     }
 
+    @GetMapping("/list-teacher/{userId}")
+    public ResponseEntity<List<QuizTeacherDTO>> findTeacherQuizDetails(@PathVariable Long userId) {
+        List<QuizTeacherDTO> quizList = quizService.findTeacherQuizDetails(userId);
+        return ResponseEntity.ok(quizList);
+    }
+
     @PostMapping("/create")
-    public ResponseEntity<?> createQuiz(@Valid @RequestBody Quiz quiz, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body("Bạn đã nhập sai trường");
-        }
-        Quiz createdQuiz = quizService.createQuiz(quiz);
-        return ResponseEntity.ok(createdQuiz);
+    public ResponseEntity<Quiz> createQuiz(@RequestParam Long userId, @RequestBody Quiz quiz) {
+        User user = userService.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        quiz.setCreatedBy(user);
+        Quiz quizNew = quizService.createQuiz(quiz);
+        return ResponseEntity.ok(quizNew);
     }
 
     @PutMapping("/update/{id}")

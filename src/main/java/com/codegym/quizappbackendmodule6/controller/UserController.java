@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/users")
 @CrossOrigin("*")
+@RestController
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -96,5 +96,3 @@ public class UserController {
         return ResponseEntity.ok(userSearchResponseDTOs);
     }
 }
-
-

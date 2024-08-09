@@ -15,12 +15,12 @@ public class ResultController {
     private final ResultService resultService;
 
     @PostMapping("/start/{userId}/{quizId}")
-    public ResponseEntity<Result> start(@PathVariable Long userId, @PathVariable Long quizId) {
-        return ResponseEntity.ok(resultService.startQuiz(userId, quizId));
+    public ResponseEntity<Result> start(@PathVariable Long userId, @PathVariable Long quizId){
+        return ResponseEntity.ok(resultService.startQuiz(userId,quizId));
     }
 
     @PostMapping("/end/{resultId}")
-    public ResponseEntity<Result> start(@PathVariable Long resultId) {
+    public ResponseEntity<Result> start(@PathVariable Long resultId){
         return ResponseEntity.ok(resultService.endQuiz(resultId));
     }
 }

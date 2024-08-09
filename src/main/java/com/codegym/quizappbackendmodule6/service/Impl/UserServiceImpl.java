@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserPassword(Long userId, String newPassword) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setPassword(newPassword); // Assuming you have a method to hash the password
+        user.setPassword(newPassword);
         userRepository.save(user);
     }
 

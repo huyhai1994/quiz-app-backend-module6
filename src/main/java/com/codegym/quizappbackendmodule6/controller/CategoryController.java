@@ -25,13 +25,16 @@ public class CategoryController {
     }
 
     @GetMapping("/search/{name}")
-    public ResponseEntity<List<Category>> findByName(@PathVariable String name) {
+    public ResponseEntity<List<Category>> findByName(@RequestParam String name) {
         List<Category> categories = categoryService.findCategoryByName(name);
         return ResponseEntity.ok(categories);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
+    public ResponseEntity<?> createCategory(@Valid @RequestBody Category category, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Bạn đã nhập sai trường");
+        }
         Category createdCategory = categoryService.saveCategory(category);
         return ResponseEntity.ok(createdCategory);
     }
@@ -44,14 +47,12 @@ public class CategoryController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable Long id, @Valid @RequestBody Category category, BindingResult bindingResult) {
-        System.out.println(id);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Bạn đã nhập sai trường");
         }
-        Category updatedCategory = categoryService.updateCategory(category, id);
+        Category updatedCategory = categoryService.updateCategory(category,id);
         return ResponseEntity.ok(updatedCategory);
     }
-
     @GetMapping("/list/{id}")
     public ResponseEntity<Optional<Category>> getCategoryById(@PathVariable Long id) {
         Optional<Category> category = categoryService.findById(id);
