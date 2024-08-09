@@ -22,16 +22,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Tên người dùng không được để trống")
+//    @NotEmpty(message = "Tên người dùng không được để trống")
     @Column(nullable = false)
     private String name;
 
-    @NotEmpty(message = "Email không được để trống")
+//    @NotEmpty(message = "Email không được để trống")
     @Email(message = "Email không hợp lệ")
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotEmpty(message = "Mật khẩu không được để trống")
+//    @NotEmpty(message = "Mật khẩu không được để trống")
     @Column(nullable = false)
     private String password;
 
