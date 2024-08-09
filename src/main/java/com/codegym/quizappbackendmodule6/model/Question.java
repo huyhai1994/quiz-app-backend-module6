@@ -27,7 +27,7 @@ public class Question {
     private String content;
 
     @Column(name = "level")
-    @NotEmpty(message = "Hãy Hãy chọn độ khó")
+    @NotEmpty(message ="Cn do kho")
     private String level;
 
     @ManyToOne
