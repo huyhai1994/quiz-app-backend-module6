@@ -1,6 +1,6 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
-import com.codegym.quizappbackendmodule6.model.DTO.TeacherApprovalDTO;
+import com.codegym.quizappbackendmodule6.model.dto.TeacherApprovalDTO;
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.repository.TeacherApprovalRepository;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeacherApprovalServiceImpl implements TeacherApprovalService {
     private final TeacherApprovalRepository teacherApprovalRepository;
+
     @Override
     public TeacherApproval save(TeacherApproval teacherApproval) {
         return teacherApprovalRepository.save(teacherApproval);
