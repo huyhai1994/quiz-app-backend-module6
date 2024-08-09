@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -51,5 +52,10 @@ public class CategoryController {
         }
         Category updatedCategory = categoryService.updateCategory(category,id);
         return ResponseEntity.ok(updatedCategory);
+    }
+    @GetMapping("/list/{id}")
+    public ResponseEntity<Optional<Category>> getCategoryById(@PathVariable Long id) {
+        Optional<Category> category = categoryService.findById(id);
+        return ResponseEntity.ok(category);
     }
 }

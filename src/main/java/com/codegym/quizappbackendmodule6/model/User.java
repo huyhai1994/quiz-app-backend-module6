@@ -60,11 +60,6 @@ public class User {
         }
     }
 
-//    @PrePersist
-//    public void setRegisteredAt() {
-//        this.registeredAt = LocalDateTime.now();
-//    }
-
     public void setApprovalStatus(String approved) {
     }
 
@@ -73,9 +68,4 @@ public class User {
         role.setId((long) roleId);
         this.role = role;
     }
-
-//    public void setApproved(boolean b) {
-
-//    }
-
 }
