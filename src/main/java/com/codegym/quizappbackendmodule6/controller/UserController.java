@@ -17,13 +17,12 @@ import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
     private final TeacherApprovalService teacherApprovalService;
     private final EmailService emailService;
-
 
     @GetMapping("/get-all")
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
