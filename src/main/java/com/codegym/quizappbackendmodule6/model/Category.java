@@ -23,9 +23,6 @@ public class Category {
     @Column(unique = true)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "created_by")
-    private User createdBy;
 
     @Lob
     private String description;
