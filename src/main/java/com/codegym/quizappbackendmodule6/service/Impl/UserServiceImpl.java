@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -54,6 +55,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+
     @Override
     public void deleteUser(Long userId) {
         User user = userRepository.findById(userId).get();
@@ -68,6 +70,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
+
 
     @Override
     public void requestTeacherRole(Long userId) {

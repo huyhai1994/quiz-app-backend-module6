@@ -46,7 +46,7 @@ public class UserController {
 
     @PostMapping("/request-teacher/{id}")
     public ResponseEntity<Void> requestTeacherRole(@PathVariable Long id) {
-//        userService.requestTeacherRole(id);
+        userService.requestTeacherRole(id);
         return ResponseEntity.ok().build();
     }
 
@@ -98,3 +98,5 @@ public class UserController {
 
 
 }
+
+

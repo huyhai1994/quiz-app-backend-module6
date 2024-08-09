@@ -20,6 +20,7 @@ public interface UserService {
 
     User approveUser(Long id);
 
+
     void save(User user);
 
     void deleteUser(Long userId);
