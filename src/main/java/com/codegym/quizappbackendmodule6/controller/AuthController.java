@@ -3,6 +3,7 @@ package com.codegym.quizappbackendmodule6.controller;
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.LoginRequest;
 import com.codegym.quizappbackendmodule6.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody @Valid User user) {
         try {
             User registeredUser = authService.register(user);
             return ResponseEntity.ok("User registered successfully");

@@ -11,6 +11,9 @@ import java.util.Optional;
 
 public interface UserService {
     List<User> findAllUsers();
+    User getUserById(Long id);
+    User getUserByEmail(String email);
+    User updateUser(User user);
 
     List<UserWithApprovalsProjection> findUsersWithApprovals();
 
