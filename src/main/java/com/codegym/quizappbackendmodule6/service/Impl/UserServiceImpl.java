@@ -2,10 +2,7 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.model.User;
-import com.codegym.quizappbackendmodule6.model.dto.StudentResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserSearchResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.repository.UserRepository;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;
@@ -96,4 +93,10 @@ public class UserServiceImpl implements UserService {
     public List<UserSearchResponseDTO> findUsersByRolesAndNameOrEmail(Long roleId, String name, String email) {
         return userRepository.findUsersByRolesAndNameOrEmail(roleId, name, email);
     }
+
+    @Override
+    public AdminInfoResponseDTO findUsersByRoleId(Long roleId) {
+        return userRepository.findUserByRoleId(roleId);
+    }
+
 }

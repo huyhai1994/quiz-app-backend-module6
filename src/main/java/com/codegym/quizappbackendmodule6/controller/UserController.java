@@ -94,4 +94,9 @@ public class UserController {
         }
         return ResponseEntity.ok(userSearchResponseDTOs);
     }
+
+    @GetMapping("/admin-info")
+    public ResponseEntity<AdminInfoResponseDTO> getAdminInfo() {
+        return ResponseEntity.ok(userService.findUsersByRoleId(1L));
+    }
 }
