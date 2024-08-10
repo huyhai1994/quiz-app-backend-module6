@@ -99,21 +99,24 @@ public class UserServiceImpl implements UserService {
     public void updateAdminInfo(AdminInfoRequestDTO adminInfoRequestDTO) {
         User admin = userRepository.findById(adminInfoRequestDTO.getId()).orElseThrow(() -> new RuntimeException("Admin not found"));
 
-        if (!passwordEncoder.matches(adminInfoRequestDTO.getCurrentPassword(), admin.getPassword())) {
+        if (checkUserCurrentPassword(admin, adminInfoRequestDTO.getCurrentPassword())) {
             throw new RuntimeException("Current password is incorrect");
         }
-
-        admin.setName(adminInfoRequestDTO.getName());
-        admin.setEmail(adminInfoRequestDTO.getEmail());
-        if (adminInfoRequestDTO.getNewPassword() != null && !adminInfoRequestDTO.getNewPassword().isEmpty()) {
-            admin.setPassword(passwordEncoder.encode(adminInfoRequestDTO.getNewPassword()));
-        }
+        updateNewAdminInfo(adminInfoRequestDTO, admin);
         userRepository.save(admin);
     }
 
-    @Override
-    public boolean checkCurrentPassword(Long userId, String oldPassword) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        return passwordEncoder.matches(oldPassword, user.getPassword());
+    private void updateNewAdminInfo(AdminInfoRequestDTO adminInfoRequestDTO, User admin) {
+        admin.setName(adminInfoRequestDTO.getName());
+        admin.setEmail(adminInfoRequestDTO.getEmail());
+        if (adminInfoRequestDTO.getNewPassword() != null
+                &&
+                !adminInfoRequestDTO.getNewPassword().isEmpty()) {
+            admin.setPassword(passwordEncoder.encode(adminInfoRequestDTO.getNewPassword()));
+        }
+    }
+
+    private boolean checkUserCurrentPassword(User user, String currentPassword) {
+        return !passwordEncoder.matches(currentPassword, user.getPassword());
     }
 }

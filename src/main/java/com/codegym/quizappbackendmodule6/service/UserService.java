@@ -34,5 +34,4 @@ public interface UserService {
 
     void updateAdminInfo(AdminInfoRequestDTO adminInfoRequestDTO);
 
-    boolean checkCurrentPassword(Long userId, String oldPassword);
 }
