@@ -31,4 +31,8 @@ public interface UserService {
     List<UserSearchResponseDTO> findUsersByRolesAndNameOrEmail(Long roleId, String name, String email);
 
     AdminInfoResponseDTO findUsersByRoleId(Long roleId);
+
+    void updateAdminInfo(AdminInfoRequestDTO adminInfoRequestDTO);
+
+    boolean checkCurrentPassword(Long userId, String oldPassword);
 }
