@@ -14,6 +14,7 @@ public interface UserService {
     User getUserById(Long id);
     User getUserByEmail(String email);
     User updateUser(User user);
+    void changePassword(String email, String currentPassword, String newPassword);
 
     List<UserWithApprovalsProjection> findUsersWithApprovals();
 
