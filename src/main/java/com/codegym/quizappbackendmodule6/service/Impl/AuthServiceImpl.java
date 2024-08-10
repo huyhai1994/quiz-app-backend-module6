@@ -2,6 +2,7 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.LoginRequest;
+import com.codegym.quizappbackendmodule6.model.dto.UserRegistrationDTO;
 import com.codegym.quizappbackendmodule6.repository.UserRepository;
 import com.codegym.quizappbackendmodule6.security.JwtTokenProvider;
 import com.codegym.quizappbackendmodule6.service.AuthService;
@@ -38,15 +39,18 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public User register(User user) {
-        logger.info("Registering new user with email: {}", user.getEmail());
-        if (userRepository.getUserByEmail(user.getEmail()).isPresent()) {
+    public User register(UserRegistrationDTO registrationDTO) {
+        logger.info("Registering new user with email: {}", registrationDTO.getEmail());
+        if (userRepository.getUserByEmail(registrationDTO.getEmail()).isPresent()) {
             throw new RuntimeException("User already exists");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User user = new User();
+        user.setName(registrationDTO.getName());
+        user.setEmail(registrationDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
+        user.setAvatar(registrationDTO.getAvatar());
         user.setRoleId(2);
-        user.setName(user.getName());
 
 //        return userRepository.save(user);
         User registeredUser = userRepository.save(user);
