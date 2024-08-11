@@ -52,6 +52,12 @@ public class User {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
+    @Column(name = "reset_code")
+    private String resetCode;
+
+    @Column(name = "reset_code_expiry")
+    private LocalDateTime resetCodeExpiry;
+
     @PrePersist
     public void prePersist() {
         this.registeredAt = LocalDateTime.now();
@@ -67,6 +73,18 @@ public class User {
         Role role = new Role();
         role.setId((long) roleId);
         this.role = role;
+    }
+
+    public boolean isResetCodeValid() {
+        return
+                this.resetCode != null &&
+                this.resetCodeExpiry != null &&
+                LocalDateTime.now().isBefore(this.resetCodeExpiry);
+    }
+
+    public void clearResetCode() {
+        this.resetCode = null;
+        this.resetCodeExpiry = null;
     }
 
     public void setApprovalStatus(String approved) {
