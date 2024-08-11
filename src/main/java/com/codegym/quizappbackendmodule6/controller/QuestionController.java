@@ -26,4 +26,18 @@ public class QuestionController {
         Question createdQuestion = questionService.save(question);
         return ResponseEntity.ok(createdQuestion);
     }
+
+    @GetMapping("/search/questions")
+    public ResponseEntity<List<QuestionDTO>> findQuestionsBySearchTerm(
+            @RequestParam(required = false) String searchTerm) {
+        List<QuestionDTO> questions = questionService.findQuestionsByCategoryAndName(searchTerm);
+        return ResponseEntity.ok(questions);
+    }
+
+
+    @GetMapping("/list-teacher/{userId}")
+    public ResponseEntity<List<QuestionDTO>> findAllTeacherQuestionDetails(@PathVariable Long userId) {
+        List<QuestionDTO> answer = questionService.findAllTeacherQuestionDetails(userId);
+        return ResponseEntity.ok(answer);
+    }
 }

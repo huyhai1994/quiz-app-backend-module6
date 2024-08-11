@@ -1,7 +1,10 @@
 package com.codegym.quizappbackendmodule6.service;
 
+
 import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -15,4 +18,8 @@ public interface QuizService {
     Quiz updateQuiz(Quiz quiz , Long id);
 
     Optional<Quiz> findById(Long quizId);
+
+    List<QuizTeacherDTO> findTeacherQuizDetails(Long userId);
+
+
 }

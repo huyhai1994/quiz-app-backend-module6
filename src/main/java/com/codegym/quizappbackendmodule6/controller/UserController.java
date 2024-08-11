@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -84,7 +85,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
@@ -140,6 +141,30 @@ public class UserController {
         }
         return ResponseEntity.ok(userSearchResponseDTOs);
     }
+
+    @GetMapping("/admin-info")
+    public ResponseEntity<AdminInfoResponseDTO> getAdminInfo() {
+        return ResponseEntity.ok(userService.findUsersByRoleId(1L));
+    }
+
+    @PutMapping("/update-admin-info")
+    public ResponseEntity<Void> updateAdminInfo(
+            @RequestParam Long id,
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String currentPassword,
+            @RequestParam(required = false) String newPassword,
+            @RequestParam(required = false) MultipartFile avatar) {
+
+        AdminInfoRequestDTO adminInfoRequestDTO = new AdminInfoRequestDTO();
+        adminInfoRequestDTO.setId(id);
+        adminInfoRequestDTO.setName(name);
+        adminInfoRequestDTO.setEmail(email);
+        adminInfoRequestDTO.setCurrentPassword(currentPassword);
+        adminInfoRequestDTO.setNewPassword(newPassword);
+        adminInfoRequestDTO.setAvatar(avatar);
+
+        userService.updateAdminInfo(adminInfoRequestDTO);
+        return ResponseEntity.ok().build();
+    }
 }
-
-

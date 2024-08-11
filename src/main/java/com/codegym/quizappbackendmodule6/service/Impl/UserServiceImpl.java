@@ -2,14 +2,12 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
 import com.codegym.quizappbackendmodule6.model.User;
-import com.codegym.quizappbackendmodule6.model.dto.StudentResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.TeacherResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserSearchResponseDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserWithApprovalsProjection;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.repository.UserRepository;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -98,10 +96,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long userId) {
-        User user = userRepository.findById(userId).get();
-        if (user == null) {
-            throw new IllegalArgumentException("Không tìm thấy User");
-        }
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.setIsDeleted(false);
         userRepository.save(user);
     }
@@ -127,12 +122,42 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserPassword(Long userId, String newPassword) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setPassword(newPassword); // Assuming you have a method to hash the password
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
 
     @Override
     public List<UserSearchResponseDTO> findUsersByRolesAndNameOrEmail(Long roleId, String name, String email) {
         return userRepository.findUsersByRolesAndNameOrEmail(roleId, name, email);
+    }
+
+    @Override
+    public AdminInfoResponseDTO findUsersByRoleId(Long roleId) {
+        return userRepository.findUserByRoleId(roleId);
+    }
+
+    @Override
+    public void updateAdminInfo(AdminInfoRequestDTO adminInfoRequestDTO) {
+        User admin = userRepository.findById(adminInfoRequestDTO.getId()).orElseThrow(() -> new RuntimeException("Admin not found"));
+
+        if (checkUserCurrentPassword(admin, adminInfoRequestDTO.getCurrentPassword())) {
+            throw new RuntimeException("Current password is incorrect");
+        }
+        updateNewAdminInfo(adminInfoRequestDTO, admin);
+        userRepository.save(admin);
+    }
+
+    private void updateNewAdminInfo(AdminInfoRequestDTO adminInfoRequestDTO, User admin) {
+        admin.setName(adminInfoRequestDTO.getName());
+        admin.setEmail(adminInfoRequestDTO.getEmail());
+        if (adminInfoRequestDTO.getNewPassword() != null
+                &&
+                !adminInfoRequestDTO.getNewPassword().isEmpty()) {
+            admin.setPassword(passwordEncoder.encode(adminInfoRequestDTO.getNewPassword()));
+        }
+    }
+
+    private boolean checkUserCurrentPassword(User user, String currentPassword) {
+        return !passwordEncoder.matches(currentPassword, user.getPassword());
     }
 }
