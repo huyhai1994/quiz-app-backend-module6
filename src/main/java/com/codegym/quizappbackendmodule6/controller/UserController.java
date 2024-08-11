@@ -7,8 +7,8 @@ import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.service.Impl.EmailService;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,6 +54,20 @@ public class UserController {
             return ResponseEntity.ok(updateUser);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordDTO changePasswordDTO, Authentication authentication) {
+        try {
+            if (!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())) {
+                return ResponseEntity.badRequest().body("New passwords and confirm password do not match");
+            }
+
+            userService.changePassword(authentication.getName(), changePasswordDTO.getCurrentPassword(), changePasswordDTO.getNewPassword());
+            return ResponseEntity.ok("Password changed successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
