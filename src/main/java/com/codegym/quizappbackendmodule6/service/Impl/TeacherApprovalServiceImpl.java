@@ -13,7 +13,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeacherApprovalServiceImpl implements TeacherApprovalService {
     private final TeacherApprovalRepository teacherApprovalRepository;
-
     @Override
     public TeacherApproval save(TeacherApproval teacherApproval) {
         return teacherApprovalRepository.save(teacherApproval);
@@ -38,5 +37,10 @@ public class TeacherApprovalServiceImpl implements TeacherApprovalService {
     @Override
     public List<TeacherApprovalDTO> findAllApproval() {
         return teacherApprovalRepository.findAllApproval("APPROVED");
+    }
+
+    @Override
+    public List<TeacherApprovalDTO> findAllApprovalByNameAndEmail(String status, String userName, String userEmail) {
+        return teacherApprovalRepository.findAllApprovalByNameAndEmail(status, userName , userEmail);
     }
 }

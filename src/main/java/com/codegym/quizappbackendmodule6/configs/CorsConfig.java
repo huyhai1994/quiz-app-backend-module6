@@ -25,14 +25,4 @@ public class CorsConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
-
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowedOrigins("http://localhost:63342", "http://localhost:8080", "http://localhost:3000")
-////                .allowedOriginPatterns("http://localhost:**")
-////                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH")
-////                .allowedHeaders("*")
-////                .allowCredentials(true);
-//    }
 }

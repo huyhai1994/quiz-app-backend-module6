@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(Category category, Long id) {
+    public Category updateCategory(Category category ,Long id) {
         if (!categoryRepository.existsById(id)) {
             throw new RuntimeException("Category không tồn tại với ID: " + id);
         }

@@ -42,4 +42,15 @@ public class QuestionServiceImpl implements QuestionService {
     public Optional<Question> findById(Long questionId) {
         return questionRepository.findById(questionId);
     }
+
+    @Override
+    public List<QuestionDTO> findQuestionsByCategoryAndName(String searchTerm) {
+        return questionRepository.findQuestionsBySearchTerm(searchTerm);
+    }
+
+    @Override
+    public List<QuestionDTO> findAllTeacherQuestionDetails(Long userId) {
+        return questionRepository.findAllTeacherQuestionDetails(userId);
+    }
+
 }
