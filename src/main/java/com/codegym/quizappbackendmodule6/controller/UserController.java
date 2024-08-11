@@ -8,7 +8,10 @@ import com.codegym.quizappbackendmodule6.service.Impl.EmailService;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,14 +19,43 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/users")
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
     private final TeacherApprovalService teacherApprovalService;
     private final EmailService emailService;
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.getUserByEmail(email);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateUserProfile(@RequestBody User updatedUser) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User currentUser = userService.getUserByEmail(email);
+        if (currentUser != null) {
+            currentUser.setName(updatedUser.getName());
+            currentUser.setAvatar(updatedUser.getAvatar());
+
+            User updateUser = userService.updateUser(currentUser);
+            return ResponseEntity.ok(updateUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping("/get-all")
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {

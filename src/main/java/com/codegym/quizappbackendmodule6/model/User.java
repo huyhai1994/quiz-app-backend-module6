@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -23,6 +25,7 @@ public class User {
     private Long id;
 
     @NotEmpty(message = "Tên người dùng không được để trống")
+    @Column(nullable = false)
     private String name;
 
     @NotEmpty(message = "Email không được để trống")
@@ -58,9 +61,6 @@ public class User {
             studentRole.setName("ROLE_STUDENT");
             this.role = studentRole;
         }
-    }
-
-    public void setApprovalStatus(String approved) {
     }
 
     public void setRoleId(int roleId) {
