@@ -58,4 +58,17 @@ public class QuizController {
         quizService.deleteQuiz(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
+        Quiz quiz = quizService.findById(id)
+               .orElseThrow(() -> new RuntimeException("Quiz not found"));
+        return ResponseEntity.ok(quiz);
+    }
+
+    @GetMapping("/find-by-name/{name}")
+    public ResponseEntity<List<Quiz>> findQuizByName(@PathVariable String name) {
+        List<Quiz> quizList = quizService.findQuizByName(name);
+        return ResponseEntity.ok(quizList);
+    }
 }

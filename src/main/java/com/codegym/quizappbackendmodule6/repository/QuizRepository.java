@@ -23,6 +23,8 @@ public interface QuizRepository extends JpaRepository<Quiz,Long> {
             "WHERE q.created_by = :userId " +
             "ORDER BY q.time_create DESC",
             nativeQuery = true)
+
+
     List<QuizTeacherDTO> findTeacherQuizDetails(@Param("userId") Long userId);
 
 }
