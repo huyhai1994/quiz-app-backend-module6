@@ -8,8 +8,6 @@ import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

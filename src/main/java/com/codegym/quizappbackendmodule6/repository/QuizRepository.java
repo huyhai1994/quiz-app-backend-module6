@@ -23,8 +23,13 @@ public interface QuizRepository extends JpaRepository<Quiz,Long> {
             "WHERE q.created_by = :userId " +
             "ORDER BY q.time_create DESC",
             nativeQuery = true)
-
-
     List<QuizTeacherDTO> findTeacherQuizDetails(@Param("userId") Long userId);
 
+    @Query(value = "SELECT c.name AS Category_Name, q.title AS Quiz_Title, COUNT(r.id) AS Number_Of_Participants " +
+            "FROM categories c JOIN quizzes q ON c.id = q.category_id " +
+            "LEFT JOIN results r ON q.id = r.quiz_id " +
+            "GROUP BY c.name, q.title " +
+            "ORDER BY c.name, COUNT(r.id) DESC;",
+            nativeQuery = true)
+    List<QuizDTO> findQuizzesByCategory();
 }

@@ -68,4 +68,7 @@ public class User {
         role.setId((long) roleId);
         this.role = role;
     }
+
+    public void setApprovalStatus(String approved) {
+    }
 }
