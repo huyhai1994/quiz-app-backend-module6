@@ -27,9 +27,6 @@ public class Question {
     @NotEmpty(message = "Nội dung câu hỏi không được để trống")
     private String questionText;
 
-    @Column(name = "level")
-    @NotEmpty(message ="Cn do kho")
-    private String level;
 
     @ManyToOne
     @JoinColumn(name = "question_type_id")
