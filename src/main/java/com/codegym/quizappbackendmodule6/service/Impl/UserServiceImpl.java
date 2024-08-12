@@ -39,8 +39,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    public User updateUserProfile(String email, UserProfileUpdateDto profileUpdateDto) {
+        User currentUser = getUserByEmail(email);
+        if (currentUser != null) {
+            currentUser.setName(profileUpdateDto.getName());
+            currentUser.setAvatar(profileUpdateDto.getAvatar());
+            return userRepository.save(currentUser);
+        }
+        return null;
     }
 
     @Override
@@ -64,6 +70,11 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override

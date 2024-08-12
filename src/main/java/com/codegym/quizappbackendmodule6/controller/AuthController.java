@@ -36,4 +36,14 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Invalid email or password");
         }
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(@RequestHeader("Authorization") String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            authService.logout(token);
+            return ResponseEntity.ok("Logged out successfully");
+        }
+        return ResponseEntity.badRequest().body("Invalid token");
+    }
 }

@@ -7,4 +7,5 @@ import com.codegym.quizappbackendmodule6.model.dto.UserRegistrationDTO;
 public interface AuthService {
     User register(UserRegistrationDTO registrationDTO);
     String login(LoginRequest loginRequest);
+    void logout(String token);
 }

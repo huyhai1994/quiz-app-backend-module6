@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class JwtTokenProvider {
@@ -19,6 +21,8 @@ public class JwtTokenProvider {
 
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
+
+    private final Set<String> invalidatedTokens = ConcurrentHashMap.newKeySet();
 
     public String generateToken(Authentication authentication) {
         Date now = new Date();
@@ -42,6 +46,9 @@ public class JwtTokenProvider {
     }
 
     public boolean validateToken(String token) {
+        if (invalidatedTokens.contains(token)) {
+            return false;
+        }
         try {
             Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(token);
             return true;
@@ -57,5 +64,9 @@ public class JwtTokenProvider {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
         return false;
+    }
+
+    public void invalidateToken(String token) {
+        invalidatedTokens.add(token);
     }
 }

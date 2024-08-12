@@ -68,4 +68,11 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtTokenProvider.generateToken(authentication);
     }
+
+    @Override
+    public void logout(String token) {
+        jwtTokenProvider.invalidateToken(token);
+        SecurityContextHolder.clearContext();
+        logger.info("User logged out successfully");
+    }
 }
