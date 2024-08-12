@@ -42,7 +42,7 @@ public ResponseEntity<Category> createCategory(@Valid @RequestBody Category cate
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/ {id}")
     public ResponseEntity<?> updateCategory(@PathVariable Long id, @Valid @RequestBody Category category, BindingResult bindingResult) {
         System.out.println(id);
         if (bindingResult.hasErrors()) {
