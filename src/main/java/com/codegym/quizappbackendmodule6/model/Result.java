@@ -35,4 +35,7 @@ public class Result {
 
     @Column(name = "finish_time")
     private LocalDateTime finishTime;
+
+    @Column(name = "passing_score")
+    private int passingScore;
 }

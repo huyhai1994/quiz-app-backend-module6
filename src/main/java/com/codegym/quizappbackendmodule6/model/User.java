@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -67,5 +65,9 @@ public class User {
         Role role = new Role();
         role.setId((long) roleId);
         this.role = role;
+    }
+
+    public void setApprovalStatus(String approved) {
+    
     }
 }
