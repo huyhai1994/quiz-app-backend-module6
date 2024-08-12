@@ -10,4 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/question-type")
 @RequiredArgsConstructor
 public class QuestionTypeController {
+
 }
