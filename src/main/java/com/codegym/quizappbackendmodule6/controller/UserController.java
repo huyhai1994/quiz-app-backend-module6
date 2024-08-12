@@ -7,9 +7,13 @@ import com.codegym.quizappbackendmodule6.model.DTO.*;
 import com.codegym.quizappbackendmodule6.service.Impl.EmailService;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,10 +24,52 @@ import java.util.stream.Collectors;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
     private final TeacherApprovalService teacherApprovalService;
     private final EmailService emailService;
 
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.getUserByEmail(email);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateUserProfile(@RequestBody User updatedUser) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User currentUser = userService.getUserByEmail(email);
+        if (currentUser != null) {
+            currentUser.setName(updatedUser.getName());
+            currentUser.setAvatar(updatedUser.getAvatar());
+
+            User updateUser = userService.updateUser(currentUser);
+            return ResponseEntity.ok(updateUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordDTO changePasswordDTO, Authentication authentication) {
+        try {
+            if (!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())) {
+                return ResponseEntity.badRequest().body("New passwords and confirm password do not match");
+            }
+
+            userService.changePassword(authentication.getName(), changePasswordDTO.getCurrentPassword(), changePasswordDTO.getNewPassword());
+            return ResponseEntity.ok("Password changed successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     @GetMapping("/get-all")
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
@@ -39,7 +85,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
@@ -96,7 +142,29 @@ public class UserController {
         return ResponseEntity.ok(userSearchResponseDTOs);
     }
 
+    @GetMapping("/admin-info")
+    public ResponseEntity<AdminInfoResponseDTO> getAdminInfo() {
+        return ResponseEntity.ok(userService.findUsersByRoleId(1L));
+    }
 
+    @PutMapping("/update-admin-info")
+    public ResponseEntity<Void> updateAdminInfo(
+            @RequestParam Long id,
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String currentPassword,
+            @RequestParam(required = false) String newPassword,
+            @RequestParam(required = false) MultipartFile avatar) {
+
+        AdminInfoRequestDTO adminInfoRequestDTO = new AdminInfoRequestDTO();
+        adminInfoRequestDTO.setId(id);
+        adminInfoRequestDTO.setName(name);
+        adminInfoRequestDTO.setEmail(email);
+        adminInfoRequestDTO.setCurrentPassword(currentPassword);
+        adminInfoRequestDTO.setNewPassword(newPassword);
+        adminInfoRequestDTO.setAvatar(avatar);
+
+        userService.updateAdminInfo(adminInfoRequestDTO);
+        return ResponseEntity.ok().build();
+    }
 }
-
-

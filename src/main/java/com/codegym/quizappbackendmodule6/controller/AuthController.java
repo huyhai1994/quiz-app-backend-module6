@@ -1,23 +1,26 @@
 package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.User;
+import com.codegym.quizappbackendmodule6.model.DTO.UserRegistrationDTO;
 import com.codegym.quizappbackendmodule6.model.DTO.LoginRequest;
 import com.codegym.quizappbackendmodule6.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin("*")
 public class AuthController {
 
     @Autowired
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody @Valid UserRegistrationDTO registrationDTO) {
         try {
-            User registeredUser = authService.register(user);
+            User registeredUser = authService.register(registrationDTO);
             return ResponseEntity.ok("User registered successfully");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

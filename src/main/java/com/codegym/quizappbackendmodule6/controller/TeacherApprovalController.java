@@ -1,7 +1,7 @@
 package com.codegym.quizappbackendmodule6.controller;
 
-import com.codegym.quizappbackendmodule6.model.DTO.TeacherApprovalDTO;
 import com.codegym.quizappbackendmodule6.model.TeacherApproval;
+import com.codegym.quizappbackendmodule6.model.dto.TeacherApprovalDTO;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -10,6 +10,7 @@ public interface TeacherApprovalService {
 
     List<TeacherApproval> getAll();
 
+
     TeacherApproval findByUserId(Long id);
 
     List<TeacherApprovalDTO> findAllPending();

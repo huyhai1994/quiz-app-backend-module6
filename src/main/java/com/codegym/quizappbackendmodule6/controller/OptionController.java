@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class OptionController {
     private final OptionService optionService;
     @PostMapping("/create")
-    public ResponseEntity<Option> createOption(@RequestBody Option option, @RequestParam Long questionId){
-        Option createOption = optionService.saveOption(option,questionId);
+    public ResponseEntity<Option> createOption(@RequestBody Option option, @RequestParam Long questionId) {
+        Option createOption = optionService.saveOption(option, questionId);
         return ResponseEntity.ok(createOption);
     }
 }

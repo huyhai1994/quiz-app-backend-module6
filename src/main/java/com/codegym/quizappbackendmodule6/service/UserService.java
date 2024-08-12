@@ -1,16 +1,17 @@
 package com.codegym.quizappbackendmodule6.service;
 
 import com.codegym.quizappbackendmodule6.model.User;
-import com.codegym.quizappbackendmodule6.model.DTO.StudentResponseDTO;
-import com.codegym.quizappbackendmodule6.model.DTO.TeacherResponseDTO;
-import com.codegym.quizappbackendmodule6.model.DTO.UserSearchResponseDTO;
-import com.codegym.quizappbackendmodule6.model.DTO.UserWithApprovalsProjection;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
     List<User> findAllUsers();
+    User getUserById(Long id);
+    User getUserByEmail(String email);
+    User updateUser(User user);
+    void changePassword(String email, String currentPassword, String newPassword);
 
     List<UserWithApprovalsProjection> findUsersWithApprovals();
 
@@ -32,4 +33,9 @@ public interface UserService {
     void updateUserPassword(Long userId, String newPassword);
 
     List<UserSearchResponseDTO> findUsersByRolesAndNameOrEmail(Long roleId, String name, String email);
+
+    AdminInfoResponseDTO findUsersByRoleId(Long roleId);
+
+    void updateAdminInfo(AdminInfoRequestDTO adminInfoRequestDTO);
+
 }
