@@ -1,4 +1,4 @@
-package com.codegym.quizappbackendmodule6.model.DTO;
+package com.codegym.quizappbackendmodule6.model.dto;
 
 
 import lombok.Data;
