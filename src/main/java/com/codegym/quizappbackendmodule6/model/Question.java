@@ -22,7 +22,6 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "question_text")
     @NotEmpty(message = "Nội dung câu hỏi không được để trống")
     private String questionText;
@@ -55,4 +54,12 @@ public class Question {
             inverseJoinColumns = @JoinColumn(name = "quiz_id")
     )
     private Set<Quiz> quizzes;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "difficulty")
+    private Difficulty difficulty;
+
+    public enum Difficulty {
+        HARD, MEDIUM, EASY
+    }
 }

@@ -1,7 +1,7 @@
 package com.codegym.quizappbackendmodule6.controller;
 
-import com.codegym.quizappbackendmodule6.model.dto.QuestionDTO;
 import com.codegym.quizappbackendmodule6.model.Question;
+import com.codegym.quizappbackendmodule6.model.dto.QuestionDTO;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class QuestionController {
     private final QuestionService questionService;
-    @GetMapping
+
+    @GetMapping("/list")
     public ResponseEntity<List<QuestionDTO>> getAllQuestions() {
         List<QuestionDTO> answer = questionService.findAllQuestionDetails();
         return ResponseEntity.ok(answer);
