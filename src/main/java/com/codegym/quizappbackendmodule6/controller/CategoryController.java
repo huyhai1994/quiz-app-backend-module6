@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.Category;
+import com.codegym.quizappbackendmodule6.model.dto.AddCategoryIntoQuizDTO;
 import com.codegym.quizappbackendmodule6.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -57,5 +58,11 @@ public class CategoryController {
     public ResponseEntity<Optional<Category>> getCategoryById(@PathVariable Long id) {
         Optional<Category> category = categoryService.findById(id);
         return ResponseEntity.ok(category);
+    }
+
+    @GetMapping("/details/{userId}")
+    public ResponseEntity<List<AddCategoryIntoQuizDTO>> getCategoryDetailsByUserId(@PathVariable Long userId) {
+        List<AddCategoryIntoQuizDTO> categoryDetails = categoryService.findCategoryDetailsByUserId(userId);
+        return ResponseEntity.ok(categoryDetails);
     }
 }

@@ -34,29 +34,10 @@ public class QuizController {
         return ResponseEntity.ok(quizList);
     }
 
-    @PostMapping
-    public ResponseEntity<Quiz> createQuiz(@RequestParam Long userId, @RequestBody Quiz quiz) {
-        User user = userService.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        quiz.setCreatedBy(user);
-        Quiz quizNew = quizService.createQuiz(quiz);
-        return ResponseEntity.ok(quizNew);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateQuiz(@Valid @PathVariable Long id, @RequestBody Quiz quiz, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body("Bạn đã nhập sai trường");
-        }
-        Quiz updatedQuiz = quizService.updateQuiz(quiz, id);
-        return ResponseEntity.ok(updatedQuiz);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteQuiz(@PathVariable Long id) {
-        quizService.deleteQuiz(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/exam")
+    public ResponseEntity<List<QuizStudentDTO>> getAllQuizzes() {
+        List<QuizStudentDTO> quizzes = quizService.getAllQuizzes();
+        return ResponseEntity.ok(quizzes);
     }
 
     @GetMapping("/{id}")
