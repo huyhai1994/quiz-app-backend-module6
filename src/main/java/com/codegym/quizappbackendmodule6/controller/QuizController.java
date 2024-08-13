@@ -72,7 +72,7 @@ public class QuizController {
         return ResponseEntity.ok(quizList);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/{title}")
     public ResponseEntity<List<Quiz>> getQuizByName(@RequestParam String title) {
         return ResponseEntity.ok(quizService.findByTitle(title));
     }
