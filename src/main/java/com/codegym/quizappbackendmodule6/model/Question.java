@@ -58,6 +58,9 @@ public class Question {
     @Column(name = "difficulty")
     private Difficulty difficulty;
 
+    @OneToMany(mappedBy = "question")
+    private Set<Option> options;
+
     public enum Difficulty {
         HARD, MEDIUM, EASY
     }

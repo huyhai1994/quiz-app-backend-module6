@@ -1,5 +1,6 @@
 package com.codegym.quizappbackendmodule6.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -45,6 +46,7 @@ public class Quiz {
         this.timeCreate = LocalDateTime.now();
     }
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "quiz_questions",
