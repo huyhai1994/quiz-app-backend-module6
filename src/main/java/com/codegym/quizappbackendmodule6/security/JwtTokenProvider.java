@@ -1,11 +1,14 @@
 package com.codegym.quizappbackendmodule6.security;
 
 import com.codegym.quizappbackendmodule6.model.User;
+import com.codegym.quizappbackendmodule6.repository.UserRepository;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -23,17 +26,22 @@ public class JwtTokenProvider {
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
+    @Autowired
+    private UserRepository userRepository;
+
     private final Set<String> invalidatedTokens = ConcurrentHashMap.newKeySet();
 
     public String generateToken(Authentication authentication) {
-        User userPrincipal = (User) authentication.getPrincipal();
+//        User userPrincipal = (User) authentication.getPrincipal();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByEmail(userDetails.getUsername());
         Date now = new Date();
         Date expirationDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getEmail())
-                .claim("userId", userPrincipal.getId())
-                .claim("role", userPrincipal.getRole().getName())
+                .setSubject(user.getEmail())
+                .claim("userId", user.getId())
+                .claim("role", user.getRole().getName())
                 .setIssuedAt(now)
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS256, jwtSecretKey)

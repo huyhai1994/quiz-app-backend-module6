@@ -2,7 +2,8 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.LoginRequest;
-import com.codegym.quizappbackendmodule6.model.dto.UserRegistrationDTO;
+import com.codegym.quizappbackendmodule6.model.dto.LoginResponse;
+import com.codegym.quizappbackendmodule6.model.dto.UserRegistrationDto;
 import com.codegym.quizappbackendmodule6.repository.UserRepository;
 import com.codegym.quizappbackendmodule6.security.JwtTokenProvider;
 import com.codegym.quizappbackendmodule6.service.AuthService;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public User register(UserRegistrationDTO registrationDTO) {
+    public User register(UserRegistrationDto registrationDTO) {
         logger.info("Registering new user with email: {}", registrationDTO.getEmail());
         if (userRepository.getUserByEmail(registrationDTO.getEmail()).isPresent()) {
             throw new RuntimeException("User already exists");
@@ -60,13 +62,27 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-        );
+    public LoginResponse login(LoginRequest loginRequest) {
+        try {
+            logger.info("Attempting login for user: {}", loginRequest.getEmail());
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+            );
+            logger.info("Authentication successful for user: {}", loginRequest.getEmail());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtTokenProvider.generateToken(authentication);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtTokenProvider.generateToken(authentication);
+            User user = userRepository.findByEmail(loginRequest.getEmail());
+            if (user == null) {
+                throw new UsernameNotFoundException("User not found with email: " + loginRequest.getEmail());
+            }
+
+            logger.info("Login successful for user: {}", user.getEmail());
+            return new LoginResponse(jwt, user.getId(), user.getName(), user.getEmail(), user.getRole().getName());
+        } catch (Exception e) {
+            logger.error("Login failed for user: {}. Error: {}", loginRequest.getEmail(), e.getMessage());
+            throw e;
+        }
     }
 
     @Override
