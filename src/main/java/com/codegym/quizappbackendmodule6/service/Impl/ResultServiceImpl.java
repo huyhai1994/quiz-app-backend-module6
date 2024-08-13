@@ -43,60 +43,7 @@ public class ResultServiceImpl implements ResultService {
         return resultRepository.save(result);
     }
 
-    @Override
-    @Transactional
-    public Result endQuiz(Long resultId, List<UserAnswerDto> userAnswers) {
-        if (userAnswers == null || userAnswers.isEmpty()) {
-            throw new IllegalArgumentException("No user answers provided");
-        }
 
-        // Lưu các câu trả lời của người dùng vào cơ sở dữ liệu
-        List<UserAnswer> savedAnswers = new ArrayList<>();
-
-        for (UserAnswerDto answerDto : userAnswers) {
-            User user = userService.findById(answerDto.getUserId())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
-
-            Question question = questionService.findById(answerDto.getQuestionId())
-                    .orElseThrow(() -> new RuntimeException("Question not found"));
-
-            Option option = optionService.findById(answerDto.getOptionId())
-                    .orElseThrow(() -> new RuntimeException("Option not found"));
-
-            UserAnswer userAnswer = new UserAnswer();
-            userAnswer.setUser(user); // Gán người dùng đã trả lời
-            userAnswer.setQuestion(question); // Gán câu hỏi liên quan
-            userAnswer.setOption(option); // Gán tùy chọn đã chọn
-            userAnswer.setAnsweredAt(LocalDateTime.now()); // Gán thời gian trả lời
-
-            savedAnswers.add(userAnswer);
-        }
-
-        savedAnswers = userAnswerRepository.saveAll(savedAnswers);
-
-        // Tìm kết quả theo resultId
-        Result result = resultRepository.findById(resultId)
-                .orElseThrow(() -> new RuntimeException("Result not found"));
-
-        // Tính toán số câu trả lời đúng
-        int correctAnswers = 0;
-        int totalOptions = savedAnswers.size();
-
-        for (UserAnswer userAnswer : savedAnswers) {
-            Option selectedOption = userAnswer.getOption();
-            if (selectedOption != null && Boolean.TRUE.equals(selectedOption.getIsCorrect())) {
-                correctAnswers++;
-            }
-        }
-
-        // Tính điểm và cập nhật thời gian kết thúc
-        double score = ((double) correctAnswers / totalOptions) * 100;
-        result.setScore((long) score);
-        result.setFinishTime(LocalDateTime.now());
-
-        // Lưu kết quả vào cơ sở dữ liệu
-        return resultRepository.save(result);
-    }
 
 
 
