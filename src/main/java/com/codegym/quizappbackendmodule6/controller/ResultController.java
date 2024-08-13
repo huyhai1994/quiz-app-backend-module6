@@ -34,10 +34,7 @@ public class ResultController {
     }
 
     //  kết qua bài vừa thi
-    @GetMapping("/{resultId}")
-    public ResponseEntity<QuizResultDTO> getQuizResultsByUserId(@PathVariable Long resultId) {
-        return ResponseEntity.ok(resultService.getQuizResultById(resultId));
-    }
+
 
     // lịch sử thi
     @GetMapping("/history/{userId}")
