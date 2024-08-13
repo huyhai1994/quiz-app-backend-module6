@@ -73,8 +73,8 @@ public class QuizController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Quiz>> getQuizByName(@RequestParam String name) {
-        return ResponseEntity.ok(quizService.findByNameContaining(name));
+    public ResponseEntity<List<Quiz>> getQuizByName(@RequestParam String title) {
+        return ResponseEntity.ok(quizService.findByTitle(title));
     }
 
 }

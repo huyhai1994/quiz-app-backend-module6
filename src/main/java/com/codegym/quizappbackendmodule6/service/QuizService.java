@@ -21,5 +21,5 @@ public interface QuizService {
 
     List<QuizTeacherDTO> findTeacherQuizDetails(Long userId);
 
-    List<Quiz> findByNameContaining(String name);
+    List<Quiz> findByTitle(String title);
 }
