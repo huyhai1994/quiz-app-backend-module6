@@ -8,12 +8,4 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class QuestionResponse {
-    private Long id;
-    private String questionText;
-    private Set<OptionDTO> options;
-}
+
