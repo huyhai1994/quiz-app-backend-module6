@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordDTO changePasswordDTO, Authentication authentication) {
+    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordDto changePasswordDTO, Authentication authentication) {
         try {
             if (!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())) {
                 return ResponseEntity.badRequest().body("New passwords and confirm password do not match");

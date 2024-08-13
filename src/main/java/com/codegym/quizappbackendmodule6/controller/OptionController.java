@@ -1,10 +1,13 @@
 package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.Option;
+import com.codegym.quizappbackendmodule6.model.dto.OptionStudentDTO;
 import com.codegym.quizappbackendmodule6.service.OptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,5 +25,11 @@ public class OptionController {
                 .map(option -> optionService.saveOption(option, questionId))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(createdOptions);
+    }
+
+    @GetMapping("/question")
+    public ResponseEntity<List<OptionStudentDTO>> getOptionsByQuestionId(@RequestParam Long questionId) {
+        List<OptionStudentDTO> options = optionService.findOptionsByQuestionId(questionId);
+        return ResponseEntity.ok(options);
     }
 }

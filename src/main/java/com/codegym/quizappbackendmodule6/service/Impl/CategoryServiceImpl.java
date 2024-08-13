@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.Category;
+import com.codegym.quizappbackendmodule6.model.dto.AddCategoryIntoQuizDTO;
 import com.codegym.quizappbackendmodule6.repository.CategoryRepository;
 import com.codegym.quizappbackendmodule6.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -54,5 +55,10 @@ public class CategoryServiceImpl implements CategoryService {
         }
         category.setId(id);
         return categoryRepository.save(category);
+    }
+
+    @Override
+    public List<AddCategoryIntoQuizDTO> findCategoryDetailsByUserId(Long userId) {
+        return categoryRepository.findCategoryDetailsByUserId(userId);
     }
 }

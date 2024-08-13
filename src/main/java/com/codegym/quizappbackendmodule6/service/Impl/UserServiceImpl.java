@@ -56,6 +56,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void setNewPassword(String email, String newPassword) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    @Override
     public List<UserWithApprovalsProjection> findUsersWithApprovals() {
         return userRepository.getUsersWithApprovals();
     }

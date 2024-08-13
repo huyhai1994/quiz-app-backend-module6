@@ -1,7 +1,8 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.Category;
-import com.codegym.quizappbackendmodule6.model.dto.QuestionDTO;
+import com.codegym.quizappbackendmodule6.model.Option;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.QuestionType;
 import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
@@ -11,8 +12,7 @@ import com.codegym.quizappbackendmodule6.service.QuestionTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +51,39 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<QuestionDTO> findAllTeacherQuestionDetails(Long userId) {
         return questionRepository.findAllTeacherQuestionDetails(userId);
+    }
+
+    @Override
+    public List<AddQuestionIntoQuizDTO> addQuestionsByCategoryNameAndUserId(String categoryName, Long userId) {
+        return questionRepository.addQuestionsByCategoryNameAndUserId(categoryName,userId);
+    }
+
+    @Override
+    public List<QuestionStudentDTO> getQuestionDTOsByQuizId(Long quizId) {
+        return questionRepository.findQuestionDTOsByQuizId(quizId);
+    }
+
+    @Override
+    public List<QuestionResponse> findAllByQuizId(Long quizId) {
+        List<Question> questions = questionRepository.findAllByQuizId(quizId);
+        List<QuestionResponse> questionResponses = new ArrayList<>();
+        if (!questions.isEmpty()) {
+            for (Question question : questions) {
+                QuestionResponse questionResponse = new QuestionResponse();
+                questionResponse.setId(question.getId());
+                questionResponse.setQuestionText(question.getQuestionText());
+                Set<OptionDTO> optionDTOS = new HashSet<>();
+                for (Option option : question.getOptions()) {
+                    OptionDTO optionDTO = new OptionDTO();
+                    optionDTO.setId(option.getId());
+                    optionDTO.setOptionText(option.getOptionText());
+                    optionDTOS.add(optionDTO);
+                }
+                questionResponse.setOptions(optionDTOS);
+                questionResponses.add(questionResponse);
+            }
+        }
+        return questionResponses;
     }
 
 }
