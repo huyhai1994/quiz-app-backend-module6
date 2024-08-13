@@ -12,6 +12,7 @@ public interface UserService {
     User getUserByEmail(String email);
     User updateUser(User user);
     void changePassword(String email, String currentPassword, String newPassword);
+    void setNewPassword(String email, String newPassword);
 
     List<UserWithApprovalsProjection> findUsersWithApprovals();
 
