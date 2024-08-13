@@ -45,13 +45,5 @@ public class ResultController {
         return ResponseEntity.ok(resultService.getQuizHistoryByUserId(userId));
     }
 
-    @GetMapping("/quizzes/{id}")
-    public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
-        Optional<Quiz> quiz = resultService.getQuizById(id);
-        if (quiz.isPresent()) {
-            return ResponseEntity.ok(quiz.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+
 }
