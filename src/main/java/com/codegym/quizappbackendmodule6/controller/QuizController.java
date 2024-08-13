@@ -35,9 +35,5 @@ public class QuizController {
         return ResponseEntity.ok(quizList);
     }
 
-    @GetMapping("/exam")
-    public ResponseEntity<List<QuizStudentDTO>> getAllQuizzes() {
-        List<QuizStudentDTO> quizzes = quizService.getAllQuizzes();
-        return ResponseEntity.ok(quizzes);
-    }
+
 }
