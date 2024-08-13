@@ -11,5 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ResultService {
+    Result startQuiz(Long userId, Long quizId);
+    Result endQuiz(Long resultId, List<UserAnswerDto> userAnswers);
 
+    List<QuizHistoryDTO> getQuizHistoryByUserId(Long userId);
+    QuizResultDTO getQuizResultById(Long userId);
+
+    Optional<Quiz> getQuizById(Long id);
 }
