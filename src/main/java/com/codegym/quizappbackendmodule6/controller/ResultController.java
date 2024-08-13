@@ -40,7 +40,10 @@ public class ResultController {
     }
 
     // lịch sử thi
-
+    @GetMapping("/history/{userId}")
+    public ResponseEntity<List<QuizHistoryDTO>> getQuizHistoryByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(resultService.getQuizHistoryByUserId(userId));
+    }
 
     @GetMapping("/quizzes/{id}")
     public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
