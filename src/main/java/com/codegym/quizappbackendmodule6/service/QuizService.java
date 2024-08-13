@@ -14,7 +14,6 @@ import java.util.Set;
 
 public interface QuizService {
     List<QuizDTO> findQuizDetails();
-    List<Quiz> getQuizByCategory(String title);
     Optional<Quiz> getQuizById(Long id);
     Quiz createQuiz(Quiz quiz);
     void deleteQuiz(Long id);
@@ -27,6 +26,8 @@ public interface QuizService {
     Quiz addQuestionsToQuiz(Long quizId, List<Long> questionIds);
 
     List<QuizStudentDTO> getAllQuizzes();
+
+    Optional<Quiz> findByTitle(String title);
 
 
 

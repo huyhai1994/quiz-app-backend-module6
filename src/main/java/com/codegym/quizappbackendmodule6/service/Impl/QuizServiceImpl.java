@@ -30,10 +30,6 @@ public class QuizServiceImpl implements QuizService {
         return quizRepository.findQuizDetails();
     }
 
-    @Override
-    public List<Quiz> getQuizByCategory(String title) {
-        return quizRepository.findByTitle(title);
-    }
 
     @Override
     public Optional<Quiz> getQuizById(Long id) {
@@ -91,6 +87,11 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public List<QuizStudentDTO> getAllQuizzes() {
         return quizRepository.findAllQuizzesWithDTO();
+    }
+
+    @Override
+    public Optional<Quiz> findByTitle(String title) {
+        return quizRepository.findByTitle(title);
     }
 
 }
