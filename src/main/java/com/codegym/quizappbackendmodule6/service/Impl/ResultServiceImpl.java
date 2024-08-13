@@ -28,20 +28,7 @@ public class ResultServiceImpl implements ResultService {
     private final QuestionService questionService;
     private final OptionService optionService;
 
-    @Override
-    @Transactional
-    public Result startQuiz(Long userId, Long quizId) {
-        User user = userService.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        Quiz quiz = quizService.findById(quizId)
-                .orElseThrow(() -> new RuntimeException("Quiz not found"));
 
-        Result result = new Result();
-        result.setUser(user);
-        result.setQuiz(quiz);
-        result.setStartTime(LocalDateTime.now());
-        return resultRepository.save(result);
-    }
 
     @Override
     @Transactional
