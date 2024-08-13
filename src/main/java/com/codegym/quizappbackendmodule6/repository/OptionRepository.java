@@ -12,5 +12,7 @@ import java.util.List;
 public interface OptionRepository extends JpaRepository<Option,Long> {
     List<Option> findByQuestion(Question question);
 
-
+    @Query(value = "SELECT o.id AS id, o.option_text AS optionText " +
+            "FROM options o WHERE o.question_id = :questionId", nativeQuery = true)
+    List<OptionStudentDTO> findOptionsByQuestionId(@Param("questionId") Long questionId);
 }
