@@ -19,15 +19,6 @@ public interface QuizRepository extends JpaRepository<Quiz,Long> {
     List<QuizDTO> findQuizDetails();
     List<Quiz> findByTitle(String title);
 
-    @Query(value = "SELECT q.id AS quizzesId, q.title AS quizzesTitle, q.description AS quizzesDescription, u.name AS usersName, q.time_create AS quizzesTimeCreate " +
-            "FROM quizzes q JOIN users u ON q.created_by = u.id " +
-            "WHERE q.created_by = :userId " +
-            "ORDER BY q.time_create DESC",
-            nativeQuery = true)
-    List<QuizTeacherDTO> findTeacherQuizDetails(@Param("userId") Long userId);
 
-
-    @Query(value = "SELECT q.id AS id, q.title AS title, q.quantity AS quantity FROM quizzes q" , nativeQuery = true)
-    List<QuizStudentDTO> findAllQuizzesWithDTO();
 
 }
