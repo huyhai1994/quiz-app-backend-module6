@@ -45,6 +45,9 @@ public class Quiz {
         this.timeCreate = LocalDateTime.now();
     }
 
+    @Column(name = "passing_score")
+    private int passingScore;
+
     @ManyToMany
     @JoinTable(
             name = "quiz_questions",
