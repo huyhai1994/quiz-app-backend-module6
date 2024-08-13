@@ -9,16 +9,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/option")
 @RequiredArgsConstructor
 public class OptionController {
     private final OptionService optionService;
-    @PostMapping("/create")
-    public ResponseEntity<Option> createOption(@RequestBody Option option, @RequestParam Long questionId){
-        Option createOption = optionService.saveOption(option,questionId);
-        return ResponseEntity.ok(createOption);
+
+    @PostMapping("/create/{questionId}")
+    public ResponseEntity<List<Option>> createOptions(@RequestBody List<Option> options, @PathVariable Long questionId) {
+        List<Option> createdOptions = options.stream()
+                .map(option -> optionService.saveOption(option, questionId))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(createdOptions);
     }
 
     @GetMapping("/question")

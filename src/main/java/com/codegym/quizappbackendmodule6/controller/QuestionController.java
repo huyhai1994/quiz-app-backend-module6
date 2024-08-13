@@ -3,6 +3,7 @@ package com.codegym.quizappbackendmodule6.controller;
 import com.codegym.quizappbackendmodule6.model.dto.AddQuestionIntoQuizDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuestionDTO;
 import com.codegym.quizappbackendmodule6.model.Question;
+import com.codegym.quizappbackendmodule6.model.dto.QuestionDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuestionResponse;
 import com.codegym.quizappbackendmodule6.model.dto.QuestionStudentDTO;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionController {
     private final QuestionService questionService;
+
     @GetMapping("/list")
     public ResponseEntity<List<QuestionDTO>> getAllQuestions() {
         List<QuestionDTO> answer = questionService.findAllQuestionDetails();

@@ -24,12 +24,11 @@ public class OptionServiceImpl implements OptionService {
         Question question = questionService.findById(questionId)
                 .orElseThrow(() -> new RuntimeException("Question not found"));
 
+        option.setQuestion(question);
 
         QuestionType questionType = question.getQuestionType();
 
-
         if (questionType.getId() == 1) {
-
             List<Option> existingOptions = optionRepository.findByQuestion(question);
 
             long correctOptionsCount = existingOptions.stream()
@@ -40,8 +39,9 @@ public class OptionServiceImpl implements OptionService {
                 throw new RuntimeException("Chỉ có duy nhất 1 đáp án đúng trong câu này");
             }
         } else if (questionType.getId() == 2) {
-
+            // Additional logic for question type 2 if needed
         }
+
         return optionRepository.save(option);
     }
 
