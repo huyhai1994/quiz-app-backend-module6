@@ -36,5 +36,4 @@ public class Result {
     @Column(name = "finish_time")
     private LocalDateTime finishTime;
 
-
 }
