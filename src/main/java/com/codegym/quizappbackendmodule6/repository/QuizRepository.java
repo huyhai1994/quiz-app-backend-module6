@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.repository;
 
 import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,5 +25,9 @@ public interface QuizRepository extends JpaRepository<Quiz,Long> {
             "ORDER BY q.time_create DESC",
             nativeQuery = true)
     List<QuizTeacherDTO> findTeacherQuizDetails(@Param("userId") Long userId);
+
+
+    @Query(value = "SELECT q.id AS id, q.title AS title, q.quantity AS quantity FROM quizzes q" , nativeQuery = true)
+    List<QuizStudentDTO> findAllQuizzesWithDTO();
 
 }

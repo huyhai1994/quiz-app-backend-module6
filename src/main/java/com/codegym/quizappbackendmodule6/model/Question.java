@@ -54,4 +54,7 @@ public class Question {
             inverseJoinColumns = @JoinColumn(name = "quiz_id")
     )
     private Set<Quiz> quizzes;
+
+    @OneToMany(mappedBy = "question")
+    private Set<Option> options;
 }

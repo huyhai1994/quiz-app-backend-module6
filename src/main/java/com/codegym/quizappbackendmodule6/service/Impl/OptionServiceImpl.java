@@ -3,6 +3,7 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 import com.codegym.quizappbackendmodule6.model.Option;
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.QuestionType;
+import com.codegym.quizappbackendmodule6.model.dto.OptionStudentDTO;
 import com.codegym.quizappbackendmodule6.repository.OptionRepository;
 import com.codegym.quizappbackendmodule6.service.OptionService;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +43,15 @@ public class OptionServiceImpl implements OptionService {
 
         }
         return optionRepository.save(option);
+    }
+
+    @Override
+    public List<OptionStudentDTO> findOptionsByQuestionId(Long questionId) {
+        return optionRepository.findOptionsByQuestionId(questionId);
+    }
+
+    @Override
+    public Optional<Option> findById(Long optionId) {
+        return optionRepository.findById(optionId);
     }
 }

@@ -1,22 +1,29 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
+import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
+import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
 import com.codegym.quizappbackendmodule6.repository.QuizRepository;
+import com.codegym.quizappbackendmodule6.service.QuestionService;
 import com.codegym.quizappbackendmodule6.service.QuizService;
 import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
     private final UserService userService;
+    private final QuestionRepository questionRepository;
 
     @Override
     public List<QuizDTO> findQuizDetails() {
@@ -66,5 +73,24 @@ public class QuizServiceImpl implements QuizService {
         return quizRepository.findTeacherQuizDetails(userId);
     }
 
+    public Quiz addQuestionsToQuiz(Long quizId, List<Long> questionIds) {
+        Quiz quiz = quizRepository.findById(quizId).orElse(null);
+        if (quiz != null) {
+            // Tìm các câu hỏi từ danh sách ID
+            List<Question> questionList = questionRepository.findAllById(questionIds);
+            // Chuyển đổi danh sách câu hỏi thành Set để đảm bảo tính duy nhất
+            Set<Question> questions = new HashSet<>(questionList);
+            // Thêm các câu hỏi vào quiz
+            quiz.getQuestions().addAll(questions);
+            // Lưu quiz đã cập nhật
+            return quizRepository.save(quiz);
+        }
+        return null;
+    }
+
+    @Override
+    public List<QuizStudentDTO> getAllQuizzes() {
+        return quizRepository.findAllQuizzesWithDTO();
+    }
 
 }

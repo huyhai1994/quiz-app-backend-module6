@@ -24,7 +24,7 @@ public interface TeacherApprovalRepository extends JpaRepository<TeacherApproval
             "ORDER BY ta.approved_at DESC",
             nativeQuery = true)
     List<TeacherApprovalDTO> findAllApproval(String status);
-    @Query(value = "SELECT * FROM TeacherApproval t WHERE t.user_id = :userId" , nativeQuery = true)
+    @Query(value = "SELECT * FROM teacher_approvals t WHERE t.user_id = :userId" , nativeQuery = true)
     TeacherApproval findByUserId(Long userId);
 
     @Query(value = "SELECT ta.id AS idTeacherApprovals, u.name AS userName, u.email AS userEmail, ta.status AS teacherApprovalsStatus, ta.approved_at AS approvedAt " +
