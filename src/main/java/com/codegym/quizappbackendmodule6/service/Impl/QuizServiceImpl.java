@@ -25,8 +25,8 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<Quiz> getQuizByCategory(String title) {
-        return quizRepository.findByTitle(title);
+    public List<QuizDTO> getQuizByCategory(String title) {
+        return quizRepository.getQuizzesByCategory();
     }
 
     @Override

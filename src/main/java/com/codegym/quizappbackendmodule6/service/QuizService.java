@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface QuizService {
     List<QuizDTO> findQuizDetails();
-    List<Quiz> getQuizByCategory(String title);
+    List<QuizDTO> getQuizByCategory(String title);
     Optional<Quiz> getQuizById(Long id);
     Quiz createQuiz(Quiz quiz);
     void deleteQuiz(Long id);

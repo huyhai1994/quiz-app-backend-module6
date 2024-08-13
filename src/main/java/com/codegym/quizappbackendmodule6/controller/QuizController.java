@@ -67,8 +67,8 @@ public class QuizController {
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<List<Quiz>> getQuizByCategoryId(@PathVariable Long categoryId) {
-        List<Quiz> quizList = quizService.getQuizByCategory(String.valueOf(categoryId));
+    public ResponseEntity<List<QuizDTO>> getQuizByCategoryId(@PathVariable String title) {
+        List<QuizDTO> quizList = quizService.getQuizByCategory(title);
         return ResponseEntity.ok(quizList);
     }
 
