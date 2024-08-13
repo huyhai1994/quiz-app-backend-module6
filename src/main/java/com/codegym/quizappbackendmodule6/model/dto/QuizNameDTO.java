@@ -1,18 +1,16 @@
 package com.codegym.quizappbackendmodule6.model.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class QuizNameDTO {
-    private String name;
-
-    public QuizNameDTO(String name) {
-        this.name = name;
-    }
-
     // Getter and Setter
-    public String getName() {
-        return name;
+    private String title;
+
+    public QuizNameDTO(String title) {
+        this.title = title;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }
