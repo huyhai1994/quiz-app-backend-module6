@@ -1,5 +1,6 @@
 package com.codegym.quizappbackendmodule6.security;
 
+import com.codegym.quizappbackendmodule6.model.User;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,24 +26,45 @@ public class JwtTokenProvider {
     private final Set<String> invalidatedTokens = ConcurrentHashMap.newKeySet();
 
     public String generateToken(Authentication authentication) {
+        User userPrincipal = (User) authentication.getPrincipal();
         Date now = new Date();
         Date expirationDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(authentication.getName())
+                .setSubject(userPrincipal.getEmail())
+                .claim("userId", userPrincipal.getId())
+                .claim("role", userPrincipal.getRole().getName())
                 .setIssuedAt(now)
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS256, jwtSecretKey)
                 .compact();
     }
 
-    public String getClaimsFromJwt(String token) {
+    public String getEmailFromJwt(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecretKey)
                 .parseClaimsJws(token)
                 .getBody();
 
         return claims.getSubject();
+    }
+
+    public Long getUserIdFromJwt(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(jwtSecretKey)
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("userId", Long.class);
+    }
+
+    public String getRoleFromJwt(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(jwtSecretKey)
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("role", String.class);
     }
 
     public boolean validateToken(String token) {
