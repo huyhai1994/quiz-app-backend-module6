@@ -100,22 +100,7 @@ public class ResultServiceImpl implements ResultService {
 
 
 
-    @Override
-    public QuizResultDTO getQuizResultById(Long resultId) {
-        Result result = resultRepository.findById(resultId)
-                .orElseThrow(() -> new RuntimeException("Result not found"));
 
-        int correctAnswers = (int) userAnswerRepository.countByUserAndQuestion_QuizzesAndOption_IsCorrect(result.getUser(), result.getQuiz(), true);
-        int incorrectAnswers = (int) userAnswerRepository.countByUserAndQuestion_QuizzesAndOption_IsCorrect(result.getUser(), result.getQuiz(), false);
-
-        return new QuizResultDTO(
-                result.getUser().getName(),
-                result.getFinishTime(),
-                result.getScore(),
-                correctAnswers,
-                incorrectAnswers
-        );
-    }
 
     @Override
     public List<QuizHistoryDTO> getQuizHistoryByUserId(Long userId) {
