@@ -48,4 +48,12 @@ public interface QuestionRepository extends JpaRepository<Question,Long> {
 
     List<Question> findAllById(Iterable<Long> ids);
 
+    @Query(value = "SELECT q.id AS id, q.question_text AS questionText " +
+            "FROM questions q " +
+            "JOIN quiz_questions qq ON q.id = qq.question_id " +
+            "WHERE qq.quiz_id = :quizId", nativeQuery = true)
+    List<QuestionStudentDTO> findQuestionDTOsByQuizId(@Param("quizId") Long quizId);
 
+    @Query("SELECT q FROM Question q JOIN q.quizzes quiz WHERE quiz.id = :quizId")
+    List<Question> findAllByQuizId(@Param("quizId") Long quizId);
+}
