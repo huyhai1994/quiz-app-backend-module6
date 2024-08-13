@@ -6,7 +6,7 @@ import com.codegym.quizappbackendmodule6.model.dto.UserRegistrationDTO;
 import com.codegym.quizappbackendmodule6.repository.UserRepository;
 import com.codegym.quizappbackendmodule6.security.JwtTokenProvider;
 import com.codegym.quizappbackendmodule6.service.AuthService;
-import com.codegym.quizappbackendmodule6.service.EmailServiceRegister;
+import com.codegym.quizappbackendmodule6.service.UsersEmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
     private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    private EmailServiceRegister emailServiceRegister;
+    private UsersEmailService usersEmailService;
 
     @Override
     @Transactional
@@ -54,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
 
 //        return userRepository.save(user);
         User registeredUser = userRepository.save(user);
-        emailServiceRegister.sendRegistrationConfirmationEmail(registeredUser);
+        usersEmailService.sendRegistrationConfirmationEmail(registeredUser);
         logger.info("User registered successfully: {}", registeredUser.getId());
         return registeredUser;
     }
