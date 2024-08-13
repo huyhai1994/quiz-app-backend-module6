@@ -28,10 +28,7 @@ public class ResultController {
         return ResponseEntity.ok(resultService.startQuiz(userId,quizId));
     }
 
-    @PostMapping("/end/{resultId}")
-    public ResponseEntity<Result> start(@PathVariable Long resultId, @RequestBody List<UserAnswerDto> userAnswers){
-        return ResponseEntity.ok(resultService.endQuiz(resultId, userAnswers));
-    }
+
 
     //  kết qua bài vừa thi
     @GetMapping("/{resultId}")
