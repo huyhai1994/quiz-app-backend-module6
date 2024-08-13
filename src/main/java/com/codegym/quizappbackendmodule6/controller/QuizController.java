@@ -1,13 +1,11 @@
 package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.Question;
-import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizRequestDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
 import com.codegym.quizappbackendmodule6.service.QuizService;
@@ -88,6 +86,8 @@ public class QuizController {
     public ResponseEntity<Void> deleteQuiz(@PathVariable Long id) {
         quizService.deleteQuiz(id);
         return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/exam")
     public ResponseEntity<List<QuizStudentDTO>> getAllQuizzes() {
         List<QuizStudentDTO> quizzes = quizService.getAllQuizzes();
