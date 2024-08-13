@@ -48,19 +48,13 @@ public class QuizController {
         return ResponseEntity.ok(quiz);
     }
 
-    @GetMapping("/{categoryId}")
-    public ResponseEntity<List<QuizDTO>> getQuizByCategoryId(@PathVariable String title) {
-        List<QuizDTO> quizList = quizService.getQuizByCategory(title);
-        return ResponseEntity.ok(quizList);
-    }
-
-    @GetMapping
-    public ResponseEntity<String> searchQuizzes(@RequestParam(required = false) String title,
-                                                @RequestParam(required = false) String category) {
+    @GetMapping("/search")
+    public ResponseEntity<String> searchQuizByNameOrCategory(@RequestParam(required = false) String title,
+                                                @RequestParam(required = false) String category_title) {
         if (title != null) {
             return ResponseEntity.ok(String.valueOf(quizService.findByTitle(title)));
-        } else if (category != null) {
-            return ResponseEntity.ok(quizService.getQuizByCategory(category).toString());
+        } else if (category_title != null) {
+            return ResponseEntity.ok(quizService.getQuizByCategory(category_title).toString());
         } else {
             return ResponseEntity.badRequest().body("Please provide either 'title' or 'category' parameter.");
         }

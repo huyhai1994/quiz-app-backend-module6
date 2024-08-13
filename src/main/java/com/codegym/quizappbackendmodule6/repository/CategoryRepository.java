@@ -11,5 +11,11 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category,Long> {
     List<Category> findByName(String name);
 
-    List<AddCategoryIntoQuizDTO> findCategoryDetailsByUserId(Long userId);
+    @Query(value = "SELECT c.id AS categoryId, c.name AS categoryName, c.description AS categoryDescription " +
+            "FROM categories c " +
+            "JOIN users u ON c.created_by = u.id " +
+            "WHERE u.id = :userId", nativeQuery = true)
+    List<AddCategoryIntoQuizDTO> findCategoryDetailsByUserId(@Param("userId") Long userId);
+
+
 }
