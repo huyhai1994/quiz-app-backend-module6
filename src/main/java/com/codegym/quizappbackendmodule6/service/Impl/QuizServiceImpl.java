@@ -7,7 +7,6 @@ import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
 import com.codegym.quizappbackendmodule6.repository.QuizRepository;
-import com.codegym.quizappbackendmodule6.service.QuestionService;
 import com.codegym.quizappbackendmodule6.service.QuizService;
 import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -93,4 +92,12 @@ public class QuizServiceImpl implements QuizService {
         return quizRepository.findAllQuizzesWithDTO();
     }
 
+    @Override
+    public List<Quiz> findByTitle(String title) {
+        return quizRepository.findByTitle(title);
+
+    }
+
+
 }
+

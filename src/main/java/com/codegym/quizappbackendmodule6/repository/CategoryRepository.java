@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category,Long> {
     List<Category> findByName(String name);
+
+    List<AddCategoryIntoQuizDTO> findCategoryDetailsByUserId(Long userId);
 }

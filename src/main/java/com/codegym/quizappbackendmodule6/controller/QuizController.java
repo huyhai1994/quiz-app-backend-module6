@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.model.User;
