@@ -66,5 +66,15 @@ public class QuizController {
         return ResponseEntity.ok(quiz);
     }
 
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<List<Quiz>> getQuizByCategoryId(@PathVariable Long categoryId) {
+        List<Quiz> quizList = quizService.getQuizByCategory(String.valueOf(categoryId));
+        return ResponseEntity.ok(quizList);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Quiz>> getQuizByName(@RequestParam String name) {
+        return ResponseEntity.ok(quizService.findByNameContaining(name));
+    }
 
 }

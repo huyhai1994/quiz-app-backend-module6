@@ -67,5 +67,10 @@ public class QuizServiceImpl implements QuizService {
         return quizRepository.findTeacherQuizDetails(userId);
     }
 
+    @Override
+    public List<Quiz> findByNameContaining(String name) {
+        return quizRepository.findByNameContaining(name);
+    }
+
 
 }

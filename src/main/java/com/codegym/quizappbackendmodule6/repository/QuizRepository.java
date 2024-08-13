@@ -31,5 +31,7 @@ public interface QuizRepository extends JpaRepository<Quiz,Long> {
             "GROUP BY c.name, q.title " +
             "ORDER BY c.name, COUNT(r.id) DESC;",
             nativeQuery = true)
-    List<QuizDTO> findQuizzesByCategory();
+    List<QuizDTO> getQuizzesByCategory();
+
+    List<Quiz> findByNameContaining(String name);
 }
