@@ -17,7 +17,7 @@ import java.util.List;
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
     @Query(value = "SELECT q.id AS quizzesid, q.title AS quizzestitle, q.description AS quizzesdescription, u.name AS usersname, u.email AS useremail, q.time_create AS quizzestimecreate " +
-            "FROM quizzes q JOIN users u ON q.created_by = u.id" + "order BY q.time_create DESC", nativeQuery = true)
+            "FROM quizzes q JOIN users u ON q.created_by = u.id" + " order BY q.time_create DESC", nativeQuery = true)
     List<QuizDTO> findQuizDetails();
 
     List<Quiz> findByTitle(String title);
