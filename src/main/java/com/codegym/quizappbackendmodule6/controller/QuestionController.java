@@ -8,10 +8,12 @@ import com.codegym.quizappbackendmodule6.model.dto.QuestionResponse;
 import com.codegym.quizappbackendmodule6.model.dto.QuestionStudentDTO;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -26,12 +28,30 @@ public class QuestionController {
         return ResponseEntity.ok(answer);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<Question> createQuestion(@RequestBody Question question) {
         Question createdQuestion = questionService.save(question);
-        return ResponseEntity.ok(createdQuestion);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdQuestion);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Question> updateQuestion(@PathVariable Long id, @RequestBody Question question) {
+        question.setId(id);
+
+        Question updatedQuestion = questionService.save(question);
+        return ResponseEntity.ok(updatedQuestion);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
+        questionService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Question>> getQuestionById(@PathVariable Long id) {
+        Optional<Question> question = questionService.findById(id);
+        return ResponseEntity.ok(question);
+    }
     @GetMapping("/search/questions")
     public ResponseEntity<List<QuestionDTO>> findQuestionsBySearchTerm(
             @RequestParam(required = false) String searchTerm) {

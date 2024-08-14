@@ -31,8 +31,8 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<Quiz> getQuizByCategory(String title) {
-        return quizRepository.findByTitle(title);
+    public List<QuizDTO> getQuizByCategory(String title) {
+        return quizRepository.getQuizzesByCategory();
     }
 
     @Override
@@ -98,4 +98,11 @@ public class QuizServiceImpl implements QuizService {
     public List<QuizNameDTO> getAllQuizNames() {
         return quizRepository.findAllQuizNames();
     }
+
+    @Override
+    public List<Quiz> findByTitle(String title) {
+        return quizRepository.findByTitle(title);
+
+    }
+
 }
