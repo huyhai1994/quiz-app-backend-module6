@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizResultDTO {
+    private Long id;
     private String userName;
     private LocalDateTime finishTime;
     private Long score;

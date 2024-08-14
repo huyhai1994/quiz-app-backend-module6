@@ -17,7 +17,7 @@ public interface ResultService {
     Result endQuiz(Long resultId, List<UserAnswerDto> userAnswers);
 
     List<QuizHistoryDTO> getQuizHistoryByUserId(Long userId);
-    QuizResultDTO getQuizResultById(Long userId);
+    QuizResultDTO getQuizResultById(Long resultId);
 
     Optional<Quiz> getQuizById(Long id);
 
