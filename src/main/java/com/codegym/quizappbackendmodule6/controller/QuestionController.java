@@ -41,11 +41,6 @@ public class QuestionController {
         return ResponseEntity.ok(updatedQuestion);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
-        questionService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Question>> getQuestionById(@PathVariable Long id) {
