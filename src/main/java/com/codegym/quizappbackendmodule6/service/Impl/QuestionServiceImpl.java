@@ -86,4 +86,9 @@ public class QuestionServiceImpl implements QuestionService {
         return questionResponses;
     }
 
+    @Override
+    public void deleteQuestionById(Long questionId) {
+        questionRepository.deleteById(questionId);
+    }
+
 }

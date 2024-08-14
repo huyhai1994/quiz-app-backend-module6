@@ -7,7 +7,6 @@ import com.codegym.quizappbackendmodule6.repository.UserRepository;
 import com.codegym.quizappbackendmodule6.service.TeacherApprovalService;
 import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +37,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    public User updateUserProfile(String email, UserProfileUpdateDto profileUpdateDto) {
+        User currentUser = getUserByEmail(email);
+        if (currentUser != null) {
+            currentUser.setName(profileUpdateDto.getName());
+            currentUser.setAvatar(profileUpdateDto.getAvatar());
+            return userRepository.save(currentUser);
+        }
+        return null;
     }
 
     @Override
@@ -63,6 +68,11 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override

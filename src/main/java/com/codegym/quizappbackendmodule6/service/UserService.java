@@ -8,11 +8,13 @@ import java.util.Optional;
 
 public interface UserService {
     List<User> findAllUsers();
-    User getUserById(Long id);
     User getUserByEmail(String email);
-    User updateUser(User user);
     void changePassword(String email, String currentPassword, String newPassword);
     void setNewPassword(String email, String newPassword);
+    User updateUserProfile(String email, UserProfileUpdateDto profileUpdateDto);
+
+    User updateUser(User user);
+    User getUserById(Long id);
 
     List<UserWithApprovalsProjection> findUsersWithApprovals();
 
@@ -21,7 +23,6 @@ public interface UserService {
     List<StudentResponseDTO> findStudents();
 
     User approveUser(Long id);
-
 
     void save(User user);
 
