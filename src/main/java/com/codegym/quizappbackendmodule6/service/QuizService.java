@@ -2,11 +2,7 @@ package com.codegym.quizappbackendmodule6.service;
 
 
 import com.codegym.quizappbackendmodule6.model.Quiz;
-import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +31,8 @@ public interface QuizService {
     List<QuizNameDTO> getAllQuizNames();
 
     List<Quiz> findByTitle(String title);
+
+    List<QuizHotDTO> findTopQuizzesByResultCount();
 
     public QuizTimeDTO getQuizTimeById(Long quizId);
 

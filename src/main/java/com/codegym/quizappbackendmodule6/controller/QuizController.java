@@ -130,4 +130,9 @@ public class QuizController {
         QuizTimeDTO quizTimeDTO = quizService.getQuizTimeById(quizId);
         return ResponseEntity.ok(quizTimeDTO);
     }
+
+    @GetMapping("/quizzes/top")
+    public List<QuizHotDTO> getTopQuizzes() {
+        return quizService.findTopQuizzesByResultCount();
+    }
 }
