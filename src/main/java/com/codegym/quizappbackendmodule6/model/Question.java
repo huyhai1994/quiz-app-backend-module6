@@ -22,10 +22,10 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "question_text")
     @NotEmpty(message = "Nội dung câu hỏi không được để trống")
     private String questionText;
+
 
     @ManyToOne
     @JoinColumn(name = "question_type_id")

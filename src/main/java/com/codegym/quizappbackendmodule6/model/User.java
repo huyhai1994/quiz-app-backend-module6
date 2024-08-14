@@ -85,6 +85,10 @@ public class User {
         this.resetCodeExpiry = null;
     }
 
+    public String getRoleName() {
+        return this.role != null ? this.role.getName() : null;
+    }
+
     public void setApprovalStatus(String approved) {
     }
 }

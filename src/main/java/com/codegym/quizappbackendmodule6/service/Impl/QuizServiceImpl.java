@@ -1,13 +1,13 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.Question;
+import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
-import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
 import com.codegym.quizappbackendmodule6.repository.QuizRepository;
-import com.codegym.quizappbackendmodule6.service.QuestionService;
 import com.codegym.quizappbackendmodule6.service.QuizService;
 import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +31,8 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<Quiz> getQuizByCategory(String title) {
-        return quizRepository.findByTitle(title);
+    public List<QuizDTO> getQuizByCategory(String title) {
+        return quizRepository.getQuizzesByCategory();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Quiz updateQuiz( Quiz quiz, Long id) {
+    public Quiz updateQuiz(Quiz quiz, Long id) {
         if (!quizRepository.existsById(id)) {
             throw new RuntimeException("Quiz không tồn tại với ID: " + id);
         }
@@ -73,6 +73,7 @@ public class QuizServiceImpl implements QuizService {
         return quizRepository.findTeacherQuizDetails(userId);
     }
 
+    @Override
     public Quiz addQuestionsToQuiz(Long quizId, List<Long> questionIds) {
         Quiz quiz = quizRepository.findById(quizId).orElse(null);
         if (quiz != null) {
@@ -91,6 +92,17 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public List<QuizStudentDTO> getAllQuizzes() {
         return quizRepository.findAllQuizzesWithDTO();
+    }
+
+    @Override
+    public List<QuizNameDTO> getAllQuizNames() {
+        return quizRepository.findAllQuizNames();
+    }
+
+    @Override
+    public List<Quiz> findByTitle(String title) {
+        return quizRepository.findByTitle(title);
+
     }
 
 }

@@ -42,15 +42,11 @@ public class UserController {
     }
 
     @PutMapping("/profile")
-    public ResponseEntity<?> updateUserProfile(@RequestBody User updatedUser) {
+    public ResponseEntity<?> updateUserProfile(@RequestBody UserProfileUpdateDto profileUpdateDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        User currentUser = userService.getUserByEmail(email);
-        if (currentUser != null) {
-            currentUser.setName(updatedUser.getName());
-            currentUser.setAvatar(updatedUser.getAvatar());
-
-            User updateUser = userService.updateUser(currentUser);
+        User updateUser = userService.updateUserProfile(email, profileUpdateDto);
+        if (updateUser != null) {
             return ResponseEntity.ok(updateUser);
         } else {
             return ResponseEntity.notFound().build();

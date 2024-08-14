@@ -16,7 +16,6 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -68,7 +67,8 @@ public class ResultServiceImpl implements ResultService {
             UserAnswer userAnswer = new UserAnswer();
             userAnswer.setUser(user); // Gán người dùng đã trả lời
             userAnswer.setQuestion(question); // Gán câu hỏi liên quan
-            userAnswer.setOption(option); // Gán tùy chọn đã chọn
+            userAnswer.setOption(option);
+            // Gán tùy chọn đã chọn
             userAnswer.setAnsweredAt(LocalDateTime.now()); // Gán thời gian trả lời
 
             savedAnswers.add(userAnswer);
