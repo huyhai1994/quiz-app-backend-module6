@@ -77,4 +77,10 @@ public class QuestionController {
         List<QuestionResponse> questions = questionService.findAllByQuizId(quizId);
         return ResponseEntity.ok(questions);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
+        questionService.deleteQuestionById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

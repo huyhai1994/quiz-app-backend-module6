@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class UserRegistrationDTO {
+public class UserRegistrationDto {
     @NotEmpty(message = "Tên người dùng không được để trống")
     private String name;
 

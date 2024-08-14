@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface QuestionRepository extends JpaRepository<Question,Long> {
+
     @Query(value = "SELECT q.id AS questionId, q.question_text AS questionText, c.name AS categoryName, qt.type_name AS typeName, q.time_create AS timeCreate " +
             "FROM questions q " +
             "JOIN categories c ON q.category_id = c.id " +

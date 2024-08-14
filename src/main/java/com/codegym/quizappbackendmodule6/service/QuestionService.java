@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public interface QuestionService {
     List<QuestionDTO> findAllQuestionDetails();
+
     Question save(Question question);
 
     Optional<Question> findById(Long questionId);
@@ -25,5 +26,8 @@ public interface QuestionService {
     List<AddQuestionIntoQuizDTO> addQuestionsByCategoryNameAndUserId(String categoryName , Long userId);
 
     List<QuestionStudentDTO> getQuestionDTOsByQuizId(Long quizId);
+
     List<QuestionResponse> findAllByQuizId(Long quizId);
+
+    void deleteQuestionById(Long questionId);
 }
