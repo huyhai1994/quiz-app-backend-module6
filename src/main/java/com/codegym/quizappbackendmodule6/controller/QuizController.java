@@ -106,7 +106,7 @@ public class QuizController {
     }
 
 
-    @GetMapping("/titles")
+    @GetMapping("/title")
     public ResponseEntity<List<QuizNameDTO>> getAllQuizNames() {
         List<QuizNameDTO> quizNames = quizService.getAllQuizNames();
         return ResponseEntity.ok(quizNames);
