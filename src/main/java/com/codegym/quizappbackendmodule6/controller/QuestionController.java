@@ -1,11 +1,9 @@
 package com.codegym.quizappbackendmodule6.controller;
 
+import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.dto.AddQuestionIntoQuizDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuestionDTO;
-import com.codegym.quizappbackendmodule6.model.Question;
-import com.codegym.quizappbackendmodule6.model.dto.QuestionDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuestionResponse;
-import com.codegym.quizappbackendmodule6.model.dto.QuestionStudentDTO;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,6 +31,7 @@ public class QuestionController {
         Question createdQuestion = questionService.save(question);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdQuestion);
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Question> updateQuestion(@PathVariable Long id, @RequestBody Question question) {
         question.setId(id);
@@ -41,17 +40,12 @@ public class QuestionController {
         return ResponseEntity.ok(updatedQuestion);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
-        questionService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Question>> getQuestionById(@PathVariable Long id) {
         Optional<Question> question = questionService.findById(id);
         return ResponseEntity.ok(question);
     }
+
     @GetMapping("/search/questions")
     public ResponseEntity<List<QuestionDTO>> findQuestionsBySearchTerm(
             @RequestParam(required = false) String searchTerm) {
@@ -67,8 +61,8 @@ public class QuestionController {
     }
 
     @GetMapping("/category/{categoryName}")
-    public ResponseEntity<List<AddQuestionIntoQuizDTO>> getQuestionsByCategoryName(@PathVariable String categoryName , @PathVariable Long userId) {
-        List<AddQuestionIntoQuizDTO> questions = questionService.addQuestionsByCategoryNameAndUserId(categoryName , userId);
+    public ResponseEntity<List<AddQuestionIntoQuizDTO>> getQuestionsByCategoryName(@PathVariable String categoryName, @PathVariable Long userId) {
+        List<AddQuestionIntoQuizDTO> questions = questionService.addQuestionsByCategoryNameAndUserId(categoryName, userId);
         return ResponseEntity.ok(questions);
     }
 

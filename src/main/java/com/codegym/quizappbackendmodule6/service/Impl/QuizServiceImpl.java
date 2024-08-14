@@ -2,6 +2,7 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.Quiz;
+import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
@@ -103,6 +104,11 @@ public class QuizServiceImpl implements QuizService {
     public List<Quiz> findByTitle(String title) {
         return quizRepository.findByTitle(title);
 
+    }
+
+    @Override
+    public QuizTimeDTO getQuizTimeById(Long quizId) {
+        return quizRepository.findQuizTimeById(quizId);
     }
 
 }

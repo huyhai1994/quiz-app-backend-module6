@@ -2,6 +2,7 @@ package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.Quiz;
+import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/quizzes")
+@RequestMapping("/quiz")
 @RequiredArgsConstructor
 public class QuizController {
     private final QuizService quizService;
@@ -89,13 +90,13 @@ public class QuizController {
     @GetMapping("/{id}")
     public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
         Quiz quiz = quizService.findById(id)
-               .orElseThrow(() -> new RuntimeException("Quiz not found"));
+                .orElseThrow(() -> new RuntimeException("Quiz not found"));
         return ResponseEntity.ok(quiz);
     }
 
     @GetMapping("/search")
     public ResponseEntity<String> searchQuizByNameOrCategory(@RequestParam(required = false) String title,
-                                                @RequestParam(required = false) String categoryTitle) {
+                                                             @RequestParam(required = false) String categoryTitle) {
         if (title != null) {
             return ResponseEntity.ok(String.valueOf(quizService.findByTitle(title)));
         } else if (categoryTitle != null) {
@@ -122,5 +123,11 @@ public class QuizController {
     public ResponseEntity<List<QuizStudentDTO>> getAllQuizzes() {
         List<QuizStudentDTO> quizzes = quizService.getAllQuizzes();
         return ResponseEntity.ok(quizzes);
+    }
+
+    @GetMapping("/{quizId}/time")
+    public ResponseEntity<QuizTimeDTO> getQuizTimeById(@PathVariable Long quizId) {
+        QuizTimeDTO quizTimeDTO = quizService.getQuizTimeById(quizId);
+        return ResponseEntity.ok(quizTimeDTO);
     }
 }
