@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/quizzes")
+@RequestMapping("/quiz")
 @RequiredArgsConstructor
 public class QuizController {
     private final QuizService quizService;
