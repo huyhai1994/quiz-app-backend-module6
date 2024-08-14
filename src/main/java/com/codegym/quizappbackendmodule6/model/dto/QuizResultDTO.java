@@ -15,6 +15,6 @@ public class QuizResultDTO {
     private String userName;
     private LocalDateTime finishTime;
     private Long score;
-    private int correctAnswers;
-    private int incorrectAnswers;
+    private Long correctAnswers;
+    private Long incorrectAnswers;
 }
