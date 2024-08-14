@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ResultRepository extends JpaRepository<Result,Long> {
     List<Result> findByUser(User user);
-    @Query("SELECT COUNT(r) + 1 FROM Result r WHERE r.score > :score")
-    int findRankByScore(@Param("score") Long score);
+    @Query("SELECT COUNT(DISTINCT r.score) + 1 FROM Result r WHERE r.score > :score")
+    Long findRankByScore(@Param("score") Long score);
 
 }

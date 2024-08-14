@@ -6,6 +6,7 @@ import com.codegym.quizappbackendmodule6.model.Result;
 import com.codegym.quizappbackendmodule6.model.UserAnswer;
 import com.codegym.quizappbackendmodule6.model.dto.QuizHistoryDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizResultDTO;
+import com.codegym.quizappbackendmodule6.model.dto.ResultHistoryDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserAnswerDto;
 import com.codegym.quizappbackendmodule6.service.ResultService;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +53,17 @@ public class ResultController {
             return ResponseEntity.ok(quiz.get());
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    // chi tiết lịch sử bài thi
+    @GetMapping("/detail/{id}/history")
+    public ResponseEntity<ResultHistoryDTO> getResultHistory(@PathVariable Long id) {
+        try {
+            ResultHistoryDTO resultHistoryDTO = resultService.finDetailHistory(id);
+            return ResponseEntity.ok(resultHistoryDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(null);
         }
     }
 }

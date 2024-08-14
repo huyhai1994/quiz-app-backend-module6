@@ -3,6 +3,7 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 import com.codegym.quizappbackendmodule6.model.*;
 import com.codegym.quizappbackendmodule6.model.dto.QuizHistoryDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizResultDTO;
+import com.codegym.quizappbackendmodule6.model.dto.ResultHistoryDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserAnswerDto;
 import com.codegym.quizappbackendmodule6.repository.ResultRepository;
 import com.codegym.quizappbackendmodule6.repository.UserAnswerRepository;
@@ -80,14 +81,20 @@ public class ResultServiceImpl implements ResultService {
 
         // Tính toán số câu trả lời đúng
         int correctAnswers = 0;
+        int failAnswers = 0;
         int totalOptions = savedAnswers.size();
 
         for (UserAnswer userAnswer : savedAnswers) {
             Option selectedOption = userAnswer.getOption();
             if (selectedOption != null && Boolean.TRUE.equals(selectedOption.getIsCorrect())) {
                 correctAnswers++;
+            } else {
+                failAnswers++;
             }
         }
+
+        result.setCorrectAnswers((long) correctAnswers);
+        result.setIncorrectAnswers((long) failAnswers);
 
         // Tính điểm và cập nhật thời gian kết thúc
         double score = ((double) correctAnswers / totalOptions) * 100;
@@ -105,47 +112,45 @@ public class ResultServiceImpl implements ResultService {
         Result result = resultRepository.findById(resultId)
                 .orElseThrow(() -> new RuntimeException("Result not found"));
 
-        int correctAnswers = (int) userAnswerRepository.countByUserAndQuestion_QuizzesAndOption_IsCorrect(result.getUser(), result.getQuiz(), true);
-        int incorrectAnswers = (int) userAnswerRepository.countByUserAndQuestion_QuizzesAndOption_IsCorrect(result.getUser(), result.getQuiz(), false);
-
         return new QuizResultDTO(
                 result.getUser().getName(),
                 result.getFinishTime(),
                 result.getScore(),
-                correctAnswers,
-                incorrectAnswers
+                result.getCorrectAnswers(),
+                result.getIncorrectAnswers()
         );
     }
 
-    @Override
-    public List<QuizHistoryDTO> getQuizHistoryByUserId(Long userId) {
-        User user = userService.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        List<Result> results = resultRepository.findByUser(user);
-
-        // Chuyển đổi danh sách kết quả thành danh sách DTO
-        List<QuizHistoryDTO> historyList = results.stream()
-                .map(result -> {
-                    long duration = java.time.Duration.between(result.getStartTime(), result.getFinishTime()).toMinutes();
-                    return new QuizHistoryDTO(
-                            result.getQuiz().getTitle(),
-                            result.getFinishTime(),
-                            duration,
-                            result.getScore(),
-                            (int) results.stream()
-                                    .filter(r -> r.getQuiz().getTitle().equals(result.getQuiz().getTitle()))
-                                    .count()
-                    );
-                })
-                .sorted((r1, r2) -> r2.getFinishTime().compareTo(r1.getFinishTime())) // Sắp xếp theo thời gian thi mới nhất
-                .collect(Collectors.toList());
-
-        return historyList;
-    }
 
     @Override
     public Optional<Quiz> getQuizById(Long id) {
         return quizService.findById(id);
+    }
+
+    @Override
+    public Long findRankByScore(Long score) {
+        return resultRepository.findRankByScore(score);
+    }
+
+    @Override
+    public ResultHistoryDTO finDetailHistory(Long id) {
+        Optional<Result> result = resultRepository.findById(id);
+        if (!result.isPresent()) {
+            throw new RuntimeException("Result not found");
+        }
+        Long rank = findRankByScore(result.get().getScore());
+        if (rank == null) {
+            throw new RuntimeException("khong ton tai xep hang");
+        }
+        ResultHistoryDTO resultHistoryDTO = new ResultHistoryDTO();
+        resultHistoryDTO.setId(result.get().getId());
+        resultHistoryDTO.setQuizName(result.get().getQuiz().getTitle());
+        resultHistoryDTO.setSubmitTime(result.get().getFinishTime());
+        resultHistoryDTO.setScore(result.get().getScore());
+        resultHistoryDTO.setCorrectAnswers(result.get().getCorrectAnswers());
+        resultHistoryDTO.setIncorrectAnswers(result.get().getIncorrectAnswers());
+        resultHistoryDTO.setRank(rank);
+        return resultHistoryDTO;
     }
 }
