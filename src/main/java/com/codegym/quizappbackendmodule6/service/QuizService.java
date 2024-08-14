@@ -26,4 +26,6 @@ public interface QuizService {
     List<QuizNameDTO> getAllQuizNames();
     List<Quiz> findByTitle(String title);
 
+    List<QuizHotDTO> findTopQuizzesByResultCount();
+
 }

@@ -2,10 +2,7 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.Quiz;
-import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
 import com.codegym.quizappbackendmodule6.repository.QuizRepository;
 import com.codegym.quizappbackendmodule6.service.QuizService;
@@ -17,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -105,4 +103,16 @@ public class QuizServiceImpl implements QuizService {
 
     }
 
+    @Override
+    public List<QuizHotDTO> findTopQuizzesByResultCount() {
+        List<QuizHotDTO> results = quizRepository.findTopQuizzesByResultCount();
+        return results.stream()
+                .limit(5)
+                .map(result -> new QuizHotDTO(
+                        result.getId(),
+                        result.getTitle(),
+                        result.getResultCount()
+                ))
+                .collect(Collectors.toList());
+    }
 }
