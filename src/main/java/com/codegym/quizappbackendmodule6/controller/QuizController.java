@@ -10,7 +10,6 @@ import com.codegym.quizappbackendmodule6.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -59,23 +58,8 @@ public class QuizController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateQuiz(@Valid @PathVariable Long id, @Valid @RequestBody QuizRequestDTO quizRequestDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body("Bạn đã nhập sai trường");
-        }
-
-        Set<Question> questions = quizRequestDTO.getQuestionIds().stream().map(questionId -> questionService.findById(questionId).orElseThrow(() -> new RuntimeException("Question not found: " + questionId))).collect(Collectors.toSet());
-
-        Quiz quiz = new Quiz();
-        quiz.setTitle(quizRequestDTO.getTitle());
-        quiz.setDescription(quizRequestDTO.getDescription());
-        quiz.setQuizTime(Long.valueOf(quizRequestDTO.getQuizTime()));
-        quiz.setQuantity(quizRequestDTO.getQuantity());
-        quiz.setPassingScore(quizRequestDTO.getPassingScore());
-        quiz.setQuestions(questions);
-        quiz.setTimeCreate(quizRequestDTO.getTimeCreated());
-
-        Quiz updatedQuiz = quizService.updateQuiz(quiz, id);
+    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @Valid @RequestBody UpdateQuizRequestDto updateQuizRequestDTO) {
+        Quiz updatedQuiz = quizService.updateQuiz(id, updateQuizRequestDTO);
         return ResponseEntity.ok(updatedQuiz);
     }
 
