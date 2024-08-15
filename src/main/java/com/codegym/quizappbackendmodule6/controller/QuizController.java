@@ -123,4 +123,9 @@ public class QuizController {
         List<QuizStudentDTO> quizzes = quizService.getAllQuizzes();
         return ResponseEntity.ok(quizzes);
     }
+
+    @GetMapping("/quizzes/top")
+    public List<QuizHotDTO> getTopQuizzes() {
+        return quizService.findTopQuizzesByResultCount();
+    }
 }

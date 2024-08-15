@@ -1,10 +1,7 @@
 package com.codegym.quizappbackendmodule6.repository;
 
 import com.codegym.quizappbackendmodule6.model.Quiz;
-import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -45,5 +42,11 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
             "ORDER BY c.name, Number_Of_Participants DESC;",
             nativeQuery = true)
     List<QuizDTO> getQuizzesByCategory();
+
+    @Query("SELECT new com.codegym.quizappbackendmodule6.model.dto.QuizHotDTO(q.id, q.title, COUNT(r.id)) " +
+            "FROM Quiz q LEFT JOIN Result r ON q.id = r.quiz.id " +
+            "GROUP BY q.id, q.title " +
+            "ORDER BY COUNT(r.id) DESC")
+    List<QuizHotDTO> findTopQuizzesByResultCount();
 }
 

@@ -114,6 +114,7 @@ public class ResultServiceImpl implements ResultService {
                 .orElseThrow(() -> new RuntimeException("Result not found"));
 
         return new QuizResultDTO(
+                result.getId(),
                 result.getUser().getName(),
                 result.getFinishTime(),
                 result.getScore(),

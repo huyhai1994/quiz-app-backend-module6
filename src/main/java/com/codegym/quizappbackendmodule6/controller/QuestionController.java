@@ -41,7 +41,6 @@ public class QuestionController {
         return ResponseEntity.ok(updatedQuestion);
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Question>> getQuestionById(@PathVariable Long id) {
         Optional<Question> question = questionService.findById(id);
