@@ -29,8 +29,8 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<Quiz> getQuizByCategory(String title) {
-        return quizRepository.findByTitle(title);
+    public List<QuizDTO> getQuizByCategory(String title) {
+        return quizRepository.getQuizzesByCategory();
     }
 
     @Override
@@ -105,5 +105,24 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public List<QuizNameDTO> getAllQuizNames() {
         return quizRepository.findAllQuizNames();
+    }
+
+    @Override
+    public List<Quiz> findByTitle(String title) {
+        return quizRepository.findByTitle(title);
+
+    }
+
+    @Override
+    public List<QuizHotDTO> findTopQuizzesByResultCount() {
+        List<QuizHotDTO> results = quizRepository.findTopQuizzesByResultCount();
+        return results.stream()
+                .limit(5)
+                .map(result -> new QuizHotDTO(
+                        result.getId(),
+                        result.getTitle(),
+                        result.getResultCount()
+                ))
+                .collect(Collectors.toList());
     }
 }

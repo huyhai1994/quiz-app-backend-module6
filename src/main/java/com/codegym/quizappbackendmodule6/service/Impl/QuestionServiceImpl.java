@@ -44,6 +44,16 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public void deleteById(Long id) {
+
+        if (questionRepository.existsById(id)) {
+            questionRepository.deleteById(id);
+        }else {
+            throw new RuntimeException("Question not found with id: " + id);
+        }
+    }
+
+    @Override
     public List<QuestionDTO> findQuestionsByCategoryAndName(String searchTerm) {
         return questionRepository.findQuestionsBySearchTerm(searchTerm);
     }

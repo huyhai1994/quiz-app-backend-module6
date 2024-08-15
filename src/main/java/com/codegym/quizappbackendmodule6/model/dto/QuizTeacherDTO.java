@@ -8,4 +8,5 @@ public interface QuizTeacherDTO {
     String getQuizzesDescription();
     String getUsersName();
     LocalDateTime getQuizzesTimeCreate();
+    String getQuizzesByCategory();
 }

@@ -11,11 +11,12 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuizHistoryDTO {
+public class ResultHistoryDTO {
     private Long id;
     private String quizName;
-    private LocalDateTime finishTime;
-    private long durationMinutes;
+    private LocalDateTime submitTime;
     private Long score;
-    private Integer attemptNumber;
+    private Long correctAnswers;
+    private Long incorrectAnswers;
+    private Long rank;
 }

@@ -30,4 +30,5 @@ public class QuizRequestDTO {
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime timeCreated;
+
 }

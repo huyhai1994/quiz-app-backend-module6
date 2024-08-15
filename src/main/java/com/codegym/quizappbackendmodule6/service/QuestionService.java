@@ -17,6 +17,7 @@ public interface QuestionService {
     Question save(Question question);
 
     Optional<Question> findById(Long questionId);
+    void deleteById(Long id);
 
     List<QuestionDTO> findQuestionsByCategoryAndName(String searchTerm);
 

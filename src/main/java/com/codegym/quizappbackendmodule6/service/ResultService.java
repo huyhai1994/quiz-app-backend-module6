@@ -5,7 +5,9 @@ import com.codegym.quizappbackendmodule6.model.Result;
 import com.codegym.quizappbackendmodule6.model.UserAnswer;
 import com.codegym.quizappbackendmodule6.model.dto.QuizHistoryDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizResultDTO;
+import com.codegym.quizappbackendmodule6.model.dto.ResultHistoryDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserAnswerDto;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +17,11 @@ public interface ResultService {
     Result endQuiz(Long resultId, List<UserAnswerDto> userAnswers);
 
     List<QuizHistoryDTO> getQuizHistoryByUserId(Long userId);
-    QuizResultDTO getQuizResultById(Long userId);
+    QuizResultDTO getQuizResultById(Long resultId);
 
     Optional<Quiz> getQuizById(Long id);
+
+    Long findRankByScore(Long score);
+
+    ResultHistoryDTO finDetailHistory(Long id);
 }
