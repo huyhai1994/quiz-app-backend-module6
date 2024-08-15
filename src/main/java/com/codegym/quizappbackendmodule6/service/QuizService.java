@@ -7,7 +7,6 @@ import com.codegym.quizappbackendmodule6.model.Quiz;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface QuizService {
     List<QuizDTO> findQuizDetails();
@@ -15,7 +14,7 @@ public interface QuizService {
     Optional<Quiz> getQuizById(Long id);
     Quiz createQuiz(Quiz quiz);
     void deleteQuiz(Long id);
-    Quiz updateQuiz(Quiz quiz, Long id);
+    Quiz updateQuiz(Long id, UpdateQuizRequestDto updateQuizRequestDto);
     Optional<Quiz> findById(Long quizId);
 
     List<QuizTeacherDTO> findTeacherQuizDetails(Long userId);

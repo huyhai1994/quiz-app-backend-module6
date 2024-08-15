@@ -53,11 +53,21 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Quiz updateQuiz(Quiz quiz, Long id) {
-        if (!quizRepository.existsById(id)) {
-            throw new RuntimeException("Quiz không tồn tại với ID: " + id);
+    public Quiz updateQuiz(Long id, UpdateQuizRequestDto updateQuizRequestDTO) {
+        Quiz quiz = quizRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Quiz không tồn tại với Id: " + id));
+
+        quiz.setTitle(updateQuizRequestDTO.getTitle());
+        quiz.setDescription(updateQuizRequestDTO.getDescription());
+        quiz.setQuizTime(updateQuizRequestDTO.getQuizTime());
+        quiz.setQuantity(updateQuizRequestDTO.getQuantity());
+        quiz.setPassingScore(updateQuizRequestDTO.getPassingScore());
+
+        if (updateQuizRequestDTO.getQuestionIds() != null && !updateQuizRequestDTO.getQuestionIds().isEmpty()) {
+            Set<Question> questions = new HashSet<>(questionRepository.findAllById(updateQuizRequestDTO.getQuestionIds()));
+            quiz.setQuestions(questions);
         }
-        quiz.setId(id);
+
         return quizRepository.save(quiz);
     }
 
