@@ -5,18 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuizResultDTO {
+public class QuizTeacherHistory {
     private Long id;
-    private String userName;
+    private String name;
+    private int quantity;
+    private String difficulty;
     private LocalDateTime finishTime;
-    private BigDecimal score;
-    private Long correctAnswers;
-    private Long incorrectAnswers;
+    private Long score;
+    private Long quantityExam;
 }

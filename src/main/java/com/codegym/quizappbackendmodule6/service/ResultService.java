@@ -9,6 +9,7 @@ import com.codegym.quizappbackendmodule6.model.dto.ResultHistoryDTO;
 import com.codegym.quizappbackendmodule6.model.dto.UserAnswerDto;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public interface ResultService {
 
     Optional<Quiz> getQuizById(Long id);
 
-    Long findRankByScore(Long score);
+    Long findRankByScore(BigDecimal score);
 
     ResultHistoryDTO finDetailHistory(Long id);
 }
