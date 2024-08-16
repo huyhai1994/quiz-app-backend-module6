@@ -1,6 +1,11 @@
 package com.codegym.quizappbackendmodule6.repository;
 
 import com.codegym.quizappbackendmodule6.model.Quiz;
+import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizTeacherDTO;
 import com.codegym.quizappbackendmodule6.model.dto.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -57,6 +62,8 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
             "WHERE r.quiz.id = :quizId " +
             "GROUP BY u.id")
     List<QuizTeacherHistory> getHistoryUserByQuizId(@Param("quizId") Long quizId);
+    @Query("SELECT q.id AS quizId, q.quizTime AS quizTime FROM Quiz q WHERE q.id = :quizId")
+    QuizTimeDTO findQuizTimeById(@Param("quizId") Long quizId);
 
 }
 

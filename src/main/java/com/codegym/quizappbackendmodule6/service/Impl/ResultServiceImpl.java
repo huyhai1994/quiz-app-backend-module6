@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +109,6 @@ public class ResultServiceImpl implements ResultService {
         // Lưu kết quả vào cơ sở dữ liệu
         return resultRepository.save(result);
     }
-
 
 
     @Override

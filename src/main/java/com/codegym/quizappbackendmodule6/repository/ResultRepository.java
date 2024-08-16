@@ -8,11 +8,11 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
-public interface ResultRepository extends JpaRepository<Result,Long> {
+public interface ResultRepository extends JpaRepository<Result, Long> {
     List<Result> findByUser(User user);
-    @Query("SELECT COUNT(DISTINCT r.score) + 1 FROM Result r WHERE r.score > :score AND r.status = true")
+
+    @Query("SELECT COUNT(DISTINCT r.score) + 1 FROM Result r WHERE r.score > :score")
     Long findRankByScore(@Param("score") BigDecimal score);
 
 }

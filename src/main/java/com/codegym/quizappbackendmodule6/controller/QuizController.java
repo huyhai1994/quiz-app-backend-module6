@@ -2,6 +2,7 @@ package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.Quiz;
+import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
@@ -26,22 +27,18 @@ public class QuizController {
     private final UserService userService;
     private final QuestionService questionService;
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<List<QuizDTO>> getQuizList() {
         List<QuizDTO> quizList = quizService.findQuizDetails();
         return ResponseEntity.ok(quizList);
     }
 
-    @GetMapping("/list-teacher/{userId}")
-    public ResponseEntity<List<QuizTeacherDTO>> findTeacherQuizDetails(@PathVariable Long userId) {
-        List<QuizTeacherDTO> quizList = quizService.findTeacherQuizDetails(userId);
-        return ResponseEntity.ok(quizList);
-    }
-
-    @PostMapping("/create")
-    public ResponseEntity<Quiz> createQuiz(@RequestParam Long userId, @Valid @RequestBody QuizRequestDTO quizRequestDTO) {
-        User user = userService.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-
+    @PostMapping
+    public ResponseEntity<Quiz> createQuiz(@Valid @RequestBody QuizRequestDTO quizRequestDTO, Principal principal) {
+        User user = userService.getUserByEmail(principal.getName());
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
         Set<Question> questions = quizRequestDTO.getQuestionIds().stream().map(questionId -> questionService.findById(questionId).orElseThrow(() -> new RuntimeException("Question not found: " + questionId))).collect(Collectors.toSet());
 
         Quiz quiz = new Quiz();
@@ -59,15 +56,46 @@ public class QuizController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @Valid @RequestBody UpdateQuizRequestDto updateQuizRequestDTO) {
-        Quiz updatedQuiz = quizService.updateQuiz(id, updateQuizRequestDTO);
+    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @Valid @RequestBody UpdateQuizRequestDto updateQuizRequestDto) {
+        Quiz updatedQuiz = quizService.updateQuiz(id, updateQuizRequestDto);
         return ResponseEntity.ok(updatedQuiz);
     }
 
-    @DeleteMapping("/delete/{id}")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuiz(@PathVariable Long id) {
         quizService.deleteQuiz(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
+        Quiz quiz = quizService.findById(id).orElseThrow(() -> new RuntimeException("Quiz not found"));
+        return ResponseEntity.ok(quiz);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<String> searchQuizByNameOrCategory(@RequestParam(required = false) String title, @RequestParam(required = false) String categoryTitle) {
+        if (title != null) {
+            return ResponseEntity.ok(String.valueOf(quizService.findByTitle(title)));
+        } else if (categoryTitle != null) {
+            return ResponseEntity.ok(quizService.getQuizByCategory(categoryTitle).toString());
+        } else {
+            return ResponseEntity.badRequest().body("Please provide either 'title' or 'category' parameter.");
+        }
+    }
+
+
+    @GetMapping("/titles")
+    public ResponseEntity<List<QuizNameDTO>> getAllQuizNames() {
+        List<QuizNameDTO> quizNames = quizService.getAllQuizNames();
+        return ResponseEntity.ok(quizNames);
+    }
+
+    @GetMapping("/list-teacher/{userId}")
+    public ResponseEntity<List<QuizTeacherDTO>> findTeacherQuizDetails(@PathVariable Long userId) {
+        List<QuizTeacherDTO> quizList = quizService.findTeacherQuizDetails(userId);
+        return ResponseEntity.ok(quizList);
     }
 
     @GetMapping("/exam")
@@ -76,10 +104,15 @@ public class QuizController {
         return ResponseEntity.ok(quizzes);
     }
 
-    @GetMapping("/titles")
-    public ResponseEntity<List<QuizNameDTO>> getAllQuizNames() {
-        List<QuizNameDTO> quizNames = quizService.getAllQuizNames();
-        return ResponseEntity.ok(quizNames);
+    @GetMapping("/{quizId}/time")
+    public ResponseEntity<QuizTimeDTO> getQuizTimeById(@PathVariable Long quizId) {
+        QuizTimeDTO quizTimeDTO = quizService.getQuizTimeById(quizId);
+        return ResponseEntity.ok(quizTimeDTO);
+    }
+
+    @GetMapping("/quizzes/top")
+    public List<QuizHotDTO> getTopQuizzes() {
+        return quizService.findTopQuizzesByResultCount();
     }
 
     @GetMapping("/{quizId}/user-info")
