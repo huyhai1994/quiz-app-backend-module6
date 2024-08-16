@@ -19,7 +19,7 @@ public interface QuizService {
 
     void deleteQuiz(Long id);
 
-    Quiz updateQuiz(Quiz quiz, Long id);
+    Quiz updateQuiz(Long id, UpdateQuizRequestDto updateQuizRequestDTO);
 
     Optional<Quiz> findById(Long quizId);
 
@@ -35,6 +35,6 @@ public interface QuizService {
 
     List<QuizHotDTO> findTopQuizzesByResultCount();
 
-    public QuizTimeDTO getQuizTimeById(Long quizId);
+    QuizTimeDTO getQuizTimeById(Long quizId);
 
 }
