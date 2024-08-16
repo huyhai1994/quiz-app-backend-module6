@@ -58,8 +58,8 @@ public class QuizController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @Valid @RequestBody UpdateQuizRequestDto updateQuizRequestDTO) {
-        Quiz updatedQuiz = quizService.updateQuiz(id, updateQuizRequestDTO);
+    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @Valid @RequestBody UpdateQuizRequestDto updateQuizRequestDto) {
+        Quiz updatedQuiz = quizService.updateQuiz(id, updateQuizRequestDto);
         return ResponseEntity.ok(updatedQuiz);
     }
 
