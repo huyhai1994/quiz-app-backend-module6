@@ -1,9 +1,12 @@
 package com.codegym.quizappbackendmodule6.controller;
 
+import com.codegym.quizappbackendmodule6.model.Option;
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.dto.AddQuestionIntoQuizDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuestionDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuestionResponse;
+import com.codegym.quizappbackendmodule6.model.dto.question.request.CreateQuestionRequestDTO;
+import com.codegym.quizappbackendmodule6.service.OptionService;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
@@ -19,6 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class QuestionController {
     private final QuestionService questionService;
+    private final OptionService optionService;
 
     @GetMapping("/list")
     public ResponseEntity<List<QuestionDTO>> getAllQuestions() {
@@ -27,9 +32,27 @@ public class QuestionController {
     }
 
     @PostMapping
-    public ResponseEntity<Question> createQuestion(@RequestBody Question question) {
-        Question createdQuestion = questionService.save(question);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdQuestion);
+    public ResponseEntity<Question> createQuestion(@RequestBody CreateQuestionRequestDTO createQuestionRequestDTO) {
+        // Create and save the question
+        Question question = new Question();
+        question.setQuestionText(createQuestionRequestDTO.getQuestionText());
+        question.setQuestionType(createQuestionRequestDTO.getQuestionType());
+        question.setDifficulty(createQuestionRequestDTO.getDifficulty());
+        question.setCategory(createQuestionRequestDTO.getCategory());
+        question.setCreatedBy(createQuestionRequestDTO.getCreatedBy());
+        Question savedQuestion = questionService.save(question);
+
+        // Create and save the options
+        List<Option> options = createQuestionRequestDTO.getOptions().stream().map(optionDTO -> {
+            Option option = new Option();
+            option.setOptionText(optionDTO.getOptionText());
+            option.setIsCorrect(optionDTO.getIsCorrect());
+            option.setQuestion(savedQuestion);
+            return option;
+        }).collect(Collectors.toList());
+        optionService.saveOption(options);
+
+        return new ResponseEntity<>(savedQuestion, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -52,7 +75,6 @@ public class QuestionController {
         List<QuestionDTO> questions = questionService.findQuestionsByCategoryAndName(searchTerm);
         return ResponseEntity.ok(questions);
     }
-
 
     @GetMapping("/list-teacher/{userId}")
     public ResponseEntity<List<QuestionDTO>> findAllTeacherQuestionDetails(@PathVariable Long userId) {

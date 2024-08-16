@@ -21,8 +21,7 @@ public class OptionServiceImpl implements OptionService {
 
     @Override
     public Option saveOption(Option option, Long questionId) {
-        Question question = questionService.findById(questionId)
-                .orElseThrow(() -> new RuntimeException("Question not found"));
+        Question question = questionService.findById(questionId).orElseThrow(() -> new RuntimeException("Question not found"));
 
         option.setQuestion(question);
 
@@ -31,9 +30,7 @@ public class OptionServiceImpl implements OptionService {
         if (questionType.getId() == 1) {
             List<Option> existingOptions = optionRepository.findByQuestion(question);
 
-            long correctOptionsCount = existingOptions.stream()
-                    .filter(Option::getIsCorrect)
-                    .count();
+            long correctOptionsCount = existingOptions.stream().filter(Option::getIsCorrect).count();
 
             if (correctOptionsCount >= 1 && option.getIsCorrect()) {
                 throw new RuntimeException("Chỉ có duy nhất 1 đáp án đúng trong câu này");
@@ -53,5 +50,10 @@ public class OptionServiceImpl implements OptionService {
     @Override
     public Optional<Option> findById(Long optionId) {
         return optionRepository.findById(optionId);
+    }
+
+    @Override
+    public void saveOption(List<Option> options) {
+        optionRepository.saveAll(options);
     }
 }
