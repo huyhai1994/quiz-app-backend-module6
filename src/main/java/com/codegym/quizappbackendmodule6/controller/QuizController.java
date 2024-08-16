@@ -82,9 +82,10 @@ public class QuizController {
         return ResponseEntity.ok(quizNames);
     }
 
-    @GetMapping("/teacher/history")
-    public ResponseEntity<List<QuizTeacherHistory>> getQuizHistoryByTeacher(Principal principal) {
-        List<QuizTeacherHistory> historyList = quizService.getQuizHistoryByTeacher(principal);
+    @GetMapping("/{quizId}/user-info")
+    public ResponseEntity<List<QuizTeacherHistory>> getHistoryUserByQuizId(@PathVariable Long quizId) {
+        List<QuizTeacherHistory> historyList = quizService.getHistoryUserByQuizId(quizId);
         return ResponseEntity.ok(historyList);
     }
+
 }

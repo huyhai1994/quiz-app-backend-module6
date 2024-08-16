@@ -14,11 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizTeacherHistory {
-    private Long id;
-    private String name;
-    private int quantity;
-    private Quiz.Difficulty difficulty;
-    private LocalDateTime finishTime;
-    private BigDecimal score;
-    private Long quantityExam;
+    private String userName;
+    private String userEmail;
+    private Long attemptCount;
 }

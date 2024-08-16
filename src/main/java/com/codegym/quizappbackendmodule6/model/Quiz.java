@@ -54,6 +54,10 @@ public class Quiz {
     @Column(name = "passing_score")
     private int passingScore;
 
+    @ManyToOne
+    @JoinColumn(name = "quiz_categories_id")
+    private QuizCategory quizCategory;
+
     @ManyToMany
     @JoinTable(
             name = "quiz_questions",

@@ -51,14 +51,12 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
             "ORDER BY COUNT(r.id) DESC")
     List<QuizHotDTO> findTopQuizzesByResultCount();
 
-    @Query("SELECT new com.codegym.quizappbackendmodule6.model.dto.QuizTeacherHistory(" +
-            "q.id, q.title, q.quantity , q.difficulty, r.finishTime, r.score, COUNT(r.id)) " +
-            "FROM Result r " +
-            "JOIN r.quiz q " +
-            "JOIN r.user u " +
-            "WHERE u.id = :userId " +
-            "GROUP BY q.id, q.title, q.quantity, r.finishTime, r.score")
-    List<QuizTeacherHistory> findQuizHistoryByTeacher(@Param("userId") Long userId);
+
+    @Query("SELECT new com.codegym.quizappbackendmodule6.model.dto.QuizTeacherHistory(u.name, u.email, COUNT(r.id)) " +
+            "FROM Result r JOIN r.user u " +
+            "WHERE r.quiz.id = :quizId " +
+            "GROUP BY u.id")
+    List<QuizTeacherHistory> getHistoryUserByQuizId(@Param("quizId") Long quizId);
 
 }
 

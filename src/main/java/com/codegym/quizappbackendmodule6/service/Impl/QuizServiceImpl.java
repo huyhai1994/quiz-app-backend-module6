@@ -129,8 +129,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<QuizTeacherHistory> getQuizHistoryByTeacher(Principal principal) {
-        User user = userService.getUserByEmail(principal.getName());
-        return quizRepository.findQuizHistoryByTeacher(user.getId());
+    public List<QuizTeacherHistory> getHistoryUserByQuizId(Long quizID) {
+        return quizRepository.getHistoryUserByQuizId(quizID);
     }
 }
