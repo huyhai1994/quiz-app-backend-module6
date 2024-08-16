@@ -6,7 +6,9 @@ public interface QuizTeacherDTO {
     Long getQuizzesId();
     String getQuizzesTitle();
     String getQuizzesDescription();
-    String getUsersName();
     LocalDateTime getQuizzesTimeCreate();
-    String getQuizzesByCategory();
+    Long getQuizTime();
+    int getQuantity();
+    int getPassingScore();
+    String getDifficulty();
 }

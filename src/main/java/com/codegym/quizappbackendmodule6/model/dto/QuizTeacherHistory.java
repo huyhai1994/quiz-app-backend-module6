@@ -17,6 +17,6 @@ public class QuizTeacherHistory {
     private int quantity;
     private String difficulty;
     private LocalDateTime finishTime;
-    private String score;
+    private Long score;
     private Long quantityExam;
 }

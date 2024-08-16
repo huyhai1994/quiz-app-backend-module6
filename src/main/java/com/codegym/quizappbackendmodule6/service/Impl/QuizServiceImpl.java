@@ -129,8 +129,11 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<QuizTeacherHistory> findAllQuizTeacherHistory(Principal principal) {
-        User user = userService.findbyEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
-        return ;
+    public List<QuizTeacherHistory> getQuizHistoryByTeacher(Principal principal) {
+        User user = userService.getUserByEmail(principal.getName());
+//        return quizRepository.findQuizHistoryByTeacher(user.getId());
+        return null;
     }
+
+
 }

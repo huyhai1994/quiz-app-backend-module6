@@ -28,6 +28,5 @@ public interface QuizService {
 
     List<QuizHotDTO> findTopQuizzesByResultCount();
 
-    List<QuizTeacherHistory> findAllQuizTeacherHistory(Principal principal);
-
+    List<QuizTeacherHistory> getQuizHistoryByTeacher(Principal principal);
 }
