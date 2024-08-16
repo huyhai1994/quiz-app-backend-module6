@@ -41,6 +41,7 @@ public class ResultServiceImpl implements ResultService {
         result.setUser(user);
         result.setQuiz(quiz);
         result.setStartTime(LocalDateTime.now());
+        result.setStatus(false);
         return resultRepository.save(result);
     }
 
@@ -101,6 +102,7 @@ public class ResultServiceImpl implements ResultService {
         double score = ((double) correctAnswers / totalOptions) * 100;
         result.setScore((long) score);
         result.setFinishTime(LocalDateTime.now());
+        result.setStatus(true);
 
         // Lưu kết quả vào cơ sở dữ liệu
         return resultRepository.save(result);

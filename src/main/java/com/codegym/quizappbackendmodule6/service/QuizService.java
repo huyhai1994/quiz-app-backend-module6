@@ -5,6 +5,7 @@ import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -27,5 +28,7 @@ public interface QuizService {
     List<Quiz> findByTitle(String title);
 
     List<QuizHotDTO> findTopQuizzesByResultCount();
+
+    List<QuizTeacherHistory> findAllQuizTeacherHistory(Principal principal);
 
 }

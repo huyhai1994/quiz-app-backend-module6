@@ -2,6 +2,7 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.Quiz;
+import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
 import com.codegym.quizappbackendmodule6.repository.QuizRepository;
@@ -10,6 +11,7 @@ import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -114,5 +116,11 @@ public class QuizServiceImpl implements QuizService {
                         result.getResultCount()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<QuizTeacherHistory> findAllQuizTeacherHistory(Principal principal) {
+        User user = userService.findbyEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
+        return ;
     }
 }

@@ -42,4 +42,6 @@ public class Result {
     private Long correctAnswers;
     @Column(name = "false_answer")
     private Long incorrectAnswers;
+    @Column(name = "status")
+    private boolean status;
 }
