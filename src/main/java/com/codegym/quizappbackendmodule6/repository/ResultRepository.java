@@ -13,6 +13,6 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
     List<Result> findByUser(User user);
 
     @Query("SELECT COUNT(DISTINCT r.score) + 1 FROM Result r WHERE r.score > :score")
-    Long findRankByScore(@Param("score") Long score);
+    Long findRankByScore(@Param("score") BigDecimal score);
 
 }
