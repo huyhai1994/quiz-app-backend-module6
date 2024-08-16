@@ -32,6 +32,7 @@ public class Result {
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
+    @Column(name = "score", precision = 5, scale = 2)
     private BigDecimal score;
 
     @Column(name = "start_time")
