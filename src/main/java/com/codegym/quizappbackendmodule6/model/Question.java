@@ -26,7 +26,6 @@ public class Question {
     @NotEmpty(message = "Nội dung câu hỏi không được để trống")
     private String questionText;
 
-
     @ManyToOne
     @JoinColumn(name = "question_type_id")
     private QuestionType questionType;

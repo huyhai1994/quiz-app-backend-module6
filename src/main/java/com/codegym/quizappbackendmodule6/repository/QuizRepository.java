@@ -23,7 +23,9 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
     List<Quiz> findByTitle(String title);
 
-    @Query(value = "SELECT q.id AS quizzesid, q.title AS quizzestitle, q.description AS quizzesdescription, u.name AS usersname, q.time_create AS quizzestimecreate " +
+    @Query(value = "SELECT q.id AS quizzesid, q.title AS quizzestitle, q.description AS quizzesdescription, " +
+            "q.time_create AS quizzestimecreate, q.quiz_time AS quiztime, q.quantity AS quantity, " +
+            "q.passing_score AS passingscore, q.difficulty AS difficulty " +
             "FROM quizzes q JOIN users u ON q.created_by = u.id " +
             "WHERE q.created_by = :userId " +
             "ORDER BY q.time_create DESC",
