@@ -5,7 +5,6 @@ import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.dto.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +37,5 @@ public interface QuizService {
 
     QuizTimeDTO getQuizTimeById(Long quizId);
 
-    List<QuizTeacherHistory> getQuizHistoryByTeacher(Principal principal);
     List<QuizTeacherHistory> getHistoryUserByQuizId(Long quizID);
 }
