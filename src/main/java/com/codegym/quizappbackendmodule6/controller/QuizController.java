@@ -113,7 +113,7 @@ public class QuizController {
         return ResponseEntity.ok(quizNames);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/list-teacher/{userId}")
     public ResponseEntity<List<QuizTeacherDTO>> findTeacherQuizDetails(@PathVariable Long userId) {
         List<QuizTeacherDTO> quizList = quizService.findTeacherQuizDetails(userId);
         return ResponseEntity.ok(quizList);
