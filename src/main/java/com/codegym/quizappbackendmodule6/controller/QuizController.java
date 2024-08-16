@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -79,5 +80,11 @@ public class QuizController {
     public ResponseEntity<List<QuizNameDTO>> getAllQuizNames() {
         List<QuizNameDTO> quizNames = quizService.getAllQuizNames();
         return ResponseEntity.ok(quizNames);
+    }
+
+    @GetMapping("/teacher/history")
+    public ResponseEntity<List<QuizTeacherHistory>> getQuizHistoryByTeacher(Principal principal) {
+        List<QuizTeacherHistory> historyList = quizService.getQuizHistoryByTeacher(principal);
+        return ResponseEntity.ok(historyList);
     }
 }
