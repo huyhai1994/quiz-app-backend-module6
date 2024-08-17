@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuizCategoryServiceImpl implements QuizCategoryService {
@@ -19,5 +20,8 @@ public class QuizCategoryServiceImpl implements QuizCategoryService {
         return quizCategoryRepository.findAll();
     }
 
-
+    @Override
+    public Optional<QuizCategory> findById(Long id) {
+        return quizCategoryRepository.findById(id);
+    }
 }
