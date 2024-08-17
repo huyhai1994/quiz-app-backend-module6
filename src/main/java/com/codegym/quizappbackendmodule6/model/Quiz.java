@@ -41,6 +41,10 @@ public class Quiz {
     @Column(name = "time_create")
     private LocalDateTime timeCreate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "difficulty")
+    private Difficulty difficulty;
+
     @PrePersist
     public void setTimeCreate() {
         this.timeCreate = LocalDateTime.now();
@@ -50,6 +54,10 @@ public class Quiz {
     @Column(name = "passing_score")
     private int passingScore;
 
+    @ManyToOne
+    @JoinColumn(name = "quiz_categories_id")
+    private QuizCategory quizCategory;
+
     @ManyToMany
     @JoinTable(
             name = "quiz_questions",
@@ -57,4 +65,8 @@ public class Quiz {
             inverseJoinColumns = @JoinColumn(name = "question_id")
     )
     private Set<Question> questions;
+
+    public enum Difficulty {
+        HARD, MEDIUM, EASY
+    }
 }

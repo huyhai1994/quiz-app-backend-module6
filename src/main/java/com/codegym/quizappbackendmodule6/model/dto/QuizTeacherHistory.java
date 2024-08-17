@@ -1,5 +1,6 @@
 package com.codegym.quizappbackendmodule6.model.dto;
 
+import com.codegym.quizappbackendmodule6.model.Quiz;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +13,8 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuizResultDTO {
-    private Long id;
+public class QuizTeacherHistory {
     private String userName;
-    private LocalDateTime finishTime;
-    private BigDecimal score;
-    private Long correctAnswers;
-    private Long incorrectAnswers;
+    private String userEmail;
+    private Long attemptCount;
 }

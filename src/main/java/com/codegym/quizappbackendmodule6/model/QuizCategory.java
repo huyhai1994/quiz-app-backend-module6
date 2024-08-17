@@ -12,21 +12,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "categories")
-public class Category {
-
+@Table(name = "quiz_categories")
+public class QuizCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotEmpty(message = "Tên không được để trống")
-    @Column(unique = true)
+    @Column(name = "name")
+    @NotEmpty(message = "Thể loại không được để trống")
     private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "created_by")
-    private User createdBy;
-
-    @Lob
-    private String description;
 }

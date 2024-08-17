@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,7 +32,8 @@ public class Result {
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
-    private Long score;
+    @Column(name = "score", precision = 5, scale = 2)
+    private BigDecimal score;
 
     @Column(name = "start_time")
     private LocalDateTime startTime;
@@ -42,4 +44,7 @@ public class Result {
     private Long correctAnswers;
     @Column(name = "false_answer")
     private Long incorrectAnswers;
+
+    @Column(name = "status")
+    private boolean status;
 }

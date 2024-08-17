@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,7 +16,7 @@ public class ResultHistoryDTO {
     private Long id;
     private String quizName;
     private LocalDateTime submitTime;
-    private Long score;
+    private BigDecimal score;
     private Long correctAnswers;
     private Long incorrectAnswers;
     private Long rank;

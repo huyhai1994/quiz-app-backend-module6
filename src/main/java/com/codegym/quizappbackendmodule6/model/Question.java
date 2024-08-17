@@ -26,7 +26,6 @@ public class Question {
     @NotEmpty(message = "Nội dung câu hỏi không được để trống")
     private String questionText;
 
-
     @ManyToOne
     @JoinColumn(name = "question_type_id")
     private QuestionType questionType;
@@ -59,7 +58,7 @@ public class Question {
     @Column(name = "difficulty")
     private Difficulty difficulty;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Option> options;
 
     public enum Difficulty {

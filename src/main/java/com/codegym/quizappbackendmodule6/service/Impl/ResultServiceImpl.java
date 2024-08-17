@@ -12,7 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class ResultServiceImpl implements ResultService {
         result.setUser(user);
         result.setQuiz(quiz);
         result.setStartTime(LocalDateTime.now());
+        result.setStatus(false);
         return resultRepository.save(result);
     }
 
@@ -97,15 +99,16 @@ public class ResultServiceImpl implements ResultService {
         result.setCorrectAnswers((long) correctAnswers);
         result.setIncorrectAnswers((long) failAnswers);
 
-        // Tính điểm và cập nhật thời gian kết thúc
-        double score = ((double) correctAnswers / totalOptions) * 100;
-        result.setScore((long) score);
+        BigDecimal score = new BigDecimal((double) correctAnswers / totalOptions * 100);
+        score = score.setScale(2, RoundingMode.HALF_UP);
+
+        result.setScore(score);
         result.setFinishTime(LocalDateTime.now());
+        result.setStatus(true);
 
         // Lưu kết quả vào cơ sở dữ liệu
         return resultRepository.save(result);
     }
-
 
 
     @Override
@@ -157,7 +160,7 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public Long findRankByScore(Long score) {
+    public Long findRankByScore(BigDecimal score) {
         return resultRepository.findRankByScore(score);
     }
 

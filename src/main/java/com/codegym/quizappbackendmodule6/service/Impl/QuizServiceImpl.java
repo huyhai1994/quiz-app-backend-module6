@@ -2,6 +2,8 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.Quiz;
+import com.codegym.quizappbackendmodule6.model.User;
+import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
 import com.codegym.quizappbackendmodule6.repository.QuizRepository;
@@ -10,6 +12,7 @@ import com.codegym.quizappbackendmodule6.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -53,11 +56,20 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Quiz updateQuiz(Quiz quiz, Long id) {
-        if (!quizRepository.existsById(id)) {
-            throw new RuntimeException("Quiz không tồn tại với ID: " + id);
+    public Quiz updateQuiz(Long id, UpdateQuizRequestDto updateQuizRequestDTO) {
+        Quiz quiz = quizRepository.findById(id).orElseThrow(() -> new RuntimeException("Quiz không tồn tại với Id: " + id));
+
+        quiz.setTitle(updateQuizRequestDTO.getTitle());
+        quiz.setDescription(updateQuizRequestDTO.getDescription());
+        quiz.setQuizTime(updateQuizRequestDTO.getQuizTime());
+        quiz.setQuantity(updateQuizRequestDTO.getQuantity());
+        quiz.setPassingScore(updateQuizRequestDTO.getPassingScore());
+
+        if (updateQuizRequestDTO.getQuestionIds() != null && !updateQuizRequestDTO.getQuestionIds().isEmpty()) {
+            Set<Question> questions = new HashSet<>(questionRepository.findAllById(updateQuizRequestDTO.getQuestionIds()));
+            quiz.setQuestions(questions);
         }
-        quiz.setId(id);
+
         return quizRepository.save(quiz);
     }
 
@@ -104,15 +116,18 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
+    public QuizTimeDTO getQuizTimeById(Long quizId) {
+        return quizRepository.findQuizTimeById(quizId);
+    }
+
+    @Override
     public List<QuizHotDTO> findTopQuizzesByResultCount() {
         List<QuizHotDTO> results = quizRepository.findTopQuizzesByResultCount();
-        return results.stream()
-                .limit(5)
-                .map(result -> new QuizHotDTO(
-                        result.getId(),
-                        result.getTitle(),
-                        result.getResultCount()
-                ))
-                .collect(Collectors.toList());
+        return results.stream().limit(5).map(result -> new QuizHotDTO(result.getId(), result.getTitle(), result.getResultCount())).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<QuizTeacherHistory> getHistoryUserByQuizId(Long quizID) {
+        return quizRepository.getHistoryUserByQuizId(quizID);
     }
 }
