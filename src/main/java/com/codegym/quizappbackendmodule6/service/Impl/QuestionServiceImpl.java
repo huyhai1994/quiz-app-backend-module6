@@ -99,4 +99,9 @@ public class QuestionServiceImpl implements QuestionService {
         questionRepository.deleteById(questionId);
     }
 
+    @Override
+    public boolean isQuestionInAnyQuiz(Long questionId) {
+        return questionRepository.isQuestionInAnyQuiz(questionId);
+    }
+
 }

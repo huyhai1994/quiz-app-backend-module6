@@ -31,4 +31,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Query("SELECT q FROM Question q JOIN q.quizzes quiz WHERE quiz.id = :quizId")
     List<Question> findAllByQuizId(@Param("quizId") Long quizId);
+
+    @Query("SELECT CASE WHEN COUNT(qq) > 0 THEN true ELSE false END FROM Quiz q JOIN q.questions qq WHERE qq.id = :questionId")
+    boolean isQuestionInAnyQuiz(@Param("questionId") Long questionId);
 }
