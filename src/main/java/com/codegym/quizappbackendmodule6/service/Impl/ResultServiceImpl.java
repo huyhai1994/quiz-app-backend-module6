@@ -134,19 +134,20 @@ public class ResultServiceImpl implements ResultService {
         // Chuyển đổi danh sách kết quả thành danh sách DTO
         List<QuizHistoryDTO> historyList = results.stream()
                 .map(result -> {
-                    long duration = java.time.Duration.between(result.getStartTime(), result.getFinishTime()).toMinutes();
+                    Duration examDuration = Duration.between(result.getStartTime(), result.getFinishTime());
+                    String formattedDuration = formatDuration(examDuration);
                     return new QuizHistoryDTO(
                             result.getId(),
                             result.getQuiz().getTitle(),
                             result.getFinishTime(),
-                            duration,
+                            formattedDuration,
                             result.getScore(),
                             (int) results.stream()
                                     .filter(r -> r.getQuiz().getTitle().equals(result.getQuiz().getTitle()))
                                     .count()
                     );
                 })
-                .sorted((r1, r2) -> r2.getFinishTime().compareTo(r1.getFinishTime())) // Sắp xếp theo thời gian thi mới nhất
+                .sorted((r1, r2) -> r2.getFinishTime().compareTo(r1.getFinishTime()))
                 .collect(Collectors.toList());
 
         return historyList;
