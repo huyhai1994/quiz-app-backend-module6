@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.repository;
 
 import com.codegym.quizappbackendmodule6.model.Quiz;
+import com.codegym.quizappbackendmodule6.model.QuizCategory;
 import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO;
@@ -64,6 +65,10 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
     List<QuizTeacherHistory> getHistoryUserByQuizId(@Param("quizId") Long quizId);
     @Query("SELECT q.id AS quizId, q.quizTime AS quizTime FROM Quiz q WHERE q.id = :quizId")
     QuizTimeDTO findQuizTimeById(@Param("quizId") Long quizId);
+
+
+//    @Query(value = "SELECT q FROM Quiz q WHERE q.category = :category")
+//    List<Quiz> findByQuizCategory(@Param("category") QuizCategory category);
 
 }
 

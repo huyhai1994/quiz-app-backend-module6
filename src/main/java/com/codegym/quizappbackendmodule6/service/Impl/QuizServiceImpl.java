@@ -4,6 +4,7 @@ import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.dto.*;
+import com.codegym.quizappbackendmodule6.model.dto.question.request.QuizByCategoryDTO;
 import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
 import com.codegym.quizappbackendmodule6.repository.QuizRepository;
 import com.codegym.quizappbackendmodule6.service.QuizService;
@@ -29,10 +30,6 @@ public class QuizServiceImpl implements QuizService {
         return quizRepository.findQuizDetails();
     }
 
-    @Override
-    public List<QuizDTO> getQuizByCategory(String title) {
-        return quizRepository.getQuizzesByCategory();
-    }
 
     @Override
     public Optional<Quiz> getQuizById(Long id) {
@@ -55,7 +52,8 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Quiz updateQuiz(Long id, UpdateQuizRequestDto updateQuizRequestDTO) {
-        Quiz quiz = quizRepository.findById(id).orElseThrow(() -> new RuntimeException("Quiz không tồn tại với Id: " + id));
+        Quiz quiz = quizRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Quiz không tồn tại với Id: " + id));
 
         quiz.setTitle(updateQuizRequestDTO.getTitle());
         quiz.setDescription(updateQuizRequestDTO.getDescription());
@@ -110,7 +108,6 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public List<Quiz> findByTitle(String title) {
         return quizRepository.findByTitle(title);
-
     }
 
     @Override
@@ -119,14 +116,21 @@ public class QuizServiceImpl implements QuizService {
     }
 
 //    @Override
-//    public List<QuizTeacherHistory> getQuizHistoryByTeacher(Principal principal) {
-//        return null;
+//    public List<QuizByCategoryDTO> getQuizByQuizCategory(String category) {
+//        List<Quiz> quizzes = quizRepository.findByQuizCategory(category);
+//
+//        return quizzes.stream()
+//                .map(quiz -> new QuizByCategoryDTO(quiz.getId(), quiz.getTitle(), quiz.getDescription(), quiz.getCategory()))
+//                .collect(Collectors.toList());
 //    }
 
     @Override
     public List<QuizHotDTO> findTopQuizzesByResultCount() {
         List<QuizHotDTO> results = quizRepository.findTopQuizzesByResultCount();
-        return results.stream().limit(5).map(result -> new QuizHotDTO(result.getId(), result.getTitle(), result.getResultCount())).collect(Collectors.toList());
+        return results.stream()
+                .limit(5)
+                .map(result -> new QuizHotDTO(result.getId(), result.getTitle(), result.getResultCount()))
+                .collect(Collectors.toList());
     }
 
     @Override
