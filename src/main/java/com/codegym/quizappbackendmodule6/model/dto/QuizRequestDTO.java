@@ -1,5 +1,6 @@
 package com.codegym.quizappbackendmodule6.model.dto;
 
+import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -26,6 +27,12 @@ public class QuizRequestDTO {
 
     @NotNull
     private List<Long> questionIds;
+
+    @NotNull
+    private Long quizCategoryId;
+
+    @NotNull
+    private Quiz.Difficulty difficulty;
 
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")

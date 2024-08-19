@@ -14,4 +14,6 @@ public interface OptionService {
     Optional<Option> findById(Long optionId);
 
     void saveOption(List<Option> options);
+
+    void deleteById(Long optionId); // Add this method
 }

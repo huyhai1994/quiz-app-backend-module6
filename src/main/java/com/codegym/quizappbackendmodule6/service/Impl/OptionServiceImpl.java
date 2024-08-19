@@ -56,4 +56,9 @@ public class OptionServiceImpl implements OptionService {
     public void saveOption(List<Option> options) {
         optionRepository.saveAll(options);
     }
+
+    @Override
+    public void deleteById(Long optionId) {
+        optionRepository.deleteById(optionId);
+    }
 }
