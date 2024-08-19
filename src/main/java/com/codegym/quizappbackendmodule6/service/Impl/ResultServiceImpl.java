@@ -1,10 +1,7 @@
 package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.*;
-import com.codegym.quizappbackendmodule6.model.dto.QuizHistoryDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizResultDTO;
-import com.codegym.quizappbackendmodule6.model.dto.ResultHistoryDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserAnswerDto;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.repository.ResultRepository;
 import com.codegym.quizappbackendmodule6.repository.UserAnswerRepository;
 import com.codegym.quizappbackendmodule6.service.*;
@@ -14,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -183,5 +181,43 @@ public class ResultServiceImpl implements ResultService {
         resultHistoryDTO.setIncorrectAnswers(result.get().getIncorrectAnswers());
         resultHistoryDTO.setRank(rank);
         return resultHistoryDTO;
+    }
+
+    @Override
+    public List<Result> findByUserId(Long userId , boolean status) {
+        return resultRepository.findByUserIdAndStatus(userId ,status);
+    }
+
+    @Override
+    public List<HistoryStudentExam> findStudentExamByUserId(Long userId) {
+        List<Result> results = resultRepository.findByUserIdAndStatus(userId, true);
+        List<HistoryStudentExam> resultHistoryList = new ArrayList<>();
+        for (Result result : results) {
+            if (result.getStartTime() != null && result.getFinishTime() != null) {
+                HistoryStudentExam history = new HistoryStudentExam();
+                history.setId(result.getUser().getId());
+
+
+                Duration examDuration = Duration.between(result.getStartTime(), result.getFinishTime());
+                String formattedDuration = formatDuration(examDuration);
+
+                history.setTime(formattedDuration);
+                history.setUserName(result.getUser().getName());
+                history.setScore(result.getScore());
+                history.setAnswerCorrect(result.getCorrectAnswers());
+                history.setAnswerTotal(result.getCorrectAnswers() + result.getIncorrectAnswers());
+                resultHistoryList.add(history);
+            }
+        }
+        return resultHistoryList;
+    }
+
+    private String formatDuration(Duration duration) {
+        long seconds = duration.getSeconds();
+        long hours = seconds / 3600;
+        long minutes = (seconds % 3600) / 60;
+        seconds = seconds % 60;
+
+        return String.format("%d giờ %d phút %d giây", hours, minutes, seconds);
     }
 }

@@ -38,6 +38,5 @@ public interface QuizService {
 
     QuizTimeDTO getQuizTimeById(Long quizId);
 
-    List<QuizTeacherHistory> getQuizHistoryByTeacher(Principal principal);
-    List<QuizTeacherHistory> getHistoryUserByQuizId(Long quizID);
+    List<QuizTeacherHistory> getHistoryUserByQuizId(Long quizID , Boolean status);
 }

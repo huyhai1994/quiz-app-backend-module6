@@ -3,10 +3,7 @@ package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.model.Result;
-import com.codegym.quizappbackendmodule6.model.dto.QuizHistoryDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizResultDTO;
-import com.codegym.quizappbackendmodule6.model.dto.ResultHistoryDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserAnswerDto;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.service.ResultService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -64,5 +61,10 @@ public class ResultController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).body(null);
         }
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<HistoryStudentExam> getResultsByUserId(@PathVariable Long userId) {
+        return resultService.findStudentExamByUserId(userId);
     }
 }

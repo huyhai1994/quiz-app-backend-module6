@@ -123,11 +123,18 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public List<QuizHotDTO> findTopQuizzesByResultCount() {
         List<QuizHotDTO> results = quizRepository.findTopQuizzesByResultCount();
-        return results.stream().limit(5).map(result -> new QuizHotDTO(result.getId(), result.getTitle(), result.getResultCount())).collect(Collectors.toList());
+        return results.stream()
+                .limit(5)
+                .map(result -> new QuizHotDTO(
+                        result.getId(),
+                        result.getTitle(),
+                        result.getResultCount()
+                ))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<QuizTeacherHistory> getHistoryUserByQuizId(Long quizID) {
-        return quizRepository.getHistoryUserByQuizId(quizID);
+    public List<QuizTeacherHistory> getHistoryUserByQuizId(Long quizID , Boolean status) {
+        return quizRepository.getHistoryUserByQuizId(quizID ,status);
     }
 }

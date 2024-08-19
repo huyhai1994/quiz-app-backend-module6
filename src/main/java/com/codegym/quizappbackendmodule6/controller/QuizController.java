@@ -117,7 +117,7 @@ public class QuizController {
 
     @GetMapping("/{quizId}/user-info")
     public ResponseEntity<List<QuizTeacherHistory>> getHistoryUserByQuizId(@PathVariable Long quizId) {
-        List<QuizTeacherHistory> historyList = quizService.getHistoryUserByQuizId(quizId);
+        List<QuizTeacherHistory> historyList = quizService.getHistoryUserByQuizId(quizId,true);
         return ResponseEntity.ok(historyList);
     }
 
