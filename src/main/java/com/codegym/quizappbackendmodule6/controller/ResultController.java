@@ -25,7 +25,7 @@ public class ResultController {
     }
 
     @PostMapping("/end/{resultId}")
-    public ResponseEntity<Result> start(@PathVariable Long resultId, @RequestBody List<UserAnswerDto> userAnswers) {
+    public ResponseEntity<Result> end(@PathVariable Long resultId, @RequestBody List<UserAnswerDto> userAnswers) {
         return ResponseEntity.ok(resultService.endQuiz(resultId, userAnswers));
     }
 
