@@ -1,7 +1,7 @@
 package com.codegym.quizappbackendmodule6.repository;
 
 import com.codegym.quizappbackendmodule6.model.Quiz;
-import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
@@ -32,10 +32,8 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
             nativeQuery = true)
     List<QuizTeacherDTO> findTeacherQuizDetails(@Param("userId") Long userId);
 
-
     @Query(value = "SELECT q.id AS id, q.title AS title, q.quantity AS quantity FROM quizzes q", nativeQuery = true)
     List<QuizStudentDTO> findAllQuizzesWithDTO();
-
 
     @Query("SELECT new com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO(q.title) FROM Quiz q")
     List<QuizNameDTO> findAllQuizNames();
@@ -58,6 +56,5 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
     @Query("SELECT q.id AS quizId, q.quizTime AS quizTime FROM Quiz q WHERE q.id = :quizId")
     QuizTimeDTO findQuizTimeById(@Param("quizId") Long quizId);
-
 }
 

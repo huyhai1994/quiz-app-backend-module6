@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -55,6 +56,9 @@ public class User {
 
     @Column(name = "reset_code_expiry")
     private LocalDateTime resetCodeExpiry;
+
+    @OneToMany(mappedBy = "user")
+    private Set<QuizSession> quizSessions;
 
     @PrePersist
     public void prePersist() {

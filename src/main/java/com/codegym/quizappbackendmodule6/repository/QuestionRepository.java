@@ -38,7 +38,6 @@ public interface QuestionRepository extends JpaRepository<Question,Long> {
             nativeQuery = true)
     List<QuestionDTO> findAllTeacherQuestionDetails(@Param("userId") Long userId);
 
-
     @Query(value = "SELECT q.id AS questionId, q.question_text AS questionText, qt.type_name AS questionTypeName " +
             "FROM questions q " +
             "JOIN question_types qt ON q.question_type_id = qt.id " +

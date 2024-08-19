@@ -27,6 +27,10 @@ public class Result {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "quiz_room_id")
+    private QuizRoom quizRoom;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "quiz_id")
@@ -40,11 +44,17 @@ public class Result {
 
     @Column(name = "finish_time")
     private LocalDateTime finishTime;
+
     @Column(name = "correct")
     private Long correctAnswers;
+
     @Column(name = "false_answer")
     private Long incorrectAnswers;
 
     @Column(name = "status")
     private boolean status;
+
+    @OneToOne
+    @JoinColumn(name = "quiz_session_id")
+    private QuizSession quizSession;
 }

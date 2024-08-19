@@ -31,5 +31,4 @@ public class Option {
     @Column(name = "is_correct")
     @NotNull(message = "Cần điền thông tin để xem đây là đáp án đúng hay sai")
     private Boolean isCorrect;
-
 }

@@ -2,7 +2,7 @@ package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.Quiz;
-import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
@@ -61,7 +61,6 @@ public class QuizController {
         return ResponseEntity.ok(updatedQuiz);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuiz(@PathVariable Long id) {
         quizService.deleteQuiz(id);
@@ -84,7 +83,6 @@ public class QuizController {
             return ResponseEntity.badRequest().body("Please provide either 'title' or 'category' parameter.");
         }
     }
-
 
     @GetMapping("/titles")
     public ResponseEntity<List<QuizNameDTO>> getAllQuizNames() {

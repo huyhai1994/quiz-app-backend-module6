@@ -3,7 +3,7 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.model.User;
-import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
 import com.codegym.quizappbackendmodule6.repository.QuizRepository;
@@ -69,7 +69,6 @@ public class QuizServiceImpl implements QuizService {
             Set<Question> questions = new HashSet<>(questionRepository.findAllById(updateQuizRequestDTO.getQuestionIds()));
             quiz.setQuestions(questions);
         }
-
         return quizRepository.save(quiz);
     }
 
@@ -112,7 +111,6 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public List<Quiz> findByTitle(String title) {
         return quizRepository.findByTitle(title);
-
     }
 
     @Override
@@ -132,6 +130,4 @@ public class QuizServiceImpl implements QuizService {
 //        return quizRepository.findQuizHistoryByTeacher(user.getId());
         return null;
     }
-
-
 }

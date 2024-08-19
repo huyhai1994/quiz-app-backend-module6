@@ -1,8 +1,8 @@
 package com.codegym.quizappbackendmodule6.controller;
 
-import com.codegym.quizappbackendmodule6.model.dto.PasswordResetRequestDto;
-import com.codegym.quizappbackendmodule6.model.dto.ResetPasswordDto;
-import com.codegym.quizappbackendmodule6.model.dto.VerifyResetCodeDto;
+import com.codegym.quizappbackendmodule6.model.dto.auth.PasswordResetRequestDto;
+import com.codegym.quizappbackendmodule6.model.dto.auth.ResetPasswordDto;
+import com.codegym.quizappbackendmodule6.model.dto.auth.VerifyResetCodeDto;
 import com.codegym.quizappbackendmodule6.service.Impl.PasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

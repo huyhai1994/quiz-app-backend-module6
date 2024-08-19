@@ -1,11 +1,12 @@
 package com.codegym.quizappbackendmodule6.model;
 
+import com.codegym.quizappbackendmodule6.model.dto.quiz_room.QuizResultDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.awt.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,7 +15,16 @@ import java.awt.*;
 public class QuizMessage {
     private String content;
     private String sender;
-    private TrayIcon.MessageType type;
+    private MessageType type;
+    private String roomCode;
+    private List<QuizResultDto> results;
+
+    public QuizMessage(String content, String sender, MessageType type, String roomCode) {
+        this.content = content;
+        this.sender = sender;
+        this.type = type;
+        this.roomCode = roomCode;
+    }
 
     public enum MessageType {
         JOIN,
@@ -22,6 +32,8 @@ public class QuizMessage {
         CHAT,
         QUIZ_START,
         QUIZ_END,
-        ANSWER_SUBMIT
+        QUIZ_RESTART,
+        ANSWER_SUBMIT,
+        ERROR,
     }
 }

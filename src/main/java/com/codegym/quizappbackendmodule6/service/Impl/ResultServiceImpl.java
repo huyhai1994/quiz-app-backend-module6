@@ -52,7 +52,6 @@ public class ResultServiceImpl implements ResultService {
         if (userAnswers == null || userAnswers.isEmpty()) {
             throw new IllegalArgumentException("No user answers provided");
         }
-
         // Lưu các câu trả lời của người dùng vào cơ sở dữ liệu
         List<UserAnswer> savedAnswers = new ArrayList<>();
 
@@ -75,7 +74,6 @@ public class ResultServiceImpl implements ResultService {
 
             savedAnswers.add(userAnswer);
         }
-
         savedAnswers = userAnswerRepository.saveAll(savedAnswers);
 
         // Tìm kết quả theo resultId
@@ -95,7 +93,6 @@ public class ResultServiceImpl implements ResultService {
                 failAnswers++;
             }
         }
-
         result.setCorrectAnswers((long) correctAnswers);
         result.setIncorrectAnswers((long) failAnswers);
 
@@ -105,11 +102,9 @@ public class ResultServiceImpl implements ResultService {
         result.setScore(score);
         result.setFinishTime(LocalDateTime.now());
         result.setStatus(true);
-
         // Lưu kết quả vào cơ sở dữ liệu
         return resultRepository.save(result);
     }
-
 
     @Override
     public QuizResultDTO getQuizResultById(Long resultId) {
@@ -132,7 +127,6 @@ public class ResultServiceImpl implements ResultService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         List<Result> results = resultRepository.findByUser(user);
-
         // Chuyển đổi danh sách kết quả thành danh sách DTO
         List<QuizHistoryDTO> historyList = results.stream()
                 .map(result -> {

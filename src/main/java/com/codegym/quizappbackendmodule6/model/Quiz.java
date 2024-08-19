@@ -54,6 +54,9 @@ public class Quiz {
     @Column(name = "passing_score")
     private int passingScore;
 
+    @OneToMany(mappedBy = "quiz")
+    private Set<QuizRoom> quizRooms;
+
     @ManyToMany
     @JoinTable(
             name = "quiz_questions",
