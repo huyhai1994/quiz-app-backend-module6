@@ -47,9 +47,6 @@ public class ResultServiceImpl implements ResultService {
     @Override
     @Transactional
     public Result endQuiz(Long resultId, List<UserAnswerDto> userAnswers) {
-        if (userAnswers == null || userAnswers.isEmpty()) {
-            throw new IllegalArgumentException("No user answers provided");
-        }
 
         // Lưu các câu trả lời của người dùng vào cơ sở dữ liệu
         List<UserAnswer> savedAnswers = new ArrayList<>();
