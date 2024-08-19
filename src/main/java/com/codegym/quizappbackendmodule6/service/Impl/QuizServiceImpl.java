@@ -120,6 +120,11 @@ public class QuizServiceImpl implements QuizService {
         return quizRepository.findQuizTimeById(quizId);
     }
 
+//    @Override
+//    public List<QuizTeacherHistory> getQuizHistoryByTeacher(Principal principal) {
+//        return null;
+//    }
+
     @Override
     public List<QuizHotDTO> findTopQuizzesByResultCount() {
         List<QuizHotDTO> results = quizRepository.findTopQuizzesByResultCount();
