@@ -2,9 +2,9 @@ package com.codegym.quizappbackendmodule6.service.Impl;
 
 import com.codegym.quizappbackendmodule6.model.Category;
 import com.codegym.quizappbackendmodule6.model.Option;
-import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.model.Question;
 import com.codegym.quizappbackendmodule6.model.QuestionType;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
 import com.codegym.quizappbackendmodule6.service.CategoryService;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
@@ -28,12 +28,10 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Question save(Question question) {
-        Category category = categoryService.findById(question.getCategory().getId())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+        Category category = categoryService.findById(question.getCategory().getId()).orElseThrow(() -> new RuntimeException("Category not found"));
         question.setCategory(category);
 
-        QuestionType questionType = questionTypeService.findById(question.getQuestionType().getId())
-                .orElseThrow(() -> new RuntimeException("QuestionType not found"));
+        QuestionType questionType = questionTypeService.findById(question.getQuestionType().getId()).orElseThrow(() -> new RuntimeException("QuestionType not found"));
         question.setQuestionType(questionType);
         return questionRepository.save(question);
     }
@@ -48,7 +46,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         if (questionRepository.existsById(id)) {
             questionRepository.deleteById(id);
-        }else {
+        } else {
             throw new RuntimeException("Question not found with id: " + id);
         }
     }
@@ -65,7 +63,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<AddQuestionIntoQuizDTO> addQuestionsByCategoryNameAndUserId(String categoryName, Long userId) {
-        return questionRepository.addQuestionsByCategoryNameAndUserId(categoryName,userId);
+        return questionRepository.addQuestionsByCategoryNameAndUserId(categoryName, userId);
     }
 
     @Override
@@ -99,6 +97,11 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void deleteQuestionById(Long questionId) {
         questionRepository.deleteById(questionId);
+    }
+
+    @Override
+    public boolean isQuestionInAnyQuiz(Long questionId) {
+        return questionRepository.isQuestionInAnyQuiz(questionId);
     }
 
 }

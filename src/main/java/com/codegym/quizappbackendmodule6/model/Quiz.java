@@ -57,6 +57,10 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz")
     private Set<QuizRoom> quizRooms;
 
+    @ManyToOne
+    @JoinColumn(name = "quiz_categories_id")
+    private QuizCategory quizCategory;
+
     @ManyToMany
     @JoinTable(
             name = "quiz_questions",

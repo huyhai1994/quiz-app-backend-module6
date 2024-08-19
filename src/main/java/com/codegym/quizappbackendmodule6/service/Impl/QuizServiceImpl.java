@@ -119,15 +119,20 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<QuizHotDTO> findTopQuizzesByResultCount() {
-        List<QuizHotDTO> results = quizRepository.findTopQuizzesByResultCount();
-        return results.stream().limit(5).map(result -> new QuizHotDTO(result.getId(), result.getTitle(), result.getResultCount())).collect(Collectors.toList());
+    public List<QuizHotDTO> findTopQuizzesByResultCount(Boolean status) {
+        List<QuizHotDTO> results = quizRepository.findTopQuizzesByResultCount(status);
+        return results.stream()
+                .limit(5)
+                .map(result -> new QuizHotDTO(
+                        result.getId(),
+                        result.getTitle(),
+                        result.getResultCount()
+                ))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<QuizTeacherHistory> getQuizHistoryByTeacher(Principal principal) {
-        User user = userService.getUserByEmail(principal.getName());
-//        return quizRepository.findQuizHistoryByTeacher(user.getId());
-        return null;
+    public List<QuizTeacherHistory> getHistoryUserByQuizId(Long quizID , Boolean status) {
+        return quizRepository.getHistoryUserByQuizId(quizID ,status);
     }
 }
