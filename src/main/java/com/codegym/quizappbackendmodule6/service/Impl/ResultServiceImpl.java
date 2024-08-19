@@ -13,9 +13,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,8 +46,8 @@ public class ResultServiceImpl implements ResultService {
     @Transactional
     public Result endQuiz(Long resultId, List<UserAnswerDto> userAnswers) {
 
-        // Lưu các câu trả lời của người dùng vào cơ sở dữ liệu
         List<UserAnswer> savedAnswers = new ArrayList<>();
+        Map<Long, List<UserAnswer>> userAnswersByQuestion = new HashMap<>();
 
         for (UserAnswerDto answerDto : userAnswers) {
             User user = userService.findById(answerDto.getUserId())
@@ -62,34 +60,55 @@ public class ResultServiceImpl implements ResultService {
                     .orElseThrow(() -> new RuntimeException("Option not found"));
 
             UserAnswer userAnswer = new UserAnswer();
-            userAnswer.setUser(user); // Gán người dùng đã trả lời
-            userAnswer.setQuestion(question); // Gán câu hỏi liên quan
+            userAnswer.setUser(user);
+            userAnswer.setQuestion(question);
             userAnswer.setOption(option);
-            // Gán tùy chọn đã chọn
-            userAnswer.setAnsweredAt(LocalDateTime.now()); // Gán thời gian trả lời
+            userAnswer.setAnsweredAt(LocalDateTime.now());
 
             savedAnswers.add(userAnswer);
+
+            userAnswersByQuestion
+                    .computeIfAbsent(question.getId(), k -> new ArrayList<>())
+                    .add(userAnswer);
         }
 
         savedAnswers = userAnswerRepository.saveAll(savedAnswers);
 
-        // Tìm kết quả theo resultId
         Result result = resultRepository.findById(resultId)
                 .orElseThrow(() -> new RuntimeException("Result not found"));
 
-        // Tính toán số câu trả lời đúng
         int correctAnswers = 0;
         int failAnswers = 0;
-        int totalOptions = savedAnswers.size();
 
-        for (UserAnswer userAnswer : savedAnswers) {
-            Option selectedOption = userAnswer.getOption();
-            if (selectedOption != null && Boolean.TRUE.equals(selectedOption.getIsCorrect())) {
-                correctAnswers++;
-            } else {
-                failAnswers++;
+        for (Map.Entry<Long, List<UserAnswer>> entry : userAnswersByQuestion.entrySet()) {
+            Question question = entry.getValue().get(0).getQuestion();
+            List<UserAnswer> answersForQuestion = entry.getValue();
+
+            if (question.getQuestionType().getTypeName().equals("one")) {
+                if (answersForQuestion.size() == 1) {
+                    Option selectedOption = answersForQuestion.get(0).getOption();
+                    if (selectedOption != null && Boolean.TRUE.equals(selectedOption.getIsCorrect())) {
+                        correctAnswers++;
+                    } else {
+                        failAnswers++;
+                    }
+                } else {
+                    failAnswers++;
+                }
+            } else if (question.getQuestionType().getTypeName().equals("many")) {
+                // Handle multiple answer questions
+                List<Option> correctOptions = optionService.findCorrectOptionsByQuestionId(question.getId());
+                if (answersForQuestion.size() == correctOptions.size() &&
+                        correctOptions.stream().allMatch(co -> answersForQuestion.stream()
+                                .anyMatch(ua -> ua.getOption().getId().equals(co.getId())))) {
+                    correctAnswers++;
+                } else {
+                    failAnswers++;
+                }
             }
         }
+
+        int totalOptions = userAnswersByQuestion.size();
 
         result.setCorrectAnswers((long) correctAnswers);
         result.setIncorrectAnswers((long) failAnswers);
@@ -101,9 +120,9 @@ public class ResultServiceImpl implements ResultService {
         result.setFinishTime(LocalDateTime.now());
         result.setStatus(true);
 
-        // Lưu kết quả vào cơ sở dữ liệu
         return resultRepository.save(result);
     }
+
 
 
     @Override

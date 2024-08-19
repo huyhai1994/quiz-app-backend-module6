@@ -14,4 +14,7 @@ public interface OptionRepository extends JpaRepository<Option, Long> {
 
     @Query(value = "SELECT o.id AS id, o.option_text AS optiontext FROM options o WHERE o.question_id = :questionId", nativeQuery = true)
     List<OptionStudentDTO> findOptionsByQuestionId(@Param("questionId") Long questionId);
+
+    @Query("SELECT o FROM Option o WHERE o.question.id = :questionId AND o.isCorrect = true")
+    List<Option> findCorrectOptionsByQuestionId(Long questionId);
 }
