@@ -15,4 +15,5 @@ public class QuestionResponse {
     private Long id;
     private String questionText;
     private Set<OptionDTO> options;
+    private String typeName;
 }
