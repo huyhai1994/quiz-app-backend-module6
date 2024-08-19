@@ -34,7 +34,7 @@ public interface QuizService {
 
     List<Quiz> findByTitle(String title);
 
-    List<QuizHotDTO> findTopQuizzesByResultCount();
+    List<QuizHotDTO> findTopQuizzesByResultCount(Boolean status);
 
     QuizTimeDTO getQuizTimeById(Long quizId);
 

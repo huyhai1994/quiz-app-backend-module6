@@ -119,8 +119,8 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<QuizHotDTO> findTopQuizzesByResultCount() {
-        List<QuizHotDTO> results = quizRepository.findTopQuizzesByResultCount();
+    public List<QuizHotDTO> findTopQuizzesByResultCount(Boolean status) {
+        List<QuizHotDTO> results = quizRepository.findTopQuizzesByResultCount(status);
         return results.stream()
                 .limit(5)
                 .map(result -> new QuizHotDTO(

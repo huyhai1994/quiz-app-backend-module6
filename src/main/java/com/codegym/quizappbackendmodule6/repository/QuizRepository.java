@@ -51,10 +51,10 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
     List<QuizDTO> getQuizzesByCategory();
 
     @Query("SELECT new com.codegym.quizappbackendmodule6.model.dto.QuizHotDTO(q.id, q.title, COUNT(r.id)) " +
-            "FROM Quiz q LEFT JOIN Result r ON q.id = r.quiz.id " +
+            "FROM Quiz q LEFT JOIN Result r ON q.id = r.quiz.id AND r.status = :status " +
             "GROUP BY q.id, q.title " +
             "ORDER BY COUNT(r.id) DESC")
-    List<QuizHotDTO> findTopQuizzesByResultCount();
+    List<QuizHotDTO> findTopQuizzesByResultCount(@Param("status") Boolean status);
 
 
     @Query("SELECT new com.codegym.quizappbackendmodule6.model.dto.QuizTeacherHistory(u.id, u.name, u.email, COUNT(r.id)) " +

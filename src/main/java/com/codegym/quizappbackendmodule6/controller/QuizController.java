@@ -116,7 +116,7 @@ public class QuizController {
 
     @GetMapping("/quizzes/top")
     public List<QuizHotDTO> getTopQuizzes() {
-        return quizService.findTopQuizzesByResultCount();
+        return quizService.findTopQuizzesByResultCount(true);
     }
 
     @GetMapping("/{quizId}/user-info")
