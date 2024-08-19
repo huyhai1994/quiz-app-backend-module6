@@ -16,7 +16,7 @@ public class QuizHistoryDTO {
     private Long id;
     private String quizName;
     private LocalDateTime finishTime;
-    private long durationMinutes;
+    private String durationMinutes;
     private BigDecimal score;
     private Integer attemptNumber;
 }

@@ -116,12 +116,12 @@ public class QuizController {
 
     @GetMapping("/quizzes/top")
     public List<QuizHotDTO> getTopQuizzes() {
-        return quizService.findTopQuizzesByResultCount();
+        return quizService.findTopQuizzesByResultCount(true);
     }
 
     @GetMapping("/{quizId}/user-info")
     public ResponseEntity<List<QuizTeacherHistory>> getHistoryUserByQuizId(@PathVariable Long quizId) {
-        List<QuizTeacherHistory> historyList = quizService.getHistoryUserByQuizId(quizId);
+        List<QuizTeacherHistory> historyList = quizService.getHistoryUserByQuizId(quizId,true);
         return ResponseEntity.ok(historyList);
     }
 

@@ -3,10 +3,7 @@ package com.codegym.quizappbackendmodule6.service;
 import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.model.Result;
 import com.codegym.quizappbackendmodule6.model.UserAnswer;
-import com.codegym.quizappbackendmodule6.model.dto.QuizHistoryDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuizResultDTO;
-import com.codegym.quizappbackendmodule6.model.dto.ResultHistoryDTO;
-import com.codegym.quizappbackendmodule6.model.dto.UserAnswerDto;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
@@ -25,4 +22,8 @@ public interface ResultService {
     Long findRankByScore(BigDecimal score);
 
     ResultHistoryDTO finDetailHistory(Long id);
+
+    List<Result> findByUserId(Long userId, boolean status);
+
+    List<HistoryStudentExam> findStudentExamByUserId(Long userId);
 }
