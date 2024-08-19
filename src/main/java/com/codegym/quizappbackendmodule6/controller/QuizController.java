@@ -1,11 +1,9 @@
 package com.codegym.quizappbackendmodule6.controller;
 
-import com.codegym.quizappbackendmodule6.model.Question;
-import com.codegym.quizappbackendmodule6.model.Quiz;
-import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
-import com.codegym.quizappbackendmodule6.model.User;
+import com.codegym.quizappbackendmodule6.model.*;
 import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
+import com.codegym.quizappbackendmodule6.service.QuizCategoryService;
 import com.codegym.quizappbackendmodule6.service.QuizService;
 import com.codegym.quizappbackendmodule6.service.UserService;
 import jakarta.validation.Valid;
@@ -26,6 +24,7 @@ public class QuizController {
     private final QuizService quizService;
     private final UserService userService;
     private final QuestionService questionService;
+    private final QuizCategoryService quizCategoryService;  // Add this line
 
     @GetMapping
     public ResponseEntity<List<QuizDTO>> getQuizList() {
@@ -35,11 +34,14 @@ public class QuizController {
 
     @PostMapping
     public ResponseEntity<Quiz> createQuiz(@Valid @RequestBody QuizRequestDTO quizRequestDTO, Principal principal) {
+
         User user = userService.getUserByEmail(principal.getName());
         if (user == null) {
             throw new RuntimeException("User not found");
         }
         Set<Question> questions = quizRequestDTO.getQuestionIds().stream().map(questionId -> questionService.findById(questionId).orElseThrow(() -> new RuntimeException("Question not found: " + questionId))).collect(Collectors.toSet());
+
+        QuizCategory quizCategory = quizCategoryService.findById(quizRequestDTO.getQuizCategoryId()).orElseThrow(() -> new RuntimeException("QuizCategory not found: " + quizRequestDTO.getQuizCategoryId()));
 
         Quiz quiz = new Quiz();
         quiz.setTitle(quizRequestDTO.getTitle());
@@ -49,6 +51,8 @@ public class QuizController {
         quiz.setPassingScore(quizRequestDTO.getPassingScore());
         quiz.setQuestions(questions);
         quiz.setTimeCreate(quizRequestDTO.getTimeCreated());
+        quiz.setDifficulty(quizRequestDTO.getDifficulty());
+        quiz.setQuizCategory(quizCategory);
         quiz.setCreatedBy(user);
 
         Quiz quizNew = quizService.createQuiz(quiz);
