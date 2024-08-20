@@ -16,4 +16,6 @@ public interface OptionService {
     void saveOption(List<Option> options);
 
     void deleteById(Long optionId); // Add this method
+
+    List<Option> findCorrectOptionsByQuestionId(Long id);
 }

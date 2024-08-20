@@ -61,4 +61,9 @@ public class OptionServiceImpl implements OptionService {
     public void deleteById(Long optionId) {
         optionRepository.deleteById(optionId);
     }
+
+    @Override
+    public List<Option> findCorrectOptionsByQuestionId(Long id) {
+        return optionRepository.findCorrectOptionsByQuestionId(id);
+    }
 }
