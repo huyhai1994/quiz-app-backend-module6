@@ -57,7 +57,8 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Quiz updateQuiz(Long id, UpdateQuizRequestDto updateQuizRequestDTO) {
-        Quiz quiz = quizRepository.findById(id).orElseThrow(() -> new RuntimeException("Quiz không tồn tại với Id: " + id));
+        Quiz quiz = quizRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Quiz không tồn tại với Id: " + id));
 
         quiz.setTitle(updateQuizRequestDTO.getTitle());
         quiz.setDescription(updateQuizRequestDTO.getDescription());
@@ -117,6 +118,15 @@ public class QuizServiceImpl implements QuizService {
     public QuizTimeDTO getQuizTimeById(Long quizId) {
         return quizRepository.findQuizTimeById(quizId);
     }
+
+//    @Override
+//    public List<QuizByCategoryDTO> getQuizByQuizCategory(String category) {
+//        List<Quiz> quizzes = quizRepository.findByQuizCategory(category);
+//
+//        return quizzes.stream()
+//                .map(quiz -> new QuizByCategoryDTO(quiz.getId(), quiz.getTitle(), quiz.getDescription(), quiz.getCategory()))
+//                .collect(Collectors.toList());
+//    }
 
     @Override
     public List<QuizHotDTO> findTopQuizzesByResultCount(Boolean status) {

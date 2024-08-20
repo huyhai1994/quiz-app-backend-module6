@@ -99,9 +99,31 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Question>> getQuestionById(@PathVariable Long id) {
-        Optional<Question> question = questionService.findById(id);
-        return ResponseEntity.ok(question);
+    public ResponseEntity<CreateQuestionRequestDTO> getQuestionById(@PathVariable Long id) {
+        Optional<Question> questionOpt = questionService.findById(id);
+        if (questionOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Question question = questionOpt.get();
+
+        // Map Question to CreateQuestionRequestDTO
+        CreateQuestionRequestDTO questionDTO = new CreateQuestionRequestDTO();
+        questionDTO.setQuestionText(question.getQuestionText());
+        questionDTO.setQuestionType(question.getQuestionType());
+        questionDTO.setDifficulty(question.getDifficulty());
+        questionDTO.setCategory(question.getCategory());
+        questionDTO.setCreatedBy(question.getCreatedBy());
+
+        // Map Options to OptionDTO
+        List<CreateQuestionRequestDTO.OptionDTO> optionDTOs = question.getOptions().stream().map(option -> {
+            CreateQuestionRequestDTO.OptionDTO optionDTO = new CreateQuestionRequestDTO.OptionDTO();
+            optionDTO.setOptionText(option.getOptionText());
+            // Exclude isCorrect field
+            return optionDTO;
+        }).collect(Collectors.toList());
+        questionDTO.setOptions(optionDTOs);
+
+        return ResponseEntity.ok(questionDTO);
     }
 
     @GetMapping("/search/questions")
