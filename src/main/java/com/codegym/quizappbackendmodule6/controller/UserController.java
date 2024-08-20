@@ -186,4 +186,26 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/get-pending-status")
+    public ResponseEntity<?> getPendingStatus(@RequestBody Map<String, String> payload) {
+        String userIdStr = payload.get("user_id");
+        if (userIdStr == null) {
+            return ResponseEntity.badRequest().body("User ID is required");
+        }
+
+        Long userId;
+        try {
+            userId = Long.parseLong(userIdStr);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("Invalid User ID format");
+        }
+
+        TeacherApproval teacherApproval = teacherApprovalService.findByUserId(userId);
+        if (teacherApproval != null && teacherApproval.getStatus() == TeacherApproval.Status.PENDING) {
+            return ResponseEntity.ok(teacherApproval);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
