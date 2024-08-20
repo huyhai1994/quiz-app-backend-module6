@@ -82,8 +82,8 @@ public class User {
     public boolean isResetCodeValid() {
         return
                 this.resetCode != null &&
-                this.resetCodeExpiry != null &&
-                LocalDateTime.now().isBefore(this.resetCodeExpiry);
+                        this.resetCodeExpiry != null &&
+                        LocalDateTime.now().isBefore(this.resetCodeExpiry);
     }
 
     public void clearResetCode() {
