@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 public interface UserWithApprovalsProjection {
     Long getId();
 
-
     String getName();
 
     String getEmail();

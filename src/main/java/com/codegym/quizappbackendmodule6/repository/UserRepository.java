@@ -12,10 +12,17 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
+
     Optional<User> getUserByEmail(String email);
 
-    @Query(value = "CALL  getuserswithapprovals()", nativeQuery = true)
+
+    @Query(value = "SELECT u.id AS id, u.name AS name, u.email AS email, u.last_login AS lastlogin, u.registered_at AS registeredat " +
+            "FROM users u " +
+            "JOIN teacher_approvals ta ON u.id = ta.user_id " +
+            "WHERE ta.status = 'PENDING'",
+            nativeQuery = true)
     List<UserWithApprovalsProjection> getUsersWithApprovals();
+
 
     @Query(value = "CALL get_teachers()", nativeQuery = true)
     List<TeacherResponseDTO> getTeachers();
