@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> getUserByEmail(String email);
 
 
-    @Query(value = "SELECT u.id AS id, u.name AS name, u.email AS email, u.last_login AS lastlogin, u.registered_at AS registeredat " +
+    @Query(value = "SELECT u.id AS id, u.name AS name, u.email AS email, u.last_login AS lastLogin, u.registered_at AS registeredAt " +
             "FROM users u " +
             "JOIN teacher_approvals ta ON u.id = ta.user_id " +
             "WHERE ta.status = 'PENDING'",
