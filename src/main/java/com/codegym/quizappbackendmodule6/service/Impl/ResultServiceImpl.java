@@ -90,7 +90,7 @@ public class ResultServiceImpl implements ResultService {
             List<UserAnswer> answersForQuestion = entry.getValue();
 
             // Xử lý câu hỏi có một đáp án đúng
-            if (question.getQuestionType().getTypeName().equals("ONE")) {
+            if (question.getQuestionType().getTypeName().equals("ONE") || question.getQuestionType().getTypeName().equals("TRUE_FALSE")) {
                 if (answersForQuestion.size() == 1) {
                     Option selectedOption = answersForQuestion.get(0).getOption();
                     if (selectedOption != null && Boolean.TRUE.equals(selectedOption.getIsCorrect())) {
