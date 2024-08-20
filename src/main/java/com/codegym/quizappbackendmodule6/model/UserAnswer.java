@@ -39,5 +39,4 @@ public class UserAnswer {
     public void answeredAt() {
         this.answeredAt = LocalDateTime.now();
     }
-
 }

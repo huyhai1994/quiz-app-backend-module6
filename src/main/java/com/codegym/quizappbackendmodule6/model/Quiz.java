@@ -1,6 +1,7 @@
 package com.codegym.quizappbackendmodule6.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "quizzes")
+@JsonIgnoreProperties({"createdBy", "quizRooms", "questions"})
 public class Quiz {
 
     @Id
@@ -53,6 +55,9 @@ public class Quiz {
     @JsonIgnore
     @Column(name = "passing_score")
     private int passingScore;
+
+    @OneToMany(mappedBy = "quiz")
+    private Set<QuizRoom> quizRooms;
 
     @ManyToOne
     @JoinColumn(name = "quiz_categories_id")

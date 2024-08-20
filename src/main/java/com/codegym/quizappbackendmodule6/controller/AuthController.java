@@ -1,9 +1,9 @@
 package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.User;
-import com.codegym.quizappbackendmodule6.model.dto.LoginRequest;
-import com.codegym.quizappbackendmodule6.model.dto.LoginResponse;
-import com.codegym.quizappbackendmodule6.model.dto.UserRegistrationDto;
+import com.codegym.quizappbackendmodule6.model.dto.auth.LoginRequest;
+import com.codegym.quizappbackendmodule6.model.dto.auth.LoginResponse;
+import com.codegym.quizappbackendmodule6.model.dto.auth.UserRegistrationDto;
 import com.codegym.quizappbackendmodule6.service.AuthService;
 import com.codegym.quizappbackendmodule6.service.Impl.AuthServiceImpl;
 import jakarta.validation.Valid;
