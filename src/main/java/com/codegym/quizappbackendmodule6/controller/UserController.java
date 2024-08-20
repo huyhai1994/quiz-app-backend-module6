@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -145,13 +147,7 @@ public class UserController {
     }
 
     @PutMapping("/update-admin-info")
-    public ResponseEntity<Void> updateAdminInfo(
-            @RequestParam Long id,
-            @RequestParam String name,
-            @RequestParam String email,
-            @RequestParam String currentPassword,
-            @RequestParam(required = false) String newPassword,
-            @RequestParam(required = false) MultipartFile avatar) {
+    public ResponseEntity<Void> updateAdminInfo(@RequestParam Long id, @RequestParam String name, @RequestParam String email, @RequestParam String currentPassword, @RequestParam(required = false) String newPassword, @RequestParam(required = false) MultipartFile avatar) {
 
         AdminInfoRequestDTO adminInfoRequestDTO = new AdminInfoRequestDTO();
         adminInfoRequestDTO.setId(id);
@@ -163,5 +159,31 @@ public class UserController {
 
         userService.updateAdminInfo(adminInfoRequestDTO);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/request-teacher-role")
+    public ResponseEntity<String> requestTeacherRole(@RequestBody Map<String, String> payload) {
+        String userIdStr = payload.get("user_id");
+        if (userIdStr == null) {
+            return ResponseEntity.badRequest().body("User ID is required");
+        }
+
+        Long userId;
+        try {
+            userId = Long.parseLong(userIdStr);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("Invalid User ID format");
+        }
+
+        Optional<User> userOptional = userService.findById(userId);
+        if (userOptional.isPresent()) {
+            TeacherApproval teacherApproval = new TeacherApproval();
+            teacherApproval.setUser(userOptional.get());
+            teacherApproval.setStatus(TeacherApproval.Status.PENDING);
+            teacherApprovalService.save(teacherApproval);
+            return ResponseEntity.ok("Teacher role request submitted successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
