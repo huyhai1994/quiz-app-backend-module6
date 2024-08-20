@@ -90,7 +90,7 @@ public class ResultServiceImpl implements ResultService {
             List<UserAnswer> answersForQuestion = entry.getValue();
 
             // Xử lý câu hỏi có một đáp án đúng
-            if (question.getQuestionType().getTypeName().equals("one")) {
+            if (question.getQuestionType().getTypeName().equals("ONE")) {
                 if (answersForQuestion.size() == 1) {
                     Option selectedOption = answersForQuestion.get(0).getOption();
                     if (selectedOption != null && Boolean.TRUE.equals(selectedOption.getIsCorrect())) {
@@ -103,7 +103,7 @@ public class ResultServiceImpl implements ResultService {
                 }
             }
             // Xử lý câu hỏi có nhiều đáp án đúng
-            else if (question.getQuestionType().getTypeName().equals("many")) {
+            else if (question.getQuestionType().getTypeName().equals("MANY")) {
                 List<Option> correctOptions = optionService.findCorrectOptionsByQuestionId(question.getId());
                 if (answersForQuestion.size() == correctOptions.size() &&
                         correctOptions.stream().allMatch(co -> answersForQuestion.stream()
