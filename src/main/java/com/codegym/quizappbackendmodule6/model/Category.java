@@ -1,5 +1,6 @@
 package com.codegym.quizappbackendmodule6.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "categories")
+@JsonIgnoreProperties("createdBy")
 public class Category {
 
     @Id

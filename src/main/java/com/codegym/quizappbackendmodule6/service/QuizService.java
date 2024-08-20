@@ -2,7 +2,7 @@ package com.codegym.quizappbackendmodule6.service;
 
 
 import com.codegym.quizappbackendmodule6.model.Quiz;
-import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.dto.*;
 
 import java.security.Principal;

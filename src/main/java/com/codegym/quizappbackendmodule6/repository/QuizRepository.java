@@ -1,8 +1,7 @@
 package com.codegym.quizappbackendmodule6.repository;
 
 import com.codegym.quizappbackendmodule6.model.Quiz;
-import com.codegym.quizappbackendmodule6.model.QuizCategory;
-import com.codegym.quizappbackendmodule6.model.QuizTimeDTO;
+import com.codegym.quizappbackendmodule6.model.dto.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO;
 import com.codegym.quizappbackendmodule6.model.dto.QuizStudentDTO;
@@ -33,10 +32,8 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
             nativeQuery = true)
     List<QuizTeacherDTO> findTeacherQuizDetails(@Param("userId") Long userId);
 
-
     @Query(value = "SELECT q.id AS id, q.title AS title, q.quantity AS quantity FROM quizzes q", nativeQuery = true)
     List<QuizStudentDTO> findAllQuizzesWithDTO();
-
 
     @Query("SELECT new com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO(q.title) FROM Quiz q")
     List<QuizNameDTO> findAllQuizNames();
@@ -56,8 +53,7 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
             "GROUP BY q.id, q.title " +
             "ORDER BY COUNT(r.id) DESC")
     List<QuizHotDTO> findTopQuizzesByResultCount(@Param("status") Boolean status);
-
-
+    
     @Query("SELECT new com.codegym.quizappbackendmodule6.model.dto.QuizTeacherHistory(u.id, u.name, u.email, COUNT(r.id)) " +
             "FROM Result r JOIN r.user u " +
             "WHERE r.quiz.id = :quizId AND r.status = :status " +
@@ -65,10 +61,4 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
     List<QuizTeacherHistory> getHistoryUserByQuizId(@Param("quizId") Long quizId , @Param("status") Boolean status);
     @Query("SELECT q.id AS quizId, q.quizTime AS quizTime FROM Quiz q WHERE q.id = :quizId")
     QuizTimeDTO findQuizTimeById(@Param("quizId") Long quizId);
-
-
-//    @Query(value = "SELECT q FROM Quiz q WHERE q.category = :category")
-//    List<Quiz> findByQuizCategory(@Param("category") QuizCategory category);
-
 }
-

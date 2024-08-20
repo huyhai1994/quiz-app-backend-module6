@@ -1,5 +1,6 @@
 package com.codegym.quizappbackendmodule6.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "users")
+@JsonIgnoreProperties({"quizSessions", "createdBy"})
 public class User {
 
     @Id
@@ -55,6 +58,9 @@ public class User {
 
     @Column(name = "reset_code_expiry")
     private LocalDateTime resetCodeExpiry;
+
+    @OneToMany(mappedBy = "user")
+    private Set<QuizSession> quizSessions;
 
     @PrePersist
     public void prePersist() {

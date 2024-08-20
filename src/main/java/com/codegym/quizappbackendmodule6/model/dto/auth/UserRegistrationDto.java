@@ -1,4 +1,4 @@
-package com.codegym.quizappbackendmodule6.model.dto;
+package com.codegym.quizappbackendmodule6.model.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
