@@ -28,18 +28,15 @@ public class ResultController {
     public ResponseEntity<Result> end(@PathVariable Long resultId, @RequestBody List<UserAnswerDto> userAnswers) {
         return ResponseEntity.ok(resultService.endQuiz(resultId, userAnswers));
     }
-
     //  kết qua bài vừa thi
     @GetMapping("/{resultId}")
     public ResponseEntity<QuizResultDTO> getQuizResultsByUserId(@PathVariable Long resultId) {
         return ResponseEntity.ok(resultService.getQuizResultById(resultId));
     }
-
     // lịch sử thi
     @GetMapping("/history/{userId}")
     public ResponseEntity<List<QuizHistoryDTO>> getQuizHistoryByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(resultService.getQuizHistoryByUserId(userId));
-
     }
 
     @GetMapping("/quizzes/{id}")
@@ -51,7 +48,6 @@ public class ResultController {
             return ResponseEntity.notFound().build();
         }
     }
-
     // chi tiết lịch sử bài thi
     @GetMapping("/detail/{id}/history")
     public ResponseEntity<ResultHistoryDTO> getResultHistory(@PathVariable Long id) {
