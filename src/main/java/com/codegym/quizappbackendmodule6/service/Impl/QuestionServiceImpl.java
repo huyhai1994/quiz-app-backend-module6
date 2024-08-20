@@ -80,6 +80,7 @@ public class QuestionServiceImpl implements QuestionService {
                 QuestionResponse questionResponse = new QuestionResponse();
                 questionResponse.setId(question.getId());
                 questionResponse.setQuestionText(question.getQuestionText());
+                questionResponse.setTypeName(question.getQuestionType().getTypeName());
                 Set<OptionDTO> optionDTOS = new HashSet<>();
                 for (Option option : question.getOptions()) {
                     OptionDTO optionDTO = new OptionDTO();
