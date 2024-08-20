@@ -1,5 +1,6 @@
 package com.codegym.quizappbackendmodule6.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "quiz_sesstions")
+@JsonIgnoreProperties({"user", "quizRoom"})
 public class QuizSession {
 
     @Id

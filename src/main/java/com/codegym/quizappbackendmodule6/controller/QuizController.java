@@ -6,10 +6,7 @@ import com.codegym.quizappbackendmodule6.model.dto.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.*;
 import com.codegym.quizappbackendmodule6.model.dto.*;
-import com.codegym.quizappbackendmodule6.service.QuestionService;
-import com.codegym.quizappbackendmodule6.service.QuizCategoryService;
-import com.codegym.quizappbackendmodule6.service.QuizService;
-import com.codegym.quizappbackendmodule6.service.UserService;
+import com.codegym.quizappbackendmodule6.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +25,8 @@ public class QuizController {
     private final QuizService quizService;
     private final UserService userService;
     private final QuestionService questionService;
-    private final QuizCategoryService quizCategoryService;  // Add this line
+    private final QuizCategoryService quizCategoryService;
+    private final QuizRoomService quizRoomService;
 
     @GetMapping
     public ResponseEntity<List<QuizDTO>> getQuizList() {
