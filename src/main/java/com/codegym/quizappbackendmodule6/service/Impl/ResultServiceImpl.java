@@ -13,14 +13,13 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ResultServiceImpl implements ResultService {
+
     private final ResultRepository resultRepository;
     private final UserService userService;
     private final QuizService quizService;
@@ -31,10 +30,8 @@ public class ResultServiceImpl implements ResultService {
     @Override
     @Transactional
     public Result startQuiz(Long userId, Long quizId) {
-        User user = userService.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        Quiz quiz = quizService.findById(quizId)
-                .orElseThrow(() -> new RuntimeException("Quiz not found"));
+        User user = userService.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Quiz quiz = quizService.findById(quizId).orElseThrow(() -> new RuntimeException("Quiz not found"));
 
         Result result = new Result();
         result.setUser(user);
@@ -47,102 +44,120 @@ public class ResultServiceImpl implements ResultService {
     @Override
     @Transactional
     public Result endQuiz(Long resultId, List<UserAnswerDto> userAnswers) {
-        if (userAnswers == null || userAnswers.isEmpty()) {
-            throw new IllegalArgumentException("No user answers provided");
-        }
-        // Lưu các câu trả lời của người dùng vào cơ sở dữ liệu
+        // Tạo danh sách lưu các đối tượng UserAnswer
         List<UserAnswer> savedAnswers = new ArrayList<>();
+        // Map lưu các câu trả lời của người dùng theo câu hỏi
+        Map<Long, List<UserAnswer>> userAnswersByQuestion = new HashMap<>();
 
+        // Lặp qua các UserAnswerDto và tạo UserAnswer tương ứng
         for (UserAnswerDto answerDto : userAnswers) {
-            User user = userService.findById(answerDto.getUserId())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+            User user = userService.findById(answerDto.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
 
-            Question question = questionService.findById(answerDto.getQuestionId())
-                    .orElseThrow(() -> new RuntimeException("Question not found"));
+            Question question = questionService.findById(answerDto.getQuestionId()).orElseThrow(() -> new RuntimeException("Question not found"));
 
-            Option option = optionService.findById(answerDto.getOptionId())
-                    .orElseThrow(() -> new RuntimeException("Option not found"));
+            Option option = optionService.findById(answerDto.getOptionId()).orElseThrow(() -> new RuntimeException("Option not found"));
 
             UserAnswer userAnswer = new UserAnswer();
-            userAnswer.setUser(user); // Gán người dùng đã trả lời
-            userAnswer.setQuestion(question); // Gán câu hỏi liên quan
+            userAnswer.setUser(user);
+            userAnswer.setQuestion(question);
             userAnswer.setOption(option);
-            // Gán tùy chọn đã chọn
-            userAnswer.setAnsweredAt(LocalDateTime.now()); // Gán thời gian trả lời
+            userAnswer.setAnsweredAt(LocalDateTime.now());
 
             savedAnswers.add(userAnswer);
+
+            userAnswersByQuestion.computeIfAbsent(question.getId(), k -> new ArrayList<>()).add(userAnswer);
         }
+
+        // Lưu tất cả các UserAnswer vào cơ sở dữ liệu
         savedAnswers = userAnswerRepository.saveAll(savedAnswers);
 
-        // Tìm kết quả theo resultId
-        Result result = resultRepository.findById(resultId)
-                .orElseThrow(() -> new RuntimeException("Result not found"));
+        // Tìm đối tượng Result tương ứng với resultId
+        Result result = resultRepository.findById(resultId).orElseThrow(() -> new RuntimeException("Result not found"));
 
-        // Tính toán số câu trả lời đúng
         int correctAnswers = 0;
-        int failAnswers = 0;
-        int totalOptions = savedAnswers.size();
+        int incorrectAnswers = 0;
 
-        for (UserAnswer userAnswer : savedAnswers) {
-            Option selectedOption = userAnswer.getOption();
-            if (selectedOption != null && Boolean.TRUE.equals(selectedOption.getIsCorrect())) {
-                correctAnswers++;
-            } else {
-                failAnswers++;
+        // Xử lý các câu trả lời theo từng câu hỏi
+        for (Map.Entry<Long, List<UserAnswer>> entry : userAnswersByQuestion.entrySet()) {
+            Question question = entry.getValue().get(0).getQuestion();
+            List<UserAnswer> answersForQuestion = entry.getValue();
+
+            // Xử lý câu hỏi có một đáp án đúng
+            if (question.getQuestionType().getTypeName().equals("ONE")) {
+                if (answersForQuestion.size() == 1) {
+                    Option selectedOption = answersForQuestion.get(0).getOption();
+                    if (selectedOption != null && Boolean.TRUE.equals(selectedOption.getIsCorrect())) {
+                        correctAnswers++;
+                    } else {
+                        incorrectAnswers++;
+                    }
+                } else {
+                    incorrectAnswers++;
+                }
+            }
+            // Xử lý câu hỏi có nhiều đáp án đúng
+            else if (question.getQuestionType().getTypeName().equals("MANY")) {
+                List<Option> correctOptions = optionService.findCorrectOptionsByQuestionId(question.getId());
+                if (answersForQuestion.size() == correctOptions.size() && correctOptions.stream().allMatch(co -> answersForQuestion.stream().anyMatch(ua -> ua.getOption().getId().equals(co.getId())))) {
+                    correctAnswers++;
+                } else {
+                    incorrectAnswers++;
+                }
+            }
+            // Xử lý câu hỏi TRUE_FALSE
+            else if (question.getQuestionType().getTypeName().equals("TRUE_FALSE")) {
+                if (answersForQuestion.size() == 1) {
+                    Option selectedOption = answersForQuestion.get(0).getOption();
+                    if (selectedOption != null && Boolean.TRUE.equals(selectedOption.getIsCorrect())) {
+                        correctAnswers++;
+                    } else {
+                        incorrectAnswers++;
+                    }
+                } else {
+                    incorrectAnswers++;
+                }
             }
         }
+
+        // Tính toán điểm số
+        int totalQuestions = userAnswersByQuestion.size();
+        BigDecimal score = BigDecimal.ZERO;
+        if (totalQuestions > 0) {
+            score = new BigDecimal((double) correctAnswers / totalQuestions * 100);
+            score = score.setScale(2, RoundingMode.HALF_UP);
+        }
+
+        // Cập nhật thông tin kết quả
         result.setCorrectAnswers((long) correctAnswers);
-        result.setIncorrectAnswers((long) failAnswers);
-
-        BigDecimal score = new BigDecimal((double) correctAnswers / totalOptions * 100);
-        score = score.setScale(2, RoundingMode.HALF_UP);
-
+        result.setIncorrectAnswers((long) incorrectAnswers);
         result.setScore(score);
         result.setFinishTime(LocalDateTime.now());
         result.setStatus(true);
-        // Lưu kết quả vào cơ sở dữ liệu
+
+        // Lưu kết quả vào cơ sở dữ liệu và trả về đối tượng Result
         return resultRepository.save(result);
     }
 
+
     @Override
     public QuizResultDTO getQuizResultById(Long resultId) {
-        Result result = resultRepository.findById(resultId)
-                .orElseThrow(() -> new RuntimeException("Result not found"));
+        Result result = resultRepository.findById(resultId).orElseThrow(() -> new RuntimeException("Result not found"));
 
-        return new QuizResultDTO(
-                result.getId(),
-                result.getUser().getName(),
-                result.getFinishTime(),
-                result.getScore(),
-                result.getCorrectAnswers(),
-                result.getIncorrectAnswers()
-        );
+        return new QuizResultDTO(result.getId(), result.getUser().getName(), result.getFinishTime(), result.getScore(), result.getCorrectAnswers(), result.getIncorrectAnswers());
     }
 
     @Override
     public List<QuizHistoryDTO> getQuizHistoryByUserId(Long userId) {
-        User user = userService.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userService.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         List<Result> results = resultRepository.findByUser(user);
+
         // Chuyển đổi danh sách kết quả thành danh sách DTO
-        List<QuizHistoryDTO> historyList = results.stream()
-                .map(result -> {
-                    Duration examDuration = Duration.between(result.getStartTime(), result.getFinishTime());
-                    String formattedDuration = formatDuration(examDuration);
-                    return new QuizHistoryDTO(
-                            result.getId(),
-                            result.getQuiz().getTitle(),
-                            result.getFinishTime(),
-                            formattedDuration,
-                            result.getScore(),
-                            (int) results.stream()
-                                    .filter(r -> r.getQuiz().getTitle().equals(result.getQuiz().getTitle()))
-                                    .count()
-                    );
-                })
-                .sorted((r1, r2) -> r2.getFinishTime().compareTo(r1.getFinishTime()))
-                .collect(Collectors.toList());
+        List<QuizHistoryDTO> historyList = results.stream().map(result -> {
+            Duration examDuration = Duration.between(result.getStartTime(), result.getFinishTime());
+            String formattedDuration = formatDuration(examDuration);
+            return new QuizHistoryDTO(result.getId(), result.getQuiz().getTitle(), result.getFinishTime(), formattedDuration, result.getScore(), (int) results.stream().filter(r -> r.getQuiz().getTitle().equals(result.getQuiz().getTitle())).count());
+        }).sorted((r1, r2) -> r2.getFinishTime().compareTo(r1.getFinishTime())).collect(Collectors.toList());
 
         return historyList;
     }
@@ -179,8 +194,8 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public List<Result> findByUserId(Long userId , boolean status) {
-        return resultRepository.findByUserIdAndStatus(userId ,status);
+    public List<Result> findByUserId(Long userId, boolean status) {
+        return resultRepository.findByUserIdAndStatus(userId, status);
     }
 
     @Override
