@@ -29,40 +29,6 @@ public class QuizRoomController {
         return ResponseEntity.ok(QuizRoomResponseDto.fromQuizRoom(quizRoom));
     }
 
-//    @PostMapping("/{roomCode}/join")
-//    public ResponseEntity<JoinQuizRoomResponseDto> joinQuizRoom(@PathVariable String roomCode, @RequestParam Long userId) {
-//        try {
-//            QuizRoom quizRoom = quizRoomService.joinQuizRoom(roomCode, userId);
-//            User user = quizRoom.getQuizSessions()
-//                    .stream()
-//                    .filter(session -> session.getUser().getId().equals(userId))
-//                    .findFirst()
-//                    .orElseThrow(() -> new RuntimeException("User not found in quiz sessions"))
-//                    .getUser();
-//
-//            // Gửi thông báo WebSocket về việc có người mới tham gia
-//            messagingTemplate.convertAndSend(
-//                    "/topic/room/" + roomCode,
-//                    new QuizMessage(
-//                            "New user joined: " + user.getName(),
-//                            user.getId().toString(),
-//                            QuizMessage.MessageType.JOIN,
-//                            roomCode
-//                    ));
-//
-//            return ResponseEntity.ok(new JoinQuizRoomResponseDto(
-//                    quizRoom.getRoomCode(),
-//                    quizRoom.getQuiz().getTitle(),
-//                    user.getName(),
-//                    LocalDateTime.now(),
-//                    quizRoom.getStatus(),
-//                    null
-//            ));
-//        } catch (RuntimeException e) {
-//            return ResponseEntity.badRequest().body(new JoinQuizRoomResponseDto(e.getMessage()));
-//        }
-//    }
-
     @PostMapping("/{roomCode}/join")
     public ResponseEntity<JoinQuizRoomResponseDto> joinQuizRoom(@PathVariable String roomCode, @RequestParam Long userId) {
         QuizRoom quizRoom = quizRoomService.joinQuizRoom(roomCode, userId);

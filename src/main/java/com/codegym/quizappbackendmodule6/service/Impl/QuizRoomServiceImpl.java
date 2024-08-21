@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class QuizRoomServiceImpl implements QuizRoomService {
-
     private final QuizRoomRepository quizRoomRepository;
     private final QuizRepository quizRepository;
     private final UserRepository userRepository;
@@ -65,7 +64,9 @@ public class QuizRoomServiceImpl implements QuizRoomService {
         quizSessionRepository.save(quizSession);
 
         quizRoom.setCurrentParticipants(quizRoom.getCurrentParticipants() + 1);
-        return quizRoomRepository.save(quizRoom);
+        QuizRoom savedQuizRoom = quizRoomRepository.save(quizRoom);
+        System.out.println("Saved QuizRoom: " + savedQuizRoom);
+        return savedQuizRoom;
     }
 
     @Override
