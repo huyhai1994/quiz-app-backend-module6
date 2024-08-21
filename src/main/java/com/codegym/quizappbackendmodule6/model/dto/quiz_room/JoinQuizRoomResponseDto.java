@@ -37,7 +37,7 @@ public class JoinQuizRoomResponseDto {
                 quizRoom.getRoomCode(),
                 quizRoom.getQuiz().getTitle(),
                 participant.getName(),
-                LocalDateTime.now(),  // hoặc quizRoom.getJoinTime nếu có thuộc tính này
+                LocalDateTime.now(),
                 quizRoom.getStatus(),
                 null
         );
