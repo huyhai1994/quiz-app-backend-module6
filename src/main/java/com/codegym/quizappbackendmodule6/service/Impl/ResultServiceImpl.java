@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ResultServiceImpl implements ResultService {
+
     private final ResultRepository resultRepository;
     private final UserService userService;
     private final QuizService quizService;

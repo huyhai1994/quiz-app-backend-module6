@@ -2,11 +2,9 @@ package com.codegym.quizappbackendmodule6.controller;
 
 import com.codegym.quizappbackendmodule6.model.Option;
 import com.codegym.quizappbackendmodule6.model.Question;
-import com.codegym.quizappbackendmodule6.model.dto.AddQuestionIntoQuizDTO;
-import com.codegym.quizappbackendmodule6.model.dto.OptionStudentDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuestionDTO;
-import com.codegym.quizappbackendmodule6.model.dto.QuestionResponse;
+import com.codegym.quizappbackendmodule6.model.dto.*;
 import com.codegym.quizappbackendmodule6.model.dto.question.request.CreateQuestionRequestDTO;
+import com.codegym.quizappbackendmodule6.model.dto.question.response.QuestionDetailsDTO;
 import com.codegym.quizappbackendmodule6.service.OptionService;
 import com.codegym.quizappbackendmodule6.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -155,4 +154,20 @@ public class QuestionController {
         questionService.deleteQuestionById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/specific-question/{id}")
+    public ResponseEntity<QuestionDetailsDTO> getQuestionDetail(@PathVariable Long id) {
+        Optional<Question> questionOptional = questionService.findById(id);
+        if (questionOptional.isPresent()) {
+            Question question = questionOptional.get();
+            Set<OptionDTO> options = question.getOptions().stream().map(option -> new OptionDTO(option.getId(), option.getOptionText())).collect(Collectors.toSet());
+
+            QuestionDetailsDTO questionDetailsDTO = QuestionDetailsDTO.builder().id(question.getId()).questionText(question.getQuestionText()).options(options).typeName(question.getQuestionType().getTypeName()).difficulty(String.valueOf(question.getDifficulty())).category(question.getCategory().getName()).createdBy(question.getCreatedBy().getName()).timeCreate(question.getTimeCreate()).build();
+
+            return ResponseEntity.ok(questionDetailsDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
