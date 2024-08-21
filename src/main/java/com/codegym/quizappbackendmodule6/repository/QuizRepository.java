@@ -53,7 +53,7 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
             "GROUP BY q.id, q.title " +
             "ORDER BY COUNT(r.id) DESC")
     List<QuizHotDTO> findTopQuizzesByResultCount(@Param("status") Boolean status);
-    
+
     @Query("SELECT new com.codegym.quizappbackendmodule6.model.dto.QuizTeacherHistory(u.id, u.name, u.email, COUNT(r.id)) " +
             "FROM Result r JOIN r.user u " +
             "WHERE r.quiz.id = :quizId AND r.status = :status " +

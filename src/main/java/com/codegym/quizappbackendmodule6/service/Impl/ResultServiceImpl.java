@@ -207,7 +207,6 @@ public class ResultServiceImpl implements ResultService {
                 HistoryStudentExam history = new HistoryStudentExam();
                 history.setId(result.getUser().getId());
 
-
                 Duration examDuration = Duration.between(result.getStartTime(), result.getFinishTime());
                 String formattedDuration = formatDuration(examDuration);
 
