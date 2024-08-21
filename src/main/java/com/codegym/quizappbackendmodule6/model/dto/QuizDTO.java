@@ -1,6 +1,10 @@
 package com.codegym.quizappbackendmodule6.model.dto;
 
+import lombok.Data;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
+
 
 public interface QuizDTO {
     Long getQuizzesId();

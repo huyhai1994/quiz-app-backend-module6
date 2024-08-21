@@ -5,6 +5,7 @@ import com.codegym.quizappbackendmodule6.model.Quiz;
 import com.codegym.quizappbackendmodule6.model.User;
 import com.codegym.quizappbackendmodule6.model.dto.QuizTimeDTO;
 import com.codegym.quizappbackendmodule6.model.dto.*;
+import com.codegym.quizappbackendmodule6.model.dto.question.request.QuizByCategoryDTO;
 import com.codegym.quizappbackendmodule6.repository.QuestionRepository;
 import com.codegym.quizappbackendmodule6.repository.QuizRepository;
 import com.codegym.quizappbackendmodule6.service.QuizService;
@@ -32,8 +33,8 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<QuizDTO> getQuizByCategory(String title) {
-        return quizRepository.getQuizzesByCategory();
+    public List<Quiz> getQuizByCategory(String categoryTitle) {
+        return quizRepository.getQuizzesByCategory(categoryTitle);
     }
 
     @Override
@@ -119,14 +120,6 @@ public class QuizServiceImpl implements QuizService {
         return quizRepository.findQuizTimeById(quizId);
     }
 
-//    @Override
-//    public List<QuizByCategoryDTO> getQuizByQuizCategory(String category) {
-//        List<Quiz> quizzes = quizRepository.findByQuizCategory(category);
-//
-//        return quizzes.stream()
-//                .map(quiz -> new QuizByCategoryDTO(quiz.getId(), quiz.getTitle(), quiz.getDescription(), quiz.getCategory()))
-//                .collect(Collectors.toList());
-//    }
 
     @Override
     public List<QuizHotDTO> findTopQuizzesByResultCount(Boolean status) {
@@ -145,4 +138,5 @@ public class QuizServiceImpl implements QuizService {
     public List<QuizTeacherHistory> getHistoryUserByQuizId(Long quizID , Boolean status) {
         return quizRepository.getHistoryUserByQuizId(quizID ,status);
     }
+
 }

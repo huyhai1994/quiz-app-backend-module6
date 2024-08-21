@@ -24,4 +24,6 @@ public class QuizCategoryServiceImpl implements QuizCategoryService {
     public Optional<QuizCategory> findById(Long id) {
         return quizCategoryRepository.findById(id);
     }
+
+
 }

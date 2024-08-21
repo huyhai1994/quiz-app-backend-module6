@@ -135,6 +135,7 @@ public class QuizRoomServiceImpl implements QuizRoomService {
                 .collect(Collectors.toList());
     }
 
+
     private String generateUniqueRoomCode() {
         String roomCode;
         do {

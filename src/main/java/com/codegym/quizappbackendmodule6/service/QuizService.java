@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface QuizService {
     List<QuizDTO> findQuizDetails();
 
-    List<QuizDTO> getQuizByCategory(String title);
+    List<Quiz> getQuizByCategory(String categoryTitle);
 
     Optional<Quiz> getQuizById(Long id);
 
@@ -38,5 +38,8 @@ public interface QuizService {
 
     QuizTimeDTO getQuizTimeById(Long quizId);
 
+
+
     List<QuizTeacherHistory> getHistoryUserByQuizId(Long quizID , Boolean status);
+
 }

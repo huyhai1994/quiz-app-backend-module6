@@ -9,4 +9,5 @@ public interface QuizCategoryService {
     List<QuizCategory> findAll();
 
     Optional<QuizCategory> findById(Long quizCategoriesId);
+
 }
