@@ -20,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class AuthServiceImpl implements AuthService {
     private static final Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
@@ -77,8 +79,11 @@ public class AuthServiceImpl implements AuthService {
                 throw new UsernameNotFoundException("User not found with email: " + loginRequest.getEmail());
             }
 
+            user.setLastLogin(LocalDateTime.now());
+            userRepository.save(user);
+
             logger.info("Login successful for user: {}", user.getEmail());
-            return new LoginResponse(jwt, user.getId(), user.getName(), user.getEmail(), user.getRole().getName());
+            return new LoginResponse(jwt, user.getId(), user.getName(), user.getEmail(), user.getRole().getName(), user.getLastLogin());
         } catch (Exception e) {
             logger.error("Login failed for user: {}. Error: {}", loginRequest.getEmail(), e.getMessage());
             throw e;
