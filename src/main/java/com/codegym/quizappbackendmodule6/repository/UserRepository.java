@@ -32,7 +32,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT u FROM User u JOIN u.role r WHERE r.id = 2")
     List<StudentResponseDTO> getStudents();
 
-
     @Query(value = "SELECT u FROM User u JOIN u.role r WHERE r.id = :roleId AND (u.name LIKE " + "%:name% AND u.email LIKE %:email%)")
     List<UserSearchResponseDTO> findUsersByRolesAndNameOrEmail(@Param("roleId") Long roleId, @Param("name") String name, @Param("email") String email);
 
