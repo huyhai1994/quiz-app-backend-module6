@@ -79,14 +79,6 @@ public class QuizController {
         return ResponseEntity.ok(quiz);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<Quiz>> searchQuiz(@RequestParam String categoryTitle) {
-        List<Quiz> quizList = quizService.getQuizByCategory(categoryTitle);
-        return ResponseEntity.ok(quizList);
-    }
-
-
-
     @GetMapping("/titles")
     public ResponseEntity<List<QuizNameDTO>> getAllQuizNames() {
         List<QuizNameDTO> quizNames = quizService.getAllQuizNames();

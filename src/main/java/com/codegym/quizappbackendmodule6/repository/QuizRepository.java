@@ -17,8 +17,13 @@ import java.util.List;
 @Repository
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
-    @Query(value = "SELECT q.id AS quizzesid, q.title AS quizzestitle, q.description AS quizzesdescription, u.name AS usersname, u.email AS useremail, q.time_create AS quizzestimecreate " +
-            "FROM quizzes q JOIN users u ON q.created_by = u.id" + " order BY q.time_create DESC", nativeQuery = true)
+    @Query(value = "SELECT q.id AS quizzesid, q.title AS quizzestitle, q.description AS quizzesdescription, " +
+            "u.name AS usersname, u.email AS useremail, q.time_create AS quizzestimecreate, " +
+            "c.name AS quizzescategoryname " +
+            "FROM quizzes q JOIN users u ON q.created_by = u.id " +
+            "JOIN quiz_categories c ON q.quiz_categories_id = c.id " +
+            "ORDER BY q.time_create DESC",
+            nativeQuery = true)
     List<QuizDTO> findQuizDetails();
 
     List<Quiz> findByTitle(String title);
@@ -38,14 +43,6 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
     @Query("SELECT new com.codegym.quizappbackendmodule6.model.dto.QuizNameDTO(q.title) FROM Quiz q")
     List<QuizNameDTO> findAllQuizNames();
 
-    @Query(value = "SELECT c.name AS Category_Name, q.title AS Quiz_Title, COUNT(r.id) AS Number_Of_Participants" +
-            " FROM quiz_categories c JOIN quizzes q ON c.id = q.quiz_categories_id " +
-            "LEFT JOIN results r ON q.id = r.quiz_id " +
-            "WHERE c.name = :categoryName" +
-            " GROUP BY c.name, q.title " +
-            "ORDER BY c.name, Number_Of_Participants DESC;",
-            nativeQuery = true)
-    List<Quiz> getQuizzesByCategory(@Param("categoryName") String categoryTitle);
 
     @Query("SELECT new com.codegym.quizappbackendmodule6.model.dto.QuizHotDTO(q.id, q.title, COUNT(r.id)) " +
             "FROM Quiz q LEFT JOIN Result r ON q.id = r.quiz.id AND r.status = :status " +

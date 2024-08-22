@@ -32,10 +32,6 @@ public class QuizServiceImpl implements QuizService {
         return quizRepository.findQuizDetails();
     }
 
-    @Override
-    public List<Quiz> getQuizByCategory(String categoryTitle) {
-        return quizRepository.getQuizzesByCategory(categoryTitle);
-    }
 
     @Override
     public Optional<Quiz> getQuizById(Long id) {

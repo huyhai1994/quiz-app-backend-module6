@@ -13,5 +13,5 @@ public interface QuizDTO {
     String getUsersName();
     String getUserEmail();
     LocalDateTime getQuizzesTimeCreate();
-    String getQuizzesByCategory();
+    String getQuizzesCategoryName();
 }
