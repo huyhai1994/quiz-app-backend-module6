@@ -37,7 +37,7 @@ public class UsersEmailServiceImpl implements UsersEmailService {
         message.setSubject("Password Reset Code");
         message.setText(
                 "Your password reset code is: " + resetCode +
-                "\n\nPlease use this code to reset your password. \"\\n\\nThis code will expire in 3 minutes."
+                "\n\nPlease use this code to reset your password.\n\nThis code will expire in 3 minutes."
         );
         mailSender.send(message);
     }
